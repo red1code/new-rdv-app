@@ -1,1 +1,69 @@
-<p>signup works!</p>
+<div class="form-container facebook-style">
+  <form [formGroup]="signupForm" class="signup-form" autocomplete="off" (ngSubmit)="onSubmitForm()">
+    <!-- form title -->
+    <h2 class="form-title">Sign Up</h2>
+    <div style="margin-top: -20px; font-size: 15px; opacity: 0.8;">It's quick and easy.</div>
+    <hr class="hr">
+    <!-- first name -->
+    <div class="form-section first-name">
+      <label for="firstName">First Name</label>
+      <input class="form-control" type="text" formControlName="firstName" [ngClass]="{'warning' :
+            (signupForm.controls['firstName'].touched && signupForm.controls['firstName'].invalid) ||
+            (isFormSubmitted && signupForm.controls['firstName'].invalid)}">
+      <p *ngIf="isFormSubmitted && signupForm.controls['firstName'].invalid" class="warning-message">
+        First Name is invalid
+      </p>
+    </div>
+    <!-- last name -->
+    <div class="form-section last-name">
+      <label for="lastName">Last Name</label>
+      <input class="form-control" type="text" formControlName="lastName" [ngClass]="{'warning' :
+            (signupForm.controls['lastName'].touched && signupForm.controls['lastName'].invalid) ||
+            (isFormSubmitted && signupForm.controls['lastName'].invalid)}">
+      <p *ngIf="isFormSubmitted && signupForm.controls['lastName'].invalid" class="warning-message">
+        Last Name is invalid
+      </p>
+    </div>
+    <!-- email -->
+    <div class="form-section email">
+      <label for="email">Email</label>
+      <input class="form-control" type="email" formControlName="email" [ngClass]="{'warning' :
+            (signupForm.controls['email'].touched && signupForm.controls['email'].invalid) ||
+            (isFormSubmitted && signupForm.controls['email'].invalid)}">
+      <p *ngIf="isFormSubmitted && signupForm.controls['email'].invalid" class="warning-message">
+        Email is invalid
+      </p>
+    </div>
+    <!-- phone number -->
+    <div class="form-section phone-number">
+      <label for="phoneNumber">Phone Number</label>
+      <input class="form-control" type="tel" formControlName="phoneNumber" [ngClass]="{'warning' :
+            (signupForm.controls['phoneNumber'].touched && signupForm.controls['phoneNumber'].invalid) ||
+            (isFormSubmitted && signupForm.controls['phoneNumber'].invalid)}">
+      <p *ngIf="isFormSubmitted && signupForm.controls['phoneNumber'].invalid" class="warning-message">
+        Phone Number must contain 10 digit numbers
+      </p>
+    </div>
+    <!-- password -->
+    <div class="form-section password">
+      <label for="password">Password</label>
+      <input class="form-control" type="password" formControlName="password" [ngClass]="{'warning' :
+            (signupForm.controls['password'].touched && signupForm.controls['password'].invalid) ||
+            (isFormSubmitted && signupForm.controls['password'].invalid)}">
+      <p *ngIf="isFormSubmitted && signupForm.controls['password'].invalid" class="warning-message">
+        Password must contain at least 6 characters
+      </p>
+    </div>
+    <!-- firbase error message -->
+    <div *ngIf="firebaseErrorMessage" class="firebaseErrMsg">
+      <span>{{ firebaseErrorMessage }}</span>
+    </div>
+    <!-- submit button -->
+    <button class="btn btn-success" type="submit">Submit</button>
+    <hr class="hr">
+    <!-- navigate to login link -->
+    <div class="link" style="margin-top: 25px; text-align: center;">
+      Already have an account? <a routerLink="/auth/login">Sign in</a>
+    </div>
+  </form>
+</div>
