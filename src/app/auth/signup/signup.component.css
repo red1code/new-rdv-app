@@ -38,9 +38,8 @@
   background-color: rgb(253, 51, 91);
   color: #fff;
   font-size: small;
-  padding: 3px 7px;
+  padding: 7px;
   border-radius: 3px;
-  text-align: center;
 }
 
 @media only screen and (max-width: 800px) {

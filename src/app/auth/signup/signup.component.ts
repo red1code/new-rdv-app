@@ -13,6 +13,7 @@ export class SignupComponent implements OnInit {
   signupForm: FormGroup;
   isFormSubmitted: boolean = false;
   firebaseErrorMessage!: string;
+  emailVerificationError!: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -33,16 +34,18 @@ export class SignupComponent implements OnInit {
 
   onSubmitForm() {
     this.isFormSubmitted = true;
-
     if (this.signupForm.invalid) return;
-
     let password = this.signupForm.controls['password'].value;
     let formValues = this.signupForm.value;
     delete formValues.password;
-
     this.authService.createNewUser(formValues, password).then((result) => {
-      if (result == null) this.router.navigate(['/home']);   // null is success, false means there was an error.
-      else if (result.isValid == false) this.firebaseErrorMessage = result.message;
+      if (result == null) {   // null is success, false means there was an error.
+        this.router.navigate(['/home']);
+      } else if (result.emailVerificationError) {
+        this.emailVerificationError = result.message
+      } else if (result.firebaseError) {
+        this.firebaseErrorMessage = result.message
+      }
       this.isFormSubmitted = false;
     })
   }
