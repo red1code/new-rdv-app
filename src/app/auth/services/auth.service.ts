@@ -18,20 +18,19 @@ export class AuthService {
     return this.auth.createUserWithEmailAndPassword(user.email, userPassword)
       .then((result: firebase.auth.UserCredential) => {
         result.user?.sendEmailVerification().then(() => {
-          alert('You have successfully signed up.\nAn email verification has been sent to your email adresse.');
-          user.role = Roles.subscriber;
-          user.uid = result.user?.uid;
-          user.created_at = new Date();
-          user.imageURL = 'assets/unknown-profile-picture.png';
-          this.fireStore.doc('/profiles/' + user.uid).set(user)
-        })
-          .catch((error): any => {
-            if (error.code)
-              return {
-                emailVerificationError: true,
-                message: error.message,
-              };
-          })
+          alert('You have successfully signed up.\nAn email verification link has been sent to your email adresse.');
+        }).catch((error): any => {
+          if (error.code)
+            return {
+              emailVerificationError: true,
+              message: error.message,
+            };
+        });
+        user.role = Roles.subscriber;
+        user.uid = result.user?.uid;
+        user.created_at = new Date();
+        user.imageURL = 'assets/unknown-profile-picture.png';
+        this.fireStore.doc('/profiles/' + user.uid).set(user)
       })
       .catch((error): any => {
         if (error.code)
