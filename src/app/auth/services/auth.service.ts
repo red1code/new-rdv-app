@@ -1,8 +1,10 @@
-import { User, Roles } from './../../models/user';
+import { User, ROLES } from './../../models/user';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import firebase from 'firebase/compat/app';
+import { UserCredential } from '@firebase/auth-types'
+
 
 @Injectable({
   providedIn: 'root'
@@ -14,9 +16,9 @@ export class AuthService {
     private fireStore: AngularFirestore
   ) { }
 
-  createNewUser(user: User, userPassword: string) {
+  createNewUser(user: User, userPassword: string): Promise<UserCredential | any> {
     return this.auth.createUserWithEmailAndPassword(user.email, userPassword)
-      .then((result: firebase.auth.UserCredential) => {
+      .then((result: UserCredential) => {
         result.user?.sendEmailVerification().then(() => {
           alert('You have successfully signed up.\nAn email verification link has been sent to your email adresse.');
         }).catch((error): any => {
@@ -26,7 +28,7 @@ export class AuthService {
               message: error.message,
             };
         });
-        user.role = Roles.subscriber;
+        user.role = ROLES.PATIENT;
         user.uid = result.user?.uid;
         user.created_at = new Date();
         user.imageURL = 'assets/unknown-profile-picture.png';

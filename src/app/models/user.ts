@@ -7,12 +7,11 @@ export interface User {
   firstName: string;
   familyName: string;
   phoneNumber: number;
-  role: Roles;
+  role: ROLES;
 }
 
-export enum Roles {
-  subscriber = 'Subscriber',
-  analyst = 'Analyst',
-  editor = 'Editor',
-  admin = 'Admin'
+export enum ROLES {
+  ADMIN = 'ADMIN',
+  MODERATOR = 'MODERATOR',
+  PATIENT = 'PATIENT'
 }
