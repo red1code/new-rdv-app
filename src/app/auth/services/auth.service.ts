@@ -2,7 +2,6 @@ import { User, ROLES } from './../../models/user';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import firebase from 'firebase/compat/app';
 import { UserCredential } from '@firebase/auth-types'
 
 
@@ -10,6 +9,8 @@ import { UserCredential } from '@firebase/auth-types'
   providedIn: 'root'
 })
 export class AuthService {
+
+  successAlert: boolean = false;
 
   constructor(
     private auth: AngularFireAuth,
@@ -20,7 +21,7 @@ export class AuthService {
     return this.auth.createUserWithEmailAndPassword(user.email, userPassword)
       .then((result: UserCredential) => {
         result.user?.sendEmailVerification().then(() => {
-          alert('You have successfully signed up.\nAn email verification link has been sent to your email adresse.');
+          this.successAlert = true;
         }).catch((error): any => {
           if (error.code)
             return {
@@ -44,7 +45,7 @@ export class AuthService {
   }
 
   // authorization access based on users roles
-  private checkAuthorization(user: User, allowedRoles: string[]): boolean {
+  private checkAuthorization(user: User, allowedRoles: ROLES[]): boolean {
     if (!user) return false;
     for (let role of allowedRoles) {
       if (user.role === role) return true
@@ -53,22 +54,22 @@ export class AuthService {
   }
 
   canRead(user: User): boolean {
-    const allowed = ['Admin', 'Editor', 'Analyst', 'Subscriber'];
+    const allowed: ROLES[] = [ROLES.ADMIN, ROLES.MODERATOR, ROLES.PATIENT];
     return this.checkAuthorization(user, allowed)
   }
 
   canAccessDashboard(user: User): boolean {
-    const allowed = ['Admin', 'Editor', 'Analyst'];
+    const allowed: ROLES[] = [ROLES.ADMIN, ROLES.MODERATOR];
     return this.checkAuthorization(user, allowed)
   }
 
   canCRUDrendezvous(user: User): boolean {
-    const allowed = ['Admin', 'Editor'];
+    const allowed: ROLES[] = [ROLES.ADMIN, ROLES.MODERATOR];
     return this.checkAuthorization(user, allowed)
   }
 
   canCRUDusers(user: User): boolean {
-    const allowed = ['Admin'];
+    const allowed: ROLES[] = [ROLES.ADMIN];
     return this.checkAuthorization(user, allowed)
   }
 
