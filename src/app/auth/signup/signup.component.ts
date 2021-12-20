@@ -1,3 +1,4 @@
+import { UserCredential, Error } from '@firebase/auth-types';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -10,10 +11,9 @@ import { AuthService } from '../services/auth.service';
 })
 export class SignupComponent implements OnInit {
 
-  signupForm: FormGroup;
   isFormSubmitted: boolean = false;
-  firebaseErrorMessage!: string;
-  emailVerificationError!: string;
+  signupForm: FormGroup;
+  errorMessage!: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -29,8 +29,7 @@ export class SignupComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   onSubmitForm() {
     this.isFormSubmitted = true;
@@ -39,15 +38,13 @@ export class SignupComponent implements OnInit {
     let formValues = this.signupForm.value;
     delete formValues.password;
     this.authService.createNewUser(formValues, password).then((result) => {
-      if (result == null) {   // null is success, false means there was an error.
+      if (result == null) {
         this.router.navigate(['/home']);
-      } else if (result.emailVerificationError) {
-        this.emailVerificationError = result.message
-      } else if (result.firebaseError) {
-        this.firebaseErrorMessage = result.message
+      } else if (result.isValid === false) {
+        this.errorMessage = result.message;
       }
-      this.isFormSubmitted = false;
     })
+    this.isFormSubmitted = false;
   }
 
 }

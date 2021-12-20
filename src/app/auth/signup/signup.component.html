@@ -54,12 +54,9 @@
         Password must contain at least 6 characters
       </p>
     </div>
-    <div *ngIf="emailVerificationError" class="firebaseErrMsg">
-      <span>{{ emailVerificationError }}</span>
-    </div>
-    <!-- firbase error message -->
-    <div *ngIf="firebaseErrorMessage" class="firebaseErrMsg">
-      <span>{{ firebaseErrorMessage }}</span>
+    <!-- error message -->
+    <div *ngIf="errorMessage" class="error-message">
+      <span>{{ errorMessage }}</span>
     </div>
     <!-- submit button -->
     <button class="btn btn-success" type="submit">Submit</button>

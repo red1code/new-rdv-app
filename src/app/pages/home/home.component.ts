@@ -8,20 +8,29 @@ import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  alert: boolean;
+  successAlert: boolean;
+  failureAlert: boolean;
+  emailError!: string;
 
   constructor(private authService: AuthService) {
-    this.alert = this.authService.successAlert
+    this.successAlert = this.authService.successAlert;
+    this.failureAlert = this.authService.failureAlert;
   }
 
   ngOnInit(): void {
     setTimeout(() => {
-      this.alert = this.authService.successAlert
-    }, 1000)
+      this.successAlert = this.authService.successAlert;
+      this.failureAlert = this.authService.failureAlert;
+      this.emailError = this.authService.emailError;
+    }, 1000);
   }
 
-  off() {
-    this.alert = false;
+  successAlertOff() {
+    this.successAlert = false;
+  }
+
+  failureAlertOff() {
+    this.failureAlert = false;
   }
 
 }

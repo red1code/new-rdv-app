@@ -1,9 +1,9 @@
+import { Router } from '@angular/router';
 import { User, ROLES } from './../../models/user';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { UserCredential } from '@firebase/auth-types'
-
+import { UserCredential, Error } from '@firebase/auth-types';
 
 @Injectable({
   providedIn: 'root'
@@ -11,36 +11,36 @@ import { UserCredential } from '@firebase/auth-types'
 export class AuthService {
 
   successAlert: boolean = false;
+  failureAlert: boolean = false;
+  emailError!: string;
 
   constructor(
+    private router: Router,
     private auth: AngularFireAuth,
     private fireStore: AngularFirestore
   ) { }
 
-  createNewUser(user: User, userPassword: string): Promise<UserCredential | any> {
+  createNewUser(user: User, userPassword: string) {
     return this.auth.createUserWithEmailAndPassword(user.email, userPassword)
       .then((result: UserCredential) => {
+        // send email verification link
         result.user?.sendEmailVerification().then(() => {
           this.successAlert = true;
-        }).catch((error): any => {
-          if (error.code)
-            return {
-              emailVerificationError: true,
-              message: error.message,
-            };
+        }).catch((error: Error) => {
+          this.failureAlert = true;
+          this.emailError = error.message;
         });
+        // create profile in firestore
         user.role = ROLES.PATIENT;
         user.uid = result.user?.uid;
         user.created_at = new Date();
         user.imageURL = 'assets/unknown-profile-picture.png';
-        this.fireStore.doc('/profiles/' + user.uid).set(user)
-      })
-      .catch((error): any => {
-        if (error.code)
-          return {
-            firebaseError: true,
-            message: error.message,
-          };
+        this.fireStore.doc('/profiles/' + user.uid).set(user);
+      }).catch(error => {
+        return {
+          isValid: false,
+          message: error.message
+        }
       });
   }
 

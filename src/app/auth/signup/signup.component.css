@@ -14,7 +14,7 @@
   margin-bottom: 5px;
 }
 
-.btn, .firebaseErrMsg, .link, .form-title, .password, .hr {
+.btn, .error-message, .link, .form-title, .password, .hr {
   grid-column-start: 1;
   grid-column-end: 3;
 }
@@ -34,9 +34,9 @@
   border: 1px solid rgb(253, 51, 91);
 }
 
-.firebaseErrMsg {
-  background-color: rgb(253, 51, 91);
-  color: #fff;
+.error-message {
+  background-color: rgb(255, 209, 218);
+  color: rgb(255, 9, 58);
   font-size: small;
   padding: 7px;
   border-radius: 3px;
