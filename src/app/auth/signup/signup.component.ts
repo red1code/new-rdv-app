@@ -1,4 +1,3 @@
-import { UserCredential, Error } from '@firebase/auth-types';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -13,7 +12,7 @@ export class SignupComponent implements OnInit {
 
   isFormSubmitted: boolean = false;
   signupForm: FormGroup;
-  errorMessage!: any;
+  errorMessage!: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -24,7 +23,7 @@ export class SignupComponent implements OnInit {
       firstName: ['', [Validators.required, Validators.pattern(/.*\S.*/)]],
       lastName: ['', [Validators.required, Validators.pattern(/.*\S.*/)]],
       email: ['', [Validators.required, Validators.email]],
-      phoneNumber: ['', [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
+      phoneNumber: ['', [Validators.required, Validators.pattern(/^(\+213|0)?[0-9]{9}$/)]],
       password: ['', [Validators.required, Validators.pattern(/[0-9a-zA-Z]{6,}/)]]
     });
   }
@@ -38,13 +37,8 @@ export class SignupComponent implements OnInit {
     let formValues = this.signupForm.value;
     delete formValues.password;
     this.authService.createNewUser(formValues, password)
-      .then((result: void | { isValid: boolean; message: string; }) => {
-        if (result == null) {
-          this.router.navigate(['/home']);
-        } else if (result.isValid === false) {
-          this.errorMessage = result.message;
-        }
-      })
+      .then(() => this.router.navigate(['/home']))
+      .catch((error) => this.errorMessage = error.message)
     this.isFormSubmitted = false;
   }
 

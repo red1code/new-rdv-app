@@ -8,10 +8,3 @@
   <h5>You have successfully signed up</h5>
   <h4>An email verification link has been sent to your email adresse.</h4>
 </div>
-<!-- email verification error -->
-<div *ngIf="failureAlert" class="alert alert-warning">
-  <span (click)="failureAlertOff()" style="float: right; padding: 3px; font-weight: bold; cursor: pointer;">
-    X
-  </span>
-  <h5>{{ emailError }}</h5>
-</div>
