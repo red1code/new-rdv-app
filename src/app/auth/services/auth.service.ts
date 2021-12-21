@@ -20,7 +20,7 @@ export class AuthService {
     private fireStore: AngularFirestore
   ) { }
 
-  createNewUser(user: User, userPassword: string) {
+  createNewUser(user: User, userPassword: string): Promise<void | { isValid: boolean; message: string;}> {
     return this.auth.createUserWithEmailAndPassword(user.email, userPassword)
       .then((result: UserCredential) => {
         // send email verification link
@@ -36,7 +36,7 @@ export class AuthService {
         user.created_at = new Date();
         user.imageURL = 'assets/unknown-profile-picture.png';
         this.fireStore.doc('/profiles/' + user.uid).set(user);
-      }).catch(error => {
+      }).catch((error: Error) => {
         return {
           isValid: false,
           message: error.message

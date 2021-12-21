@@ -37,13 +37,14 @@ export class SignupComponent implements OnInit {
     let password = this.signupForm.controls['password'].value;
     let formValues = this.signupForm.value;
     delete formValues.password;
-    this.authService.createNewUser(formValues, password).then((result) => {
-      if (result == null) {
-        this.router.navigate(['/home']);
-      } else if (result.isValid === false) {
-        this.errorMessage = result.message;
-      }
-    })
+    this.authService.createNewUser(formValues, password)
+      .then((result: void | { isValid: boolean; message: string; }) => {
+        if (result == null) {
+          this.router.navigate(['/home']);
+        } else if (result.isValid === false) {
+          this.errorMessage = result.message;
+        }
+      })
     this.isFormSubmitted = false;
   }
 
