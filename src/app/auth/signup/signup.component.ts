@@ -12,7 +12,7 @@ export class SignupComponent implements OnInit {
 
   isFormSubmitted: boolean = false;
   signupForm: FormGroup;
-  errorMessage!: any;
+  errorMessage!: string;
 
   constructor(
     private formBuilder: FormBuilder,
