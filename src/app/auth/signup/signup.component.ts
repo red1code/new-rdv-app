@@ -12,7 +12,7 @@ export class SignupComponent implements OnInit {
 
   isFormSubmitted: boolean = false;
   signupForm: FormGroup;
-  errorMessage!: string;
+  errorMessage!: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -31,7 +31,6 @@ export class SignupComponent implements OnInit {
   ngOnInit(): void { }
 
   onSubmitForm() {
-    this.isFormSubmitted = true;
     if (this.signupForm.invalid) return;
     let password = this.signupForm.controls['password'].value;
     let formValues = this.signupForm.value;
@@ -39,7 +38,16 @@ export class SignupComponent implements OnInit {
     this.authService.createNewUser(formValues, password)
       .then(() => this.router.navigate(['/home']))
       .catch((error) => this.errorMessage = error.message)
-    this.isFormSubmitted = false;
+  }
+
+  onSubmitForm2() {
+    if (this.signupForm.invalid) return;
+    let password = this.signupForm.controls['password'].value;
+    let formValues = this.signupForm.value;
+    delete formValues.password;
+    this.authService.createNewUser2(formValues, password)
+      .then(() => this.router.navigate(['/home']))
+      .catch(error => this.errorMessage = error)
   }
 
 }

@@ -2,7 +2,7 @@ import { User, ROLES } from './../../models/user';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { UserCredential, Error } from '@firebase/auth-types';
+import { UserCredential } from '@firebase/auth-types';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +30,18 @@ export class AuthService {
         user.imageURL = 'assets/unknown-profile-picture.png';
         this.fireStore.doc('/profiles/' + user.uid).set(user);
       })
+  }
+
+  // createNewUser with async await method
+  async createNewUser2(user: User, userPassword: string): Promise<void> {
+    const signup = await this.auth.createUserWithEmailAndPassword(user.email, userPassword);
+    await signup.user?.sendEmailVerification();
+    this.successAlert = true;
+    user.uid = signup.user?.uid;
+    user.role = ROLES.PATIENT;
+    user.created_at = new Date();
+    user.imageURL = 'assets/unknown-profile-picture.png';
+    await this.fireStore.doc('/profiles/' + user.uid).set(user)
   }
 
   // authorization access based on users roles
@@ -62,3 +74,13 @@ export class AuthService {
   }
 
 }
+
+// THE END.
+
+
+
+/*
+
+import { FirebaseError } from 'firebase/app';
+
+*/
