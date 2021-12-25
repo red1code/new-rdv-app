@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { AuthRoutingModule } from './auth-routing.module';
 import { SignupComponent } from './signup/signup.component';
@@ -15,7 +16,9 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
   ],
   imports: [
     CommonModule,
-    AuthRoutingModule
+    AuthRoutingModule,
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class AuthModule { }

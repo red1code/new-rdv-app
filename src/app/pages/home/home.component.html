@@ -1,1 +1,10 @@
-<p>home works!</p>
+<h2>welcome home!</h2>
+<hr>
+<!-- signup & email sent succefully -->
+<div *ngIf="successAlert" class="alert alert-success">
+  <span (click)="successAlertOff()" style="float: right; padding: 3px; font-weight: bold; cursor: pointer;">
+    X
+  </span>
+  <h5>You have successfully signed up</h5>
+  <h4>An email verification link has been sent to your email adresse.</h4>
+</div>

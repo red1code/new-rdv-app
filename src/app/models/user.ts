@@ -1,11 +1,17 @@
 export interface User {
   order?: number;
-  uid: string;
+  uid?: string;
   email: string;
   imageURL: string;
   created_at: any;
   firstName: string;
   familyName: string;
   phoneNumber: number;
-  role: 'subscriber' | 'analyst' | 'editor' | 'admin';
+  role: ROLES;
+}
+
+export enum ROLES {
+  ADMIN = 'ADMIN',
+  MODERATOR = 'MODERATOR',
+  PATIENT = 'PATIENT'
 }

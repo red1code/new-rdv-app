@@ -1,3 +1,4 @@
+import { AuthService } from './../../auth/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  successAlert: boolean;
+
+  constructor(private authService: AuthService) {
+    this.successAlert = this.authService.successAlert;
+  }
 
   ngOnInit(): void {
+    setTimeout(() => {
+      this.successAlert = this.authService.successAlert;
+    }, 1000);
+  }
+
+  successAlertOff() {
+    this.successAlert = false;
   }
 
 }
