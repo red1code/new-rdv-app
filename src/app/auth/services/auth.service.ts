@@ -28,7 +28,7 @@ export class AuthService {
         user.role = ROLES.PATIENT;
         user.created_at = new Date();
         user.imageURL = 'assets/unknown-profile-picture.png';
-        this.fireStore.doc('/profiles/' + user.uid).set(user);
+        return this.fireStore.doc('/profiles/' + user.uid).set(user)
       })
   }
 
