@@ -53,6 +53,11 @@ export class AuthService {
     return false
   }
 
+  // forgot password method
+  async resetPassword(email: string): Promise<void> {
+    return await this.auth.sendPasswordResetEmail(email)
+  }
+
   canRead(user: User): boolean {
     const allowed: ROLES[] = [ROLES.ADMIN, ROLES.MODERATOR, ROLES.PATIENT];
     return this.checkAuthorization(user, allowed)
