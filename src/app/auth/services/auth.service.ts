@@ -55,6 +55,11 @@ export class AuthService {
   // logOut
   logOut = (): Promise<void> => this.afAuth.signOut();
 
+  // forgot password method
+  async resetPassword(email: string): Promise<void> {
+    return await this.afAuth.sendPasswordResetEmail(email)
+  }
+
 
 
 
@@ -68,11 +73,6 @@ export class AuthService {
       if (user.role === role) return true
     }
     return false
-  }
-
-  // forgot password method
-  async resetPassword(email: string): Promise<void> {
-    return await this.auth.sendPasswordResetEmail(email)
   }
 
   canRead(user: User): boolean {
