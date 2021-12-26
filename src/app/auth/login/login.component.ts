@@ -1,4 +1,7 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -7,9 +10,31 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  loginForm: FormGroup;
+  errorMessage!: string;
+
+  constructor(
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+  ) {
+    this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.pattern(/[0-9a-zA-Z]{6,}/)]]
+    })
+  }
 
   ngOnInit(): void {
+  }
+
+  onSubmitForm() {
+    if (this.loginForm.invalid) return
+    const email = this.loginForm.controls['email'].value;
+    const password = this.loginForm.controls['password'].value;
+    this.authService.logIn(email, password).then(() => {
+      this.router.navigate(['home'])
+    })
+      .catch((error) => this.errorMessage = error.message)
   }
 
 }
