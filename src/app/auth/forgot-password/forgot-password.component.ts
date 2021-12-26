@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { FirebaseError } from 'firebase/app';
 
@@ -17,11 +17,12 @@ export class ForgotPasswordComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private angularFireAuth: AngularFireAuth
+    private angularFireAuth: AngularFireAuth,
+    private formBuilder: FormBuilder
   ) {
     this.mailSent = false;
-    this.forgotPasswordForm = new FormGroup({
-      'email': new FormControl('', [Validators.required, Validators.email])
+    this.forgotPasswordForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]]
     });
   }
 
