@@ -2,6 +2,7 @@ import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
+import { FirebaseError } from 'firebase/app';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ import { AuthService } from '../services/auth.service';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
-  errorMessage!: unknown;
+  errorMessage!: string;
 
   constructor(
     private router: Router,
@@ -28,14 +29,14 @@ export class LoginComponent implements OnInit {
   }
 
   async onSubmitForm() {
-    if (this.loginForm.invalid) return
+    const isFirebaseError = (x: any): x is FirebaseError => typeof x.message === 'string';
     const email = this.loginForm.controls['email'].value;
     const password = this.loginForm.controls['password'].value;
     try {
       await this.authService.logIn(email, password);
       this.router.navigate(['home'])
-    } catch (error: unknown) {
-      this.errorMessage = error;
+    } catch (error) {
+      if (isFirebaseError(error)) this.errorMessage = error.message
     }
   }
 
