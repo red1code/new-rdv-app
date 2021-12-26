@@ -11,7 +11,7 @@ import { AuthService } from '../services/auth.service';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
-  errorMessage!: string;
+  errorMessage!: unknown;
 
   constructor(
     private router: Router,
@@ -27,14 +27,16 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onSubmitForm() {
+  async onSubmitForm() {
     if (this.loginForm.invalid) return
     const email = this.loginForm.controls['email'].value;
     const password = this.loginForm.controls['password'].value;
-    this.authService.logIn(email, password).then(() => {
+    try {
+      await this.authService.logIn(email, password);
       this.router.navigate(['home'])
-    })
-      .catch((error) => this.errorMessage = error.message)
+    } catch (error: unknown) {
+      this.errorMessage = error;
+    }
   }
 
 }
