@@ -1,11 +1,22 @@
-<button class="btn btn-primary" routerLink="">Landing page</button>
-<button class="btn btn-primary" routerLink="/home">Home</button>
-<button class="btn btn-primary" routerLink="/home/profile/1">Profile</button>
-<button class="btn btn-primary" routerLink="/rendezvous">Rendezvous</button>
-<button class="btn btn-primary" routerLink="/rendezvous/my-rendezvous">My rendezvous</button>
-<button class="btn btn-primary" routerLink="/dashboard">Dashboard</button>
-<button class="btn btn-primary" routerLink="/not-found">Not found</button>
+<div class="header-container">
+  <div>
+    <button class="btn btn-primary" routerLink="">Landing page</button>
+    <button class="btn btn-primary" routerLink="/home">Home</button>
+    <button class="btn btn-primary" routerLink="/home/profile/1">Profile</button>
+    <button class="btn btn-primary" routerLink="/rendezvous">Rendezvous</button>
+    <button class="btn btn-primary" routerLink="/rendezvous/my-rendezvous">My rendezvous</button>
+    <button class="btn btn-primary" routerLink="/dashboard">Dashboard</button>
+    <button class="btn btn-primary" routerLink="/not-found">Not found</button>
 
-<button class="btn btn-primary" routerLink="/auth/signup">Sign up</button>
-<button class="btn btn-primary" routerLink="/auth/login">Login</button>
-<button class="btn btn-primary" routerLink="/auth/forgot-password">Forgot password</button>
+    <button class="btn btn-primary" routerLink="/auth/signup">Sign up</button>
+    <button class="btn btn-primary" routerLink="/auth/login">Login</button>
+    <button class="btn btn-primary" routerLink="/auth/forgot-password">Forgot password</button>
+  </div>
+  <hr>
+  <div style="display: flex; justify-content: space-between; padding: 5px 11px;">
+    <span *ngIf="userIsLoggedIn">Welcome</span>
+    <span *ngIf="!userIsLoggedIn">You are not logged in</span>
+    <span *ngIf="userIsLoggedIn">{{ user.email }}</span>
+    <button class="btn btn-warning" (click)="logOut()">Log Out</button>
+  </div>
+</div>
