@@ -1,4 +1,3 @@
-import { Observable, switchMap } from 'rxjs';
 import { User, ROLES } from './../../models/user';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
@@ -59,6 +58,8 @@ export class AuthService {
   async resetPassword(email: string): Promise<void> {
     return await this.afAuth.sendPasswordResetEmail(email)
   }
+
+  isFirebaseError = (x: any): x is FirebaseError => typeof x.message === 'string';
 
 
 

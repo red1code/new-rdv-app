@@ -38,12 +38,11 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   async retrievePassword() {
-    const isFirebaseError = (x: any): x is FirebaseError => typeof x.message === 'string';
     try {
       await this.authService.resetPassword(this.forgotPasswordForm.value.email);
       this.mailSent = true;
     } catch (error) {
-      if (isFirebaseError(error)) this.firebaseErrorMessage = error.message
+      if (this.authService.isFirebaseError(error)) this.firebaseErrorMessage = error.message
     }
   }
 

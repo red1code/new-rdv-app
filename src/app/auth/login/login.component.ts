@@ -29,14 +29,13 @@ export class LoginComponent implements OnInit {
   }
 
   async onSubmitForm() {
-    const isFirebaseError = (x: any): x is FirebaseError => typeof x.message === 'string';
     const email = this.loginForm.controls['email'].value;
     const password = this.loginForm.controls['password'].value;
     try {
       await this.authService.logIn(email, password);
       this.router.navigate(['home'])
     } catch (error) {
-      if (isFirebaseError(error)) this.errorMessage = error.message
+      if (this.authService.isFirebaseError(error)) this.errorMessage = error.message
     }
   }
 
