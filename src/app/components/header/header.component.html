@@ -1,22 +1,46 @@
 <div class="header-container">
+  <!-- top header -->
+  <div class="top-header">
+    <!-- welcome message + display name -->
+    <div *ngIf="!userIsLoggedIn">You are not logged in</div>
+    <div *ngIf="userIsLoggedIn">
+      <span style="margin-right: 9px;">Welcome</span>
+      <span *ngIf="userIsLoggedIn">{{ user.firstName }}</span>
+    </div>
+    <div>Social media here</div>
+  </div>
+  <!-- bottom main header -->
+  <div class="nav-container">
+    <!-- webesite logo -->
+    <div class="logo-container">RENDEZVOUS</div>
+    <!-- navigation links -->
+    <nav class="nav-links-container">
+      <a routerLink="/home">Home</a>
+      <a routerLink="/rendezvous">Rendezvous</a>
+      <a routerLink="/rendezvous/my-rendezvous">My Rendezvous</a>
+      <a routerLink="/home/profile/1">Profile</a>
+      <a routerLink="/dashboard">Dashboard</a>
+    </nav>
+    <!-- auth part in the right -->
+    <div class="auth-container">
+      <button *ngIf="!userIsLoggedIn" class="btn btn-info" routerLink="/auth/signup">Sign Up</button>
+      <button *ngIf="userIsLoggedIn" class="btn btn-warning" (click)="logOut()">Log Out</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+<!-- <div class="header-container">
   <div>
     <button class="btn btn-primary" routerLink="">Landing page</button>
-    <button class="btn btn-primary" routerLink="/home">Home</button>
-    <button class="btn btn-primary" routerLink="/home/profile/1">Profile</button>
-    <button class="btn btn-primary" routerLink="/rendezvous">Rendezvous</button>
-    <button class="btn btn-primary" routerLink="/rendezvous/my-rendezvous">My rendezvous</button>
-    <button class="btn btn-primary" routerLink="/dashboard">Dashboard</button>
     <button class="btn btn-primary" routerLink="/not-found">Not found</button>
 
-    <button class="btn btn-primary" routerLink="/auth/signup">Sign up</button>
     <button class="btn btn-primary" routerLink="/auth/login">Login</button>
     <button class="btn btn-primary" routerLink="/auth/forgot-password">Forgot password</button>
   </div>
-  <hr>
-  <div style="display: flex; justify-content: space-between; padding: 5px 11px;">
-    <span *ngIf="userIsLoggedIn">Welcome</span>
-    <span *ngIf="!userIsLoggedIn">You are not logged in</span>
-    <span *ngIf="userIsLoggedIn">{{ user.email }}</span>
-    <button class="btn btn-warning" (click)="logOut()">Log Out</button>
-  </div>
-</div>
+</div> -->

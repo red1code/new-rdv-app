@@ -1,4 +1,37 @@
+/* darkRed: #701919 | green: #707019 | blue: #191970 */
+
 .header-container {
-  background-color: #02806f;
-  color: #fff;
+  width: 100%;
+}
+
+.top-header {
+  padding: 5px 15px;
+  color: #ffffff;
+  background-color: #707019;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  border-bottom: 1px solid #fff;
+}
+
+.nav-container {
+  padding: 9px 15px;
+  background-color: #191970;
+  color: #ffffff;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+a {
+  text-decoration: none;
+  color: #ffffff;
+  margin: 0 5px;
+  padding: 7px 9px;
+  border-radius: 3px;
+}
+
+a:hover {
+  background-color: #707019;
 }
