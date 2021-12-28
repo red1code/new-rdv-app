@@ -59,10 +59,6 @@ export class AuthService {
     return await this.afAuth.sendPasswordResetEmail(email)
   }
 
-  isFirebaseError = (x: any): x is FirebaseError => typeof x.message === 'string';
-
-
-
 
 
 

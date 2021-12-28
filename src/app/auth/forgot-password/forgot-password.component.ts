@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { FirebaseError } from 'firebase/app';
+import { isFirebaseError } from 'src/app/services/utilities';
 
 @Component({
   selector: 'app-forgot-password',
@@ -42,7 +42,7 @@ export class ForgotPasswordComponent implements OnInit {
       await this.authService.resetPassword(this.forgotPasswordForm.value.email);
       this.mailSent = true;
     } catch (error) {
-      if (this.authService.isFirebaseError(error)) this.firebaseErrorMessage = error.message
+      if (isFirebaseError(error)) this.firebaseErrorMessage = error.message
     }
   }
 

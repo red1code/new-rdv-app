@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
-import { FirebaseError } from 'firebase/app';
+import { isFirebaseError } from 'src/app/services/utilities';
 
 @Component({
   selector: 'app-login',
@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
       await this.authService.logIn(email, password);
       this.router.navigate(['home'])
     } catch (error) {
-      if (this.authService.isFirebaseError(error)) this.errorMessage = error.message
+      if (isFirebaseError(error)) this.errorMessage = error.message
     }
   }
 
