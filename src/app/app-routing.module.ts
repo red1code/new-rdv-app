@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './auth/services/auth.guard';
 
 const routes: Routes = [
   {
@@ -10,13 +11,16 @@ const routes: Routes = [
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
   }, {
     path: 'home',
-    loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule)
+    loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule),
+    canLoad: [AuthGuard]
   }, {
     path: 'rendezvous',
-    loadChildren: () => import('./pages/rendezvous/rendezvous.module').then(m => m.RendezvousModule)
+    loadChildren: () => import('./pages/rendezvous/rendezvous.module').then(m => m.RendezvousModule),
+    canLoad: [AuthGuard]
   }, {
     path: 'dashboard',
-    loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule)
+    loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule),
+    canLoad: [AuthGuard]
   }, {
     path: '**',
     loadChildren: () => import('./pages/not-found/not-found.module').then(m => m.NotFoundModule)
