@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LandingPageComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private router: Router,
+    private afAuth: AngularFireAuth
+  ) {
+    this.checkAuth()
+  }
 
-  ngOnInit(): void {
+  ngOnInit(): void { }
+
+  checkAuth() {
+    this.afAuth.onAuthStateChanged(user => user ? this.router.navigate(['/home']) : null)
   }
 
 }
