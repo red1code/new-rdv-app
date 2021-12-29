@@ -14,6 +14,10 @@
   border-bottom: 1px solid #fff;
 }
 
+.SM-container {
+  margin: 0 auto;
+}
+
 .nav-container {
   padding: 9px 15px;
   background-color: #191970;
@@ -24,14 +28,100 @@
   align-items: center;
 }
 
+.logo-link {
+  color: #ffffff;
+}
+
 a {
   text-decoration: none;
-  color: #ffffff;
+}
+
+.nav-links {
   margin: 0 5px;
   padding: 7px 9px;
   border-radius: 3px;
+  color: #ffffff;
 }
 
-a:hover {
+.nav-links:hover {
   background-color: #707019;
+}
+
+.active-link {
+  background-color: #707019;
+}
+
+.right-menu-container {
+  position: relative;
+  background-color: transparent;
+  color: #fff;
+  border: none
+}
+
+.menu-header {
+  padding: 5px;
+  padding-left: 2px;
+}
+
+.fa-caret-down {
+  margin-left: 5px;
+}
+
+.right-menu-container:hover {
+  background-color: #707019;
+  color: #ffffff;
+  border-radius: 40px;
+  transition: 0.2s;
+}
+
+.userIMG {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+
+.userName {
+  display: inline-block;
+  width: fit-content;
+  margin: 0 5px 0 7px;
+}
+
+.menu {
+  position: absolute;
+  top: 55px;
+  right: 0;
+  padding: 0;
+  color: #191970;
+  width: max-content;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.5);
+}
+
+.profile-sec {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  padding: 5px 11px;
+}
+
+.profile-sec:hover {
+  background-color: #707019;
+  color: #ffffff;
+}
+
+.log-out-sec {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  padding: 5px 11px;
+  color: #701919;
+}
+
+.log-out-sec:hover {
+  background-color: #701919;
+  color: #ffffff;
+  transition: 0.3s;
 }

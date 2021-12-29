@@ -1,46 +1,72 @@
 <div class="header-container">
   <!-- top header -->
   <div class="top-header">
-    <!-- welcome message + display name -->
-    <div *ngIf="!userIsLoggedIn">You are not logged in</div>
+    <!-- welcome message + social media icons -->
     <div *ngIf="userIsLoggedIn">
       <span style="margin-right: 9px;">Welcome</span>
-      <span *ngIf="userIsLoggedIn">{{ user.firstName }}</span>
+      <span *ngIf="userIsLoggedIn">{{ user.firstName }} {{ user.lastName }}</span>
     </div>
-    <div>Social media here</div>
+    <div [ngClass]="{'SM-container': !userIsLoggedIn}">Social media icons here</div>
   </div>
-  <!-- bottom main header -->
+  <!-- main header -->
   <div class="nav-container">
     <!-- webesite logo -->
-    <div class="logo-container">RENDEZVOUS</div>
+    <div class="logo-container"><a class="logo-link" routerLink="">RENDEZVOUS</a></div>
     <!-- navigation links -->
     <nav class="nav-links-container">
-      <a routerLink="/home">Home</a>
-      <a routerLink="/rendezvous">Rendezvous</a>
-      <a routerLink="/rendezvous/my-rendezvous">My Rendezvous</a>
-      <a routerLink="/home/profile/1">Profile</a>
-      <a routerLink="/dashboard">Dashboard</a>
+      <a class="nav-links" routerLinkActive="active-link" routerLink="/home"
+         *ngIf="userIsLoggedIn">Home</a>
+      <a class="nav-links" routerLinkActive="active-link" routerLink="/rendezvous"
+         *ngIf="userIsLoggedIn">Rendezvous</a>
+      <a class="nav-links" routerLinkActive="active-link" routerLink="/dashboard"
+         *ngIf="userIsLoggedIn && dashboardAuth">Dashboard</a>
     </nav>
-    <!-- auth part in the right -->
-    <div class="auth-container">
-      <button *ngIf="!userIsLoggedIn" class="btn btn-info" routerLink="/auth/signup">Sign Up</button>
-      <button *ngIf="userIsLoggedIn" class="btn btn-warning" (click)="logOut()">Log Out</button>
-    </div>
+    <!-- popup menu at the far right of the header -->
+    <button *ngIf="userIsLoggedIn" (click)="toggleMenu()" (blur)="showMenu=false"
+      class="right-menu-container">
+      <div class="menu-header">
+        <img *ngIf="user.imageURL" [src]="user.imageURL" class="userIMG">
+        <span class="userName">{{ user.firstName }}</span>
+        <i class="fas fa-caret-down"></i>
+      </div>
+      <!-- the menu -->
+      <div *ngIf="showMenu" class="menu">
+        <hr style="margin: 0 0 7px 0; opacity: 0;">
+        <!-- go to my-RDVs -->
+        <div (click)="goToMyRDVs()" class="profile-sec">
+          <div><i class="fas fa-calendar-check"></i></div>
+          <div style="text-align: left; margin-left: 11px;">
+            <a style="color: inherit;">My Rendezvous</a>
+          </div>
+        </div>
+        <hr style="margin: 7px 0;">
+        <!-- go to profile -->
+        <div (click)="goToProfile()" class="profile-sec">
+          <div>
+            <img [src]="user.imageURL" class="rounded-circle" style="width: 50px; height: 50px;">
+          </div>
+          <div style="text-align: left; margin-left: 11px;">
+            <div style="font-size: medium;">
+              <strong>{{ user.firstName }} {{ user.lastName }}</strong>
+            </div>
+            <div style="font-size: smaller;">{{ user.email }}</div>
+            <div style="font-size: smaller;"><em>{{ user.role }}</em></div>
+          </div>
+        </div>
+        <hr style="margin: 7px 0;">
+        <!-- logout -->
+        <div (click)="logOut()" class="log-out-sec">
+          <div class="inside" style="font-size: 1rem;">
+            <i class="fas fa-power-off"></i>
+          </div>
+          <div style="margin-left: 15px; font-size: 1rem;">Sign out</div>
+        </div>
+        <hr style="margin: 7px 0 0 0; opacity: 0;">
+      </div>
+    </button>
+    <!-- signup -->
+    <button *ngIf="!userIsLoggedIn" routerLink="auth/signup" class="btn btn-info">Sign Up</button>
   </div>
 </div>
 
-
-
-
-
-
-
-<!-- <div class="header-container">
-  <div>
-    <button class="btn btn-primary" routerLink="">Landing page</button>
-    <button class="btn btn-primary" routerLink="/not-found">Not found</button>
-
-    <button class="btn btn-primary" routerLink="/auth/login">Login</button>
-    <button class="btn btn-primary" routerLink="/auth/forgot-password">Forgot password</button>
-  </div>
-</div> -->
+<!-- THE END -->
