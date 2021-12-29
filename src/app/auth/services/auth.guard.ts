@@ -14,18 +14,17 @@ export class AuthGuard implements CanActivate, CanLoad {
     route: Route,
     segments: UrlSegment[]
   ): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-    return new Promise((resolve, reject) => {
-      this.afAuth.onAuthStateChanged(user => {
-        if (user) resolve(true);
-        else reject()
-      })
-    })
+    return this.checkAuthentication();
   }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    return this.checkAuthentication();
+  }
+
+  checkAuthentication(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
     return new Promise((resolve, reject) => {
       this.afAuth.onAuthStateChanged(user => {
         if (user) resolve(true);
