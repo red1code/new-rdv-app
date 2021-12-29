@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { isFirebaseError } from 'src/app/services/utilities';
+import { isFirebaseError } from 'src/app/utils/utilities';
 
 @Component({
   selector: 'app-forgot-password',
