@@ -42,7 +42,7 @@ export class AuthService {
     user.uid = signup.user?.uid;
     user.role = ROLES.PATIENT;
     user.created_at = new Date();
-    user.imageURL = 'assets/unknown-profile-picture.png';
+    user.imageURL = 'assets/unknown-profile-picture.jpg';
     await this.fireStore.doc('/profiles/' + user.uid).set(user)
   }
 
