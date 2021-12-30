@@ -1,4 +1,3 @@
-import { Observable, switchMap } from 'rxjs';
 import { User, ROLES } from './../../models/user';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
@@ -55,7 +54,10 @@ export class AuthService {
   // logOut
   logOut = (): Promise<void> => this.afAuth.signOut();
 
-
+  // forgot password method
+  async resetPassword(email: string): Promise<void> {
+    return await this.afAuth.sendPasswordResetEmail(email)
+  }
 
 
 
