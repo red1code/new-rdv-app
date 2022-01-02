@@ -1,0 +1,67 @@
+.rdv-container {
+  min-height: 100vh;
+  position: relative;
+}
+
+.form-container {
+  display: block;
+  position: fixed;
+  top: 30%;
+  left: 33%;
+  width: 500px;
+  z-index: 10;
+}
+
+.form {
+  padding: 15px;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 15px;
+}
+
+.name-div, .mobile-div, .error-msg-div {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  margin: 9px 0;
+}
+
+.btn {
+  width: 100%;
+}
+
+.newRDV-btn-container {
+  max-width: 75%;
+  min-width: 500px;
+  margin: 15px auto;
+}
+
+.newRDV-btn-container button {
+  width: fit-content;
+}
+
+.warning-message {
+  color: #701919;
+  font-size: small;
+  padding: 0 5px;
+  margin: 11px 0;
+  border-radius: 3px;
+}
+
+.table-container {
+  max-width: 75%;
+  min-width: 500px;
+  margin: 15px auto;
+  padding: 15px;
+}
+
+.black-bg {
+  position: absolute;
+  opacity: 0.5;
+  width: 100%;
+  min-height: 100vh;
+  max-height: 100%;
+  top: -15px;
+  left: 0;
+  background-color: black;
+  z-index: 9;
+}

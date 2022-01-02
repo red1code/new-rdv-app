@@ -1,1 +1,36 @@
-<p>rendezvous works!</p>
+<div class="rdv-container">
+  <div *ngIf="showForm" class="form-container facebook-style">
+    <form [formGroup]="newRDVform" class="form" (ngSubmit)="addRDV()">
+      <div class="name-div">
+        <input type="text" formControlName="displayName" class="form-control" placeholder="Enter a name">
+        <p *ngIf="newRDVform.controls['displayName'].touched && newRDVform.controls['displayName'].invalid"
+          class="warning-message">invalid name</p>
+      </div>
+      <div class="mobile-div">
+        <input type="tel" formControlName="phoneNumber" class="form-control" placeholder="Phone Number">
+        <p *ngIf="newRDVform.controls['phoneNumber'].touched && newRDVform.controls['phoneNumber'].invalid"
+          class="warning-message">Phone Number must contain 10 digit numbers</p>
+      </div>
+      <div *ngIf="somethingWentWrong" class="error-msg-div">{{ somethingWentWrong }}</div>
+      <div class="btns-container">
+        <button [disabled]="newRDVform.invalid" class="btn btn-success" type="submit">
+          Add Rendezvous
+        </button>
+      </div>
+      <div>
+        <button class="btn btn-danger" (click)="hidePopupForm()">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="newRDV-btn-container">
+    <button class="btn btn-success" (click)="showPopupForm()">
+      <i class="far fa-calendar-plus"></i>
+      <span style="margin-left: 7px;">New Rendezvous</span>
+    </button>
+  </div>
+  <div class="facebook-style table-container">
+    <app-table *ngIf="RDVsList" [infos]="RDVsList | async" [tableCol]="rdvCol"></app-table>
+  </div>
+  <div *ngIf="showForm" class="black-bg"></div>
+</div>
