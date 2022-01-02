@@ -29,6 +29,8 @@ export class RendezvousComponent implements OnInit {
     { title: 'Last Update', data: 'lastUpdate' },
   ];
   showForm: boolean = false;
+  updateRDVinfos!: any;
+  id: string = '';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -48,6 +50,50 @@ export class RendezvousComponent implements OnInit {
     this.getRDVsList();
   }
 
+  proceedToUpdate(data: Rendezvous) {
+    this.showForm = true;
+    this.newRDVform = this.formBuilder.group({
+      displayName: [data.displayName, [Validators.required, Validators.pattern(/.*\S.*/)]],
+      phoneNumber: [data.phoneNumber, [Validators.required, Validators.pattern(/^(\+213|0)?[0-9]{9}$/)]],
+    });
+    this.id = data.rdvID as string;
+  }
+
+  async submitRDVform() {
+    if (this.newRDVform.invalid) return;
+    this.rdv = this.newRDVform.value;
+    if (this.id === '') {
+      this.rdv.created_at = new Date();
+      this.rdv.created_by = this.user.email
+      try {
+        await this.rdvService.creatNewRDV(this.rdv)
+        this.newRDVform.reset();
+        this.showForm = false;
+      } catch (error) {
+        this.somethingWentWrong = error
+      }
+    } else {
+      this.rdv.lastUpdate = new Date();
+      try {
+        await this.rdvService.updateRDV(this.id, this.rdv);
+        this.newRDVform.reset();
+        this.id = '';
+        this.showForm = false;
+      } catch (error) {
+        this.somethingWentWrong = error
+      }
+    }
+  }
+
+  async deleteRDV(id: string) {
+    if (confirm('Are you sure You want to delete this Rendezvous?')) {
+      await this.rdvService.eraseRDV(id);
+      this.id = '';
+      this.newRDVform.reset();
+      this.showForm = false;
+    }
+  }
+
   getRDVsList() {
     this.RDVsList = this.rdvService.getRDVs().pipe(map(action => {
       let i = 1;
@@ -63,20 +109,6 @@ export class RendezvousComponent implements OnInit {
         }
       });
     }))
-  }
-
-  async addRDV() {
-    if (this.newRDVform.invalid) return;
-    this.rdv = this.newRDVform.value;
-    this.rdv.created_at = new Date();
-    this.rdv.created_by = this.user.email
-    try {
-      await this.rdvService.creatNewRDV(this.rdv)
-      this.newRDVform.reset();
-      this.showForm = false;
-    } catch (error) {
-      this.somethingWentWrong = error
-    }
   }
 
   getCurrentUser() {
@@ -96,6 +128,11 @@ export class RendezvousComponent implements OnInit {
 
   hidePopupForm() {
     this.showForm = false;
+    this.newRDVform = this.formBuilder.group({
+      displayName: ['', [Validators.required, Validators.pattern(/.*\S.*/)]],
+      phoneNumber: ['', [Validators.required, Validators.pattern(/^(\+213|0)?[0-9]{9}$/)]],
+    });
+    this.id = '';
   }
 
 }

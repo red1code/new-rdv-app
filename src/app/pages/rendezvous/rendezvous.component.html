@@ -1,6 +1,9 @@
 <div class="rdv-container">
   <div *ngIf="showForm" class="form-container facebook-style">
-    <form [formGroup]="newRDVform" class="form" (ngSubmit)="addRDV()">
+    <form [formGroup]="newRDVform" class="form" (ngSubmit)="submitRDVform()">
+      <div class="close-btn-container">
+        <i class="fas fa-times-circle" (click)="hidePopupForm()" title="Cancel"></i>
+      </div>
       <div class="name-div">
         <input type="text" formControlName="displayName" class="form-control" placeholder="Enter a name">
         <p *ngIf="newRDVform.controls['displayName'].touched && newRDVform.controls['displayName'].invalid"
@@ -14,11 +17,11 @@
       <div *ngIf="somethingWentWrong" class="error-msg-div">{{ somethingWentWrong }}</div>
       <div class="btns-container">
         <button [disabled]="newRDVform.invalid" class="btn btn-success" type="submit">
-          Add Rendezvous
+          <span *ngIf="id===''">Add Rendezvous</span><span *ngIf="id!==''">Update Rendezvous</span>
         </button>
       </div>
-      <div>
-        <button class="btn btn-danger" (click)="hidePopupForm()">Cancel</button>
+      <div *ngIf="id!==''">
+        <button class="btn btn-danger" (click)="deleteRDV(id)">Delete Rendezvous</button>
       </div>
     </form>
   </div>
@@ -30,7 +33,12 @@
     </button>
   </div>
   <div class="facebook-style table-container">
-    <app-table *ngIf="RDVsList" [infos]="RDVsList | async" [tableCol]="rdvCol"></app-table>
+    <app-table *ngIf="RDVsList"
+                [tableCol]="rdvCol"
+                [userEmail]="user.email"
+                [infos]="RDVsList | async"
+                (updateInfosEvent)="proceedToUpdate($event)">
+    </app-table>
   </div>
   <div *ngIf="showForm" class="black-bg"></div>
 </div>

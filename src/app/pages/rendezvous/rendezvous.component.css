@@ -19,10 +19,25 @@
   grid-gap: 15px;
 }
 
-.name-div, .mobile-div, .error-msg-div {
+.close-btn-container, .name-div, .mobile-div, .error-msg-div {
   grid-column-start: 1;
   grid-column-end: 3;
   margin: 9px 0;
+}
+
+.close-btn-container {
+  padding: 5px;
+  cursor: pointer;
+  margin-bottom: 0;
+}
+
+.close-btn-container i {
+  font-size: x-large;
+  float: right;
+}
+
+.close-btn-container i:hover {
+  color: #b6b61a;
 }
 
 .btn {
@@ -40,7 +55,7 @@
 }
 
 .warning-message {
-  color: #701919;
+  color: #ff093a;
   font-size: small;
   padding: 0 5px;
   margin: 11px 0;

@@ -1,8 +1,9 @@
-import { Component, OnInit, Input, OnDestroy, AfterViewInit, OnChanges, SimpleChanges, ViewChild }
+import { Component, OnInit, Input, OnDestroy, AfterViewInit, OnChanges, SimpleChanges, ViewChild, Output, EventEmitter }
   from '@angular/core';
 import { DataTableDirective } from 'angular-datatables';
 import { ADTSettings } from 'angular-datatables/src/models/settings';
 import { Subject } from 'rxjs';
+import { Rendezvous } from 'src/app/models/rendezvous';
 import { TablesCols } from 'src/app/models/tablesCols';
 
 @Component({
@@ -14,13 +15,16 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
 
   @Input() infos!: any;
   @Input() tableCol!: TablesCols[];
+  @Input() userEmail!: string;
   @ViewChild(DataTableDirective, { static: false })
   dtElement!: DataTableDirective;
   dtOptions: any = {};
   dtTrigger: Subject<ADTSettings> = new Subject<ADTSettings>();
+  @Output() updateInfosEvent = new EventEmitter<Rendezvous>();
 
   constructor() { }
 
+  // component life cycle hooks
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['infos']) this.rerenderTable()
   }
@@ -37,6 +41,7 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
     this.dtTrigger.unsubscribe()
   }
 
+  // table settings options
   tableOptions() {
     return {
       data: this.infos,
@@ -56,8 +61,39 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
         // 'print',
         'csv',
         'excel',
-      ]
+      ],
+
+      rowCallback: (row: Node, data: any[] | Object, index: number) => {
+        const self = this;
+        // Unbind first in order to avoid any duplicate handler
+        // (see https://github.com/l-lin/angular-datatables/issues/87)
+        // Note: In newer jQuery v3 versions, `unbind` and `bind` are
+        // deprecated in favor of `off` and `on`
+        $('td', row).off('click');
+
+        let dt = data as Rendezvous;
+        if (dt.created_by === this.userEmail) {
+          $(row).attr('class', () => {
+            return 'table-editable-row'
+          });
+          $(row).attr('title', () => {
+            return 'Click to edit informations or delete Rendezvouss'
+          });
+        }
+
+        $('td', row).on('click', () => {
+
+          if (dt.created_by === this.userEmail) {
+            self.someClickHandler(data as Rendezvous);
+          }
+        });
+        return row;
+      }
     }
+  }
+
+  someClickHandler(info: Rendezvous): void {
+    this.updateInfosEvent.emit(info);
   }
 
   rerenderTable(): void {
@@ -69,7 +105,6 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
       // Call the dtTrigger to rerender again
       this.dtTrigger.next(this.dtOptions);
     });
-
   }
 
 }

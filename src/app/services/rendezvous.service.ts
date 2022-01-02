@@ -13,6 +13,16 @@ export class RendezvousService {
   creatNewRDV(rdv: Rendezvous) {
     return this.fireStore.collection('Rendezvous').add(rdv)
   }
+
+  updateRDV(id: string, rdv: Rendezvous): Promise<void> {
+    return this.fireStore.collection<Rendezvous>('Rendezvous').doc(id).update(rdv)
+  }
+
+  eraseRDV(id: string): Promise<void> {
+    return this.fireStore.collection<Rendezvous>("Rendezvous").doc(id).delete();
+  }
+
+
   // : Observable<DocumentChangeAction<Rendezvous[]>[]>
   getRDVs() {
     return this.fireStore.collection<Rendezvous>('Rendezvous', ref => ref.orderBy('created_at'))
