@@ -49,6 +49,7 @@ export class RendezvousComponent implements OnInit {
     this.getRDVsList();
   }
 
+  // this method works when a user clicks on a table row that he can edit
   proceedToUpdate(data: Rendezvous) {
     this.somethingWentWrong = '';
     this.showForm = true;
@@ -62,7 +63,7 @@ export class RendezvousComponent implements OnInit {
   async submitRDVform() {
     if (this.newRDVform.invalid) return;
     this.rdv = this.newRDVform.value;
-    if (this.id === '') {
+    if (this.id === '') { // id empty means it's a new RDV
       this.rdv.created_at = new Date();
       this.rdv.created_by = this.user.email
       try {
@@ -72,7 +73,7 @@ export class RendezvousComponent implements OnInit {
       } catch (error) {
         this.somethingWentWrong = error
       }
-    } else {
+    } else { // this the case when the id isn't empty, it means it's an update of an existing RDV
       this.rdv.lastUpdate = new Date();
       try {
         await this.rdvService.updateRDV(this.id, this.rdv);

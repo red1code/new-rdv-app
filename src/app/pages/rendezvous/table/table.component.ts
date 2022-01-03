@@ -1,5 +1,7 @@
-import { Component, OnInit, Input, OnDestroy, AfterViewInit, OnChanges, SimpleChanges, ViewChild, Output, EventEmitter }
-  from '@angular/core';
+import {
+  Component, OnInit, Input, OnDestroy, AfterViewInit, OnChanges, SimpleChanges,
+  ViewChild, Output, EventEmitter
+} from '@angular/core';
 import { DataTableDirective } from 'angular-datatables';
 import { ADTSettings } from 'angular-datatables/src/models/settings';
 import { Subject } from 'rxjs';
@@ -52,17 +54,15 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
       pageLength: 5,
       lengthMenu: [3, 5, 10, 25, 50, 100],
       dom: 'Bfrtip',
-
-      // Configure the buttons
+      // Configure the buttons (a disabled them coz the user doesn't need them)
       buttons: [
         // 'columnsToggle',
-        'colvis',
+        // 'colvis',
         // 'copy',
         // 'print',
-        'csv',
-        'excel',
+        // 'csv',
+        // 'excel',
       ],
-
       rowCallback: (row: Node, data: any[] | Object, index: number) => {
         const self = this;
         // Unbind first in order to avoid any duplicate handler
@@ -70,19 +70,16 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
         // Note: In newer jQuery v3 versions, `unbind` and `bind` are
         // deprecated in favor of `off` and `on`
         $('td', row).off('click');
-
         let dt = data as Rendezvous;
         if (dt.created_by === this.userEmail) {
           $(row).attr('class', () => {
             return 'table-editable-row'
           });
           $(row).attr('title', () => {
-            return 'Click to edit informations or delete Rendezvouss'
+            return 'Click to edit informations or delete Rendezvous'
           });
         }
-
         $('td', row).on('click', () => {
-
           if (dt.created_by === this.userEmail) {
             self.someClickHandler(data as Rendezvous);
           }
