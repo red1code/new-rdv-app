@@ -1,4 +1,4 @@
-import { AngularFirestore, DocumentChangeAction } from '@angular/fire/compat/firestore';
+import { AngularFirestore, DocumentReference } from '@angular/fire/compat/firestore';
 import { Rendezvous } from './../models/rendezvous';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
@@ -10,8 +10,8 @@ export class RendezvousService {
 
   constructor(private fireStore: AngularFirestore) { }
 
-  creatNewRDV(rdv: Rendezvous) {
-    return this.fireStore.collection('Rendezvous').add(rdv)
+  creatNewRDV(rdv: Rendezvous): Promise<DocumentReference<Rendezvous>> {
+    return this.fireStore.collection<Rendezvous>('Rendezvous').add(rdv)
   }
 
   updateRDV(id: string, rdv: Rendezvous): Promise<void> {

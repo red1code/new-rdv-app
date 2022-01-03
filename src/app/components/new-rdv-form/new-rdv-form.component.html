@@ -1,0 +1,24 @@
+<form [formGroup]="rdvform" class="form" (ngSubmit)="submitRDVform()">
+  <div class="close-btn-container">
+    <i class="fas fa-times-circle" (click)="updateFormStatus(false)" title="Cancel"></i>
+  </div>
+  <div class="name-div">
+    <input type="text" formControlName="displayName" class="form-control" placeholder="Enter a name">
+    <p *ngIf="rdvform.controls['displayName'].touched && rdvform.controls['displayName'].invalid"
+      class="warning-message">invalid name</p>
+  </div>
+  <div class="mobile-div">
+    <input type="tel" formControlName="phoneNumber" class="form-control" placeholder="Phone Number">
+    <p *ngIf="rdvform.controls['phoneNumber'].touched && rdvform.controls['phoneNumber'].invalid"
+      class="warning-message">Phone Number must contain 10 digit numbers</p>
+  </div>
+  <div *ngIf="somethingWentWrong" class="error-msg-div">{{ somethingWentWrong }}</div>
+  <div class="submit-btn-container">
+    <button [disabled]="rdvform.invalid" class="btn btn-success" type="submit">
+      Submit
+    </button>
+  </div>
+  <div *ngIf="id!==''" class="delete-btn-container">
+    <button class="btn btn-danger" (click)="deleteRDV(id)">Delete Rendezvous</button>
+  </div>
+</form>

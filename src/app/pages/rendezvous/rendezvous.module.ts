@@ -6,13 +6,15 @@ import { RendezvousRoutingModule } from './rendezvous-routing.module';
 import { RendezvousComponent } from './rendezvous.component';
 import { MyRendezvousComponent } from './my-rendezvous/my-rendezvous.component';
 import { DataTablesModule } from 'angular-datatables';
-import { TableComponent } from './table/table.component';
+import { TableComponent } from '../../components/table/table.component';
+import { NewRdvFormComponent } from 'src/app/components/new-rdv-form/new-rdv-form.component';
 
 @NgModule({
   declarations: [
     RendezvousComponent,
     MyRendezvousComponent,
-    TableComponent
+    TableComponent,
+    NewRdvFormComponent
   ],
   imports: [
     CommonModule,

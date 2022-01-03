@@ -1,0 +1,43 @@
+.form {
+  padding: 15px;
+  display: grid;
+  grid-template-columns: 227px 227px;
+  grid-gap: 15px;
+}
+
+.close-btn-container, .name-div, .mobile-div, .error-msg-div {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  margin: 7px 0;
+}
+
+.close-btn-container {
+  padding: 5px;
+  cursor: pointer;
+  margin-bottom: 0;
+}
+
+.close-btn-container i {
+  font-size: x-large;
+  float: right;
+}
+
+.close-btn-container i:hover {
+  color: #b6b61a;
+}
+
+.btn {
+  width: 100%;
+}
+
+.warning-message {
+  color: #ff093a;
+  font-size: small;
+  padding: 0 5px;
+  margin: 9px 0;
+  border-radius: 3px;
+}
+
+.error-msg-div {
+  color: #ff093a;
+}

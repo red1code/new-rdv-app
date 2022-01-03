@@ -1,11 +1,9 @@
 import { Rendezvous } from './../../models/rendezvous';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { User } from './../../models/user';
-import { AuthService } from './../../auth/services/auth.service';
 import { RendezvousService } from './../../services/rendezvous.service';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { TablesCols } from 'src/app/models/tablesCols';
 
@@ -16,11 +14,11 @@ import { TablesCols } from 'src/app/models/tablesCols';
 })
 export class RendezvousComponent implements OnInit {
 
-  newRDVform: FormGroup;
   user!: any;//Observable<User>;
   rdv!: Rendezvous;
-  somethingWentWrong!: any;
-  RDVsList!: Observable<Rendezvous[]>
+  id: string;
+  showForm: boolean = false;
+  RDVsList!: Observable<Rendezvous[]>;
   rdvCol: TablesCols[] = [
     { title: 'Order', data: 'order' },
     { title: 'Display Name', data: 'displayName' },
@@ -28,76 +26,24 @@ export class RendezvousComponent implements OnInit {
     { title: 'Created At', data: 'created_at' },
     { title: 'Last Update', data: 'lastUpdate' },
   ];
-  showForm: boolean = false;
-  id: string = '';
 
   constructor(
-    private formBuilder: FormBuilder,
-    private rdvService: RendezvousService,
-    private authService: AuthService,
     private afAuth: AngularFireAuth,
-    private fireStore: AngularFirestore
+    private fireStore: AngularFirestore,
+    private rdvService: RendezvousService
   ) {
-    this.newRDVform = this.formBuilder.group({
-      displayName: ['', [Validators.required, Validators.pattern(/.*\S.*/)]],
-      phoneNumber: ['', [Validators.required, Validators.pattern(/^(\+213|0)?[0-9]{9}$/)]],
-    });
-    this.getCurrentUser()
+    this.id = '';
+    this.getCurrentUser();
   }
 
   ngOnInit(): void {
     this.getRDVsList();
   }
 
-  // this method works when a user clicks on a table row that he can edit
   proceedToUpdate(data: Rendezvous) {
-    this.somethingWentWrong = '';
-    this.showForm = true;
-    this.newRDVform = this.formBuilder.group({
-      displayName: [data.displayName, [Validators.required, Validators.pattern(/.*\S.*/)]],
-      phoneNumber: [data.phoneNumber, [Validators.required, Validators.pattern(/^(\+213|0)?[0-9]{9}$/)]],
-    });
+    this.rdv = data;
     this.id = data.rdvID as string;
-  }
-
-  async submitRDVform() {
-    if (this.newRDVform.invalid) return;
-    this.rdv = this.newRDVform.value;
-    if (this.id === '') { // id empty means it's a new RDV
-      this.rdv.created_at = new Date();
-      this.rdv.created_by = this.user.email
-      try {
-        await this.rdvService.creatNewRDV(this.rdv)
-        this.newRDVform.reset();
-        this.showForm = false;
-      } catch (error) {
-        this.somethingWentWrong = error
-      }
-    } else { // this the case when the id isn't empty, it means it's an update of an existing RDV
-      this.rdv.lastUpdate = new Date();
-      try {
-        await this.rdvService.updateRDV(this.id, this.rdv);
-        this.newRDVform.reset();
-        this.id = '';
-        this.showForm = false;
-      } catch (error) {
-        this.somethingWentWrong = error
-      }
-    }
-  }
-
-  async deleteRDV(id: string) {
-    if (confirm('Are you sure You want to delete this Rendezvous?')) {
-      try {
-        await this.rdvService.eraseRDV(id);
-        this.id = '';
-        this.newRDVform.reset();
-        this.showForm = false;
-      } catch (error) {
-        this.somethingWentWrong = error
-      }
-
-    }
+    this.showForm = true;
   }
 
   getRDVsList() {
@@ -121,11 +67,18 @@ export class RendezvousComponent implements OnInit {
 
   hidePopupForm() {
     this.showForm = false;
-    this.newRDVform = this.formBuilder.group({
-      displayName: ['', [Validators.required, Validators.pattern(/.*\S.*/)]],
-      phoneNumber: ['', [Validators.required, Validators.pattern(/^(\+213|0)?[0-9]{9}$/)]],
-    });
+    this.rdv = this.emptyRDVvlues();
     this.id = '';
+  }
+
+  changeFormStatus(value: boolean) {
+    this.showForm = value;
+    this.rdv = this.emptyRDVvlues();
+    this.id = '';
+  }
+
+  emptyRDVvlues(): Rendezvous {
+    return { displayName: '', phoneNumber: '', created_at: '', created_by: '' }
   }
 
 }
