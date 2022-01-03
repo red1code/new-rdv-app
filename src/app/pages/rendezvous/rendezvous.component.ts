@@ -101,20 +101,7 @@ export class RendezvousComponent implements OnInit {
   }
 
   getRDVsList() {
-    this.RDVsList = this.rdvService.getRDVs().pipe(map(action => {
-      let i = 1;
-      return action.map(rdv => {
-        let load = rdv.payload.doc.data();
-        return {
-          ...load,
-          rdvID: rdv.payload.doc.id,
-          created_at: load.created_at.toDate().toLocaleString(),
-          lastUpdate: load.lastUpdate ? load.lastUpdate.toDate().toLocaleString() :
-            'Not updated',
-          order: i++
-        }
-      });
-    }))
+    this.RDVsList = this.rdvService.getRDVs();
   }
 
   getCurrentUser() {

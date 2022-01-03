@@ -1,7 +1,7 @@
 import { AngularFirestore, DocumentChangeAction } from '@angular/fire/compat/firestore';
 import { Rendezvous } from './../models/rendezvous';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -22,11 +22,24 @@ export class RendezvousService {
     return this.fireStore.collection<Rendezvous>("Rendezvous").doc(id).delete();
   }
 
-
-  // : Observable<DocumentChangeAction<Rendezvous[]>[]>
-  getRDVs() {
-    return this.fireStore.collection<Rendezvous>('Rendezvous', ref => ref.orderBy('created_at'))
-      .snapshotChanges()
+  getRDVs(): Observable<Rendezvous[]> {
+    const list = this.fireStore
+      .collection<Rendezvous>('Rendezvous', ref => ref.orderBy('created_at')).snapshotChanges();
+    const RDVs = list.pipe(map(action => {
+      let i = 1;
+      return action.map(rdv => {
+        let load = rdv.payload.doc.data();
+        return {
+          ...load,
+          rdvID: rdv.payload.doc.id,
+          created_at: load.created_at.toDate().toLocaleString(),
+          lastUpdate: load.lastUpdate ? load.lastUpdate.toDate().toLocaleString() :
+            'Not updated',
+          order: i++
+        }
+      })
+    }));
+    return RDVs;
   }
 
 }
