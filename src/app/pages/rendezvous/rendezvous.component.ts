@@ -29,7 +29,6 @@ export class RendezvousComponent implements OnInit {
     { title: 'Last Update', data: 'lastUpdate' },
   ];
   showForm: boolean = false;
-  updateRDVinfos!: any;
   id: string = '';
 
   constructor(
@@ -51,6 +50,7 @@ export class RendezvousComponent implements OnInit {
   }
 
   proceedToUpdate(data: Rendezvous) {
+    this.somethingWentWrong = '';
     this.showForm = true;
     this.newRDVform = this.formBuilder.group({
       displayName: [data.displayName, [Validators.required, Validators.pattern(/.*\S.*/)]],
@@ -87,10 +87,15 @@ export class RendezvousComponent implements OnInit {
 
   async deleteRDV(id: string) {
     if (confirm('Are you sure You want to delete this Rendezvous?')) {
-      await this.rdvService.eraseRDV(id);
-      this.id = '';
-      this.newRDVform.reset();
-      this.showForm = false;
+      try {
+        await this.rdvService.eraseRDV(id);
+        this.id = '';
+        this.newRDVform.reset();
+        this.showForm = false;
+      } catch (error) {
+        this.somethingWentWrong = error
+      }
+
     }
   }
 
