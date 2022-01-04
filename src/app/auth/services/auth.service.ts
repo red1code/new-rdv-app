@@ -29,7 +29,7 @@ export class AuthService {
         user.uid = id as string;
         user.role = ROLES.PATIENT;
         user.created_at = new Date();
-        user.imageURL = 'assets/unknown-profile-picture.png';
+        user.imageURL = 'assets/unknown-profile-picture.jpg';
         return this.fireStore.doc('/profiles/' + user.uid).set(user)
       })
   }
