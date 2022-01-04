@@ -2,11 +2,11 @@
   <!-- top header -->
   <div class="top-header">
     <!-- welcome message + social media icons -->
-    <div *ngIf="userIsLoggedIn">
+    <div *ngIf="userIsLoggedIn | async">
       <span style="margin-right: 9px;">Welcome</span>
-      <span *ngIf="userIsLoggedIn">{{ user.firstName }} {{ user.lastName }}</span>
+      <span *ngIf="userIsLoggedIn | async">{{ user.firstName }} {{ user.lastName }}</span>
     </div>
-    <div [ngClass]="{'SM-container': !userIsLoggedIn}">Social media icons here</div>
+    <div [ngClass]="{'SM-container': !(userIsLoggedIn | async)}">Social media icons here</div>
   </div>
   <!-- main header -->
   <div class="nav-container">
@@ -15,14 +15,14 @@
     <!-- navigation links -->
     <nav class="nav-links-container">
       <a class="nav-links" routerLinkActive="active-link" routerLink="/home"
-         *ngIf="userIsLoggedIn">Home</a>
+         *ngIf="userIsLoggedIn | async">Home</a>
       <a class="nav-links" routerLinkActive="active-link" routerLink="/rendezvous"
-         *ngIf="userIsLoggedIn">Rendezvous</a>
+         *ngIf="userIsLoggedIn | async">Rendezvous</a>
       <a class="nav-links" routerLinkActive="active-link" routerLink="/dashboard"
-         *ngIf="userIsLoggedIn && dashboardAuth">Dashboard</a>
+         *ngIf="(userIsLoggedIn | async) && dashboardAuth">Dashboard</a>
     </nav>
     <!-- popup menu at the far right of the header -->
-    <button *ngIf="userIsLoggedIn" (click)="toggleMenu()" (blur)="showMenu=false"
+    <button *ngIf="userIsLoggedIn | async" (click)="toggleMenu()" (blur)="showMenu=false"
       class="right-menu-container">
       <div class="menu-header">
         <img *ngIf="user.imageURL" [src]="user.imageURL" class="userIMG">
@@ -65,8 +65,12 @@
       </div>
     </button>
     <!-- signup -->
-    <button *ngIf="!userIsLoggedIn" routerLink="auth/signup" class="btn btn-info">Sign Up</button>
+    <button *ngIf="!(userIsLoggedIn | async)" routerLink="auth/signup" class="btn btn-info">
+      Sign Up
+    </button>
   </div>
 </div>
+
+
 
 <!-- THE END -->

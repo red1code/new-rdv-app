@@ -1,11 +1,10 @@
 import { Rendezvous } from './../../models/rendezvous';
 import { Observable } from 'rxjs';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { User } from './../../models/user';
 import { RendezvousService } from './../../services/rendezvous.service';
 import { Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { TablesCols } from 'src/app/models/tablesCols';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-rendezvous',
@@ -14,7 +13,7 @@ import { TablesCols } from 'src/app/models/tablesCols';
 })
 export class RendezvousComponent implements OnInit {
 
-  user!: any;//Observable<User>;
+  user!: User;
   rdv!: Rendezvous;
   id: string;
   showForm: boolean = false;
@@ -28,8 +27,7 @@ export class RendezvousComponent implements OnInit {
   ];
 
   constructor(
-    private afAuth: AngularFireAuth,
-    private fireStore: AngularFirestore,
+    private userService: UsersService,
     private rdvService: RendezvousService
   ) {
     this.id = '';
@@ -40,25 +38,20 @@ export class RendezvousComponent implements OnInit {
     this.getRDVsList();
   }
 
-  proceedToUpdate(data: Rendezvous) {
-    this.rdv = data;
-    this.id = data.rdvID as string;
-    this.showForm = true;
-  }
-
   getRDVsList() {
     this.RDVsList = this.rdvService.getRDVs();
   }
 
   getCurrentUser() {
-    this.afAuth.onAuthStateChanged((usr) => {
-      if (usr) {
-        this.fireStore.doc<User>('/profiles/' + usr.uid).valueChanges()
-          .subscribe(data => {
-            this.user = data;
-          })
-      }
-    })
+    this.userService.user.subscribe(result => {
+      this.user = result as User;
+    });
+  }
+
+  proceedToUpdate(data: Rendezvous) {
+    this.rdv = data;
+    this.id = data.rdvID as string;
+    this.showForm = true;
   }
 
   showPopupForm() {

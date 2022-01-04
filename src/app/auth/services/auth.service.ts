@@ -4,18 +4,38 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { UserCredential } from '@firebase/auth-types';
 import { FirebaseError } from 'firebase/app';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
+  loggedIn = new BehaviorSubject<boolean>(false);
+  loggedIn$ = this.loggedIn.asObservable();
+
+  user!: BehaviorSubject<User>;
+  // user$ = this.user.asObservable();
   successAlert: boolean = false;
 
   constructor(
     private afAuth: AngularFireAuth,
     private fireStore: AngularFirestore
-  ) { }
+  ) {
+    this.checkAuthentication();
+  }
+
+  // auth verification
+  checkAuthentication() {
+    this.afAuth.onAuthStateChanged((usr) => {
+      if (usr) {
+        this.loggedIn.next(true);
+      } else {
+        // not logged in
+        this.loggedIn.next(false);
+      }
+    });
+  }
 
   // signUp
   createNewUser(user: User, userPassword: string): Promise<void> {
