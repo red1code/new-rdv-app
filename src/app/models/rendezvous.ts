@@ -7,3 +7,11 @@ export interface Rendezvous {
   order?: number;
   rdvID?: string;
 }
+
+
+
+/*
+
+import { Timestamp } from 'firebase/firestore';
+
+*/

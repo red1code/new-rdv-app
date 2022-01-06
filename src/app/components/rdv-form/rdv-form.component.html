@@ -1,24 +1,30 @@
-<form [formGroup]="rdvform" class="form" (ngSubmit)="submitRDVform()">
+<form [formGroup]="rdvform" class="form">
+  <!-- close form button -->
   <div class="close-btn-container">
-    <i class="fas fa-times-circle" (click)="updateFormStatus(false)" title="Cancel"></i>
+    <i class="fas fa-times-circle" (click)="closeForm()" title="Cancel"></i>
   </div>
+  <!-- name input -->
   <div class="name-div">
     <input type="text" formControlName="displayName" class="form-control" placeholder="Enter a name">
     <p *ngIf="rdvform.controls['displayName'].touched && rdvform.controls['displayName'].invalid"
       class="warning-message">invalid name</p>
   </div>
+  <!-- mobile input -->
   <div class="mobile-div">
     <input type="tel" formControlName="phoneNumber" class="form-control" placeholder="Phone Number">
     <p *ngIf="rdvform.controls['phoneNumber'].touched && rdvform.controls['phoneNumber'].invalid"
       class="warning-message">Phone Number must contain 10 digit numbers</p>
   </div>
+  <!-- error msg -->
   <div *ngIf="somethingWentWrong" class="error-msg-div">{{ somethingWentWrong }}</div>
-  <div class="submit-btn-container">
-    <button [disabled]="rdvform.invalid" class="btn btn-success" type="submit">
-      Submit
+  <!-- buttons -->
+  <div class="btns-container">
+    <button [disabled]="rdvform.invalid" class="btn btn-success" (click)="submitRDVform()"
+            [ngClass]="{'full-width-btn': !rdvID}">
+      <span *ngIf="!rdvID">Add Rendezvous</span>
+      <span *ngIf="rdvID">Update Rendezvous</span>
     </button>
-  </div>
-  <div *ngIf="id!==''" class="delete-btn-container">
-    <button class="btn btn-danger" (click)="deleteRDV(id)">Delete Rendezvous</button>
+    <!-- delete btn -->
+    <button *ngIf="rdvID" class="btn btn-danger" (click)="deleteRDV()">Delete Rendezvous</button>
   </div>
 </form>

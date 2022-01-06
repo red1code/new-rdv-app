@@ -1,12 +1,11 @@
 <div class="rdv-container">
   <!-- rendezvous form -->
   <div *ngIf="showForm" class="form-container facebook-style">
-    <app-new-rdv-form
-      [id]="id"
+    <app-rdv-form
       [rdv]="rdv"
       [userEmail]="user.email"
-      (showFormEvent)="changeFormStatus($event)">
-    </app-new-rdv-form>
+      (formOff)="hidePopupForm()">
+    </app-rdv-form>
   </div>
   <!-- add new RDV button   -->
   <div class="newRDV-btn-container">
@@ -20,10 +19,10 @@
     <app-table
       *ngIf="RDVsList"
       [tableCol]="rdvCol"
-      [userEmail]="user.email"
       [infos]="RDVsList | async"
+      [userEmail]="user.email"
       (updateInfosEvent)="proceedToUpdate($event)">
     </app-table>
   </div>
-  <div *ngIf="showForm" class="black-bg"></div>
+  <div *ngIf="showForm" class="black-bg" (click)="hidePopupForm()"></div>
 </div>

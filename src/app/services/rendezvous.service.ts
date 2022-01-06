@@ -23,23 +23,24 @@ export class RendezvousService {
   }
 
   getRDVs(): Observable<Rendezvous[]> {
-    const list = this.fireStore
-      .collection<Rendezvous>('Rendezvous', ref => ref.orderBy('created_at')).snapshotChanges();
-    const RDVs = list.pipe(map(action => {
-      let i = 1;
-      return action.map(rdv => {
-        let load = rdv.payload.doc.data();
-        return {
-          ...load,
-          rdvID: rdv.payload.doc.id,
-          created_at: load.created_at.toDate().toLocaleString(),
-          lastUpdate: load.lastUpdate ? load.lastUpdate.toDate().toLocaleString() :
+    return  this.fireStore
+    .collection<Rendezvous>('Rendezvous', ref => ref.orderBy('created_at'))
+    .snapshotChanges()
+    .pipe(
+      map(action => {
+        let i = 1;
+        return action.map(rdv => {
+          let load = rdv.payload.doc.data();
+          return {
+            ...load,
+            rdvID: rdv.payload.doc.id,
+            created_at: load.created_at.toDate().toLocaleString(),
+            lastUpdate: load.lastUpdate ? load.lastUpdate.toDate().toLocaleString() :
             'Not updated',
-          order: i++
-        }
-      })
-    }));
-    return RDVs;
-  }
+            order: i++
+          }
+        })
+      }));
+    }
 
-}
+  }

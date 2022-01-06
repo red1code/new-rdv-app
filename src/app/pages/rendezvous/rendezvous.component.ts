@@ -4,7 +4,7 @@ import { User } from './../../models/user';
 import { RendezvousService } from './../../services/rendezvous.service';
 import { Component, OnInit } from '@angular/core';
 import { TablesCols } from 'src/app/models/tablesCols';
-import { UsersService } from 'src/app/services/users.service';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
   selector: 'app-rendezvous',
@@ -13,10 +13,10 @@ import { UsersService } from 'src/app/services/users.service';
 })
 export class RendezvousComponent implements OnInit {
 
-  user!: User;
   rdv!: Rendezvous;
-  id: string;
+  id: string = '';
   showForm: boolean = false;
+  user!: User;
   RDVsList!: Observable<Rendezvous[]>;
   rdvCol: TablesCols[] = [
     { title: 'Order', data: 'order' },
@@ -27,25 +27,24 @@ export class RendezvousComponent implements OnInit {
   ];
 
   constructor(
-    private userService: UsersService,
+    private authService: AuthService,
     private rdvService: RendezvousService
   ) {
-    this.id = '';
     this.getCurrentUser();
+    this.getRDVsList();
+    this.rdv = this.emptyRdvVlues()
   }
 
-  ngOnInit(): void {
-    this.getRDVsList();
+  ngOnInit(): void { }
+
+  getCurrentUser() {
+    this.authService.user.subscribe(usr => {
+      this.user = usr as User;
+    });
   }
 
   getRDVsList() {
     this.RDVsList = this.rdvService.getRDVs();
-  }
-
-  getCurrentUser() {
-    this.userService.user.subscribe(result => {
-      this.user = result as User;
-    });
   }
 
   proceedToUpdate(data: Rendezvous) {
@@ -60,17 +59,11 @@ export class RendezvousComponent implements OnInit {
 
   hidePopupForm() {
     this.showForm = false;
-    this.rdv = this.emptyRDVvlues();
+    this.rdv = this.emptyRdvVlues();
     this.id = '';
   }
 
-  changeFormStatus(value: boolean) {
-    this.showForm = value;
-    this.rdv = this.emptyRDVvlues();
-    this.id = '';
-  }
-
-  emptyRDVvlues(): Rendezvous {
+  emptyRdvVlues(): Rendezvous {
     return { displayName: '', phoneNumber: '', created_at: '', created_by: '' }
   }
 

@@ -18,11 +18,14 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
   @Input() infos!: any;
   @Input() tableCol!: TablesCols[];
   @Input() userEmail!: string;
+
+  @Output() updateInfosEvent = new EventEmitter<Rendezvous>();
+
   @ViewChild(DataTableDirective, { static: false })
   dtElement!: DataTableDirective;
+
   dtOptions: any = {};
   dtTrigger: Subject<ADTSettings> = new Subject<ADTSettings>();
-  @Output() updateInfosEvent = new EventEmitter<Rendezvous>();
 
   constructor() { }
 
@@ -54,7 +57,7 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
       pageLength: 5,
       lengthMenu: [3, 5, 10, 25, 50, 100],
       dom: 'Bfrtip',
-      // Configure the buttons (a disabled them coz the user doesn't need them)
+      // Configure buttons (I disabled them coz the user doesn't need them)
       buttons: [
         // 'columnsToggle',
         // 'colvis',

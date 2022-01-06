@@ -4,37 +4,26 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { UserCredential } from '@firebase/auth-types';
 import { FirebaseError } from 'firebase/app';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { map, Observable, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  loggedIn = new BehaviorSubject<boolean>(false);
-  loggedIn$ = this.loggedIn.asObservable();
-
-  user!: BehaviorSubject<User>;
-  // user$ = this.user.asObservable();
   successAlert: boolean = false;
 
   constructor(
     private afAuth: AngularFireAuth,
     private fireStore: AngularFirestore
-  ) {
-    this.checkAuthentication();
-  }
+  ) { }
 
-  // auth verification
-  checkAuthentication() {
-    this.afAuth.onAuthStateChanged((usr) => {
-      if (usr) {
-        this.loggedIn.next(true);
-      } else {
-        // not logged in
-        this.loggedIn.next(false);
-      }
-    });
+  // get the current user
+  get user(): Observable<User | undefined> {
+    return this.afAuth.authState.pipe(
+      map(user => user ? user.uid : null),
+      switchMap(uid => this.fireStore.doc<User>(`profiles/${uid}`).valueChanges())
+    )
   }
 
   // signUp
@@ -79,11 +68,7 @@ export class AuthService {
     return await this.afAuth.sendPasswordResetEmail(email)
   }
 
-
-
-
-
-  // authorization access based on users roles
+  // authorizations access based on users roles
   private checkAuthorization(user: User, allowedRoles: ROLES[]): boolean {
     if (!user) return false;
     for (let role of allowedRoles) {
@@ -113,6 +98,8 @@ export class AuthService {
   }
 
 }
+
+
 
 // THE END.
 

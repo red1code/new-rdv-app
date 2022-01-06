@@ -1,4 +1,3 @@
-import { Observable } from 'rxjs';
 import { AuthService } from './../../auth/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/models/user';
@@ -12,27 +11,23 @@ import { UsersService } from 'src/app/services/users.service';
 })
 export class HeaderComponent implements OnInit {
 
-  userIsLoggedIn!: Observable<boolean>;
   dashboardAuth!: boolean;
-  showMenu: boolean;
+  showMenu: boolean = false;
   user!: User;
 
   constructor(
     private router: Router,
-    public userService: UsersService,
-    private authService: AuthService
+    private authService: AuthService,
+    public userService: UsersService
   ) {
-    this.showMenu = false;
     this.getCurrentUser();
-    this.userIsLoggedIn = this.authService.loggedIn$;
-
   }
 
   ngOnInit(): void { }
 
   getCurrentUser() {
-    this.userService.user.subscribe(result => {
-      this.user = result as User;
+    this.authService.user.subscribe(usr => {
+      this.user = usr as User;
       this.dashboardAuth = this.authService.canAccessDashboard(this.user)
     })
   }
