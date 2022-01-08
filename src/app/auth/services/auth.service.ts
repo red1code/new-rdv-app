@@ -4,7 +4,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { UserCredential } from '@firebase/auth-types';
 import { FirebaseError } from 'firebase/app';
-import { map, Observable, switchMap } from 'rxjs';
+import { map, Observable, of, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,11 +18,16 @@ export class AuthService {
     private fireStore: AngularFirestore
   ) { }
 
-  // get the current user
-  get user(): Observable<User | undefined> {
-    return this.afAuth.authState.pipe(
-      map(user => user ? user.uid : null),
-      switchMap(uid => this.fireStore.doc<User>(`profiles/${uid}`).valueChanges())
+  getUser() {
+    const uid = this.afAuth.authState.pipe(map(state => (!state) ? null : state.uid));
+    return uid.pipe(
+      switchMap(value => {
+        if (!value) {
+          return of(null)
+        } else {
+          return this.fireStore.doc<User>(`profiles/${value}`).valueChanges() as Observable<User>
+        }
+      })
     )
   }
 

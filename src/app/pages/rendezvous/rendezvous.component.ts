@@ -29,17 +29,17 @@ export class RendezvousComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private rdvService: RendezvousService
-  ) {
+  ) { }
+
+  ngOnInit(): void {
     this.getCurrentUser();
     this.getRDVsList();
     this.rdv = this.emptyRdvVlues()
   }
 
-  ngOnInit(): void { }
-
   getCurrentUser() {
-    this.authService.user.subscribe(usr => {
-      this.user = usr as User;
+    this.authService.getUser().subscribe(value => {
+      this.user = value as User;
     });
   }
 

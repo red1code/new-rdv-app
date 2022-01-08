@@ -2,7 +2,7 @@ import { AuthService } from './../../auth/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/models/user';
 import { Router } from '@angular/router';
-import { UsersService } from 'src/app/services/users.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -17,17 +17,12 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private authService: AuthService,
-    public userService: UsersService
-  ) {
-    this.getCurrentUser();
-  }
+    public authService: AuthService
+  ) { }
 
-  ngOnInit(): void { }
-
-  getCurrentUser() {
-    this.authService.user.subscribe(usr => {
-      this.user = usr as User;
+  ngOnInit(): void {
+    this.authService.getUser().subscribe(value => {
+      this.user = value as User;
       this.dashboardAuth = this.authService.canAccessDashboard(this.user)
     })
   }

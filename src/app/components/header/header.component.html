@@ -3,8 +3,8 @@
   <div class="top-header">
     <!-- welcome message + social media icons -->
     <div *ngIf="user">
-      <span style="margin-right: 9px;">Welcome</span>
-      <span *ngIf="user">{{ user.firstName }} {{ user.lastName }}</span>
+      <span style="margin-right: 9px;">Welcome,</span>
+      <span>{{ user.firstName }} {{ user.lastName }}</span>
     </div>
     <div [ngClass]="{'SM-container': !user}">Social media icons here</div>
   </div>
