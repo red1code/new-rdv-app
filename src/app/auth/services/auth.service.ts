@@ -19,13 +19,13 @@ export class AuthService {
   ) { }
 
   getUser() {
-    const uid = this.afAuth.authState.pipe(map(state => (!state) ? null : state.uid));
+    const uid = this.afAuth.authState.pipe(map(auth => (!auth) ? null : auth.uid));
     return uid.pipe(
-      switchMap(value => {
-        if (!value) {
+      switchMap(uidValue => {
+        if (!uidValue) {
           return of(null)
         } else {
-          return this.fireStore.doc<User>(`profiles/${value}`).valueChanges() as Observable<User>
+          return this.fireStore.doc<User>(`profiles/${uidValue}`).valueChanges() as Observable<User>
         }
       })
     )
