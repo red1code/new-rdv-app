@@ -14,7 +14,6 @@ import { AuthService } from 'src/app/auth/services/auth.service';
 export class RendezvousComponent implements OnInit {
 
   rdv!: Rendezvous;
-  id: string = '';
   showForm: boolean = false;
   user!: User;
   RDVsList!: Observable<Rendezvous[]>;
@@ -49,7 +48,6 @@ export class RendezvousComponent implements OnInit {
 
   proceedToUpdate(data: Rendezvous) {
     this.rdv = data;
-    this.id = data.rdvID as string;
     this.showForm = true;
   }
 
@@ -60,7 +58,6 @@ export class RendezvousComponent implements OnInit {
   hidePopupForm() {
     this.showForm = false;
     this.rdv = this.emptyRdvVlues();
-    this.id = '';
   }
 
   emptyRdvVlues(): Rendezvous {
