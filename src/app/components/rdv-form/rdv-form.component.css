@@ -2,21 +2,6 @@
   padding: 15px;
 }
 
-.close-btn-container {
-  margin-bottom: 25px;
-  text-align: right;
-}
-
-.close-btn-container i {
-  font-size: x-large;
-  padding: 3px;
-  cursor: pointer;
-}
-
-.close-btn-container i:hover {
-  color: #b6b61a;
-}
-
 .name-div, .mobile-div, .error-msg-div {
   margin: 15px 0;
 }
@@ -46,8 +31,4 @@
   color: #ff093a;
   font-size: small;
   padding: 0 5px;
-}
-
-.error-msg-div {
-  color: #ff093a;
 }

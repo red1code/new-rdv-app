@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { RendezvousService } from '../../services/rendezvous.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Rendezvous } from 'src/app/models/rendezvous';
 
@@ -11,17 +10,14 @@ import { Rendezvous } from 'src/app/models/rendezvous';
 export class RdvFormComponent implements OnInit {
 
   @Input() rdv!: Rendezvous;
-  @Input() userEmail!: string;
-  @Output() formOff = new EventEmitter();
+
+  @Output() rdvFormValue = new EventEmitter<FormGroup>();
+  @Output() deleteRDVid = new EventEmitter<string>();
 
   rdvID!: string;
   rdvform!: FormGroup;
-  somethingWentWrong!: string;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private rdvService: RendezvousService
-  ) { }
+  constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.rdvID = this.rdv.rdvID as string;
@@ -37,45 +33,13 @@ export class RdvFormComponent implements OnInit {
     })
   }
 
-  closeForm(): void {
-    this.formOff.emit();
-  }
-
-  async submitRDVform() {
+  submitForm() {
     if (this.rdvform.invalid) return;
-    const formValues = this.rdvform.value;
-    if (!this.rdvID) { // id empty means it's a new RDV
-      formValues.created_at = new Date();
-      formValues.created_by = this.userEmail;
-      try {
-        await this.rdvService.creatNewRDV(formValues)
-        this.closeForm();
-      }
-      catch (error) {
-        this.somethingWentWrong = error as string
-      }
-    }
-    else if (this.rdvID) { // here the id isn't empty, so it's an update of an existing RDV
-      formValues.lastUpdate = new Date();
-      try {
-        await this.rdvService.updateRDV(this.rdvID, formValues);
-        this.closeForm();
-      }
-      catch (error) {
-        this.somethingWentWrong = error as string
-      }
-    }
+    this.rdvFormValue.emit(this.rdvform.value)
   }
 
-  async deleteRDV() {
-    if (confirm('Are you sure You want to delete this Rendezvous?')) {
-      try {
-        await this.rdvService.eraseRDV(this.rdvID);
-        this.closeForm();
-      } catch (error) {
-        this.somethingWentWrong = error as string
-      }
-    }
+  deleteRDV() {
+    this.deleteRDVid.emit(this.rdvID)
   }
 
 }

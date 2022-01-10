@@ -1,25 +1,19 @@
 <form [formGroup]="rdvform" class="form">
-  <!-- close form button -->
-  <div class="close-btn-container">
-    <i class="fas fa-times-circle" (click)="closeForm()" title="Cancel"></i>
-  </div>
   <!-- name input -->
   <div class="name-div">
     <input type="text" formControlName="displayName" class="form-control" placeholder="Enter a name">
     <p *ngIf="rdvform.controls['displayName'].touched && rdvform.controls['displayName'].invalid"
-      class="warning-message">invalid name</p>
+        class="warning-message">invalid name</p>
   </div>
   <!-- mobile input -->
   <div class="mobile-div">
     <input type="tel" formControlName="phoneNumber" class="form-control" placeholder="Phone Number">
     <p *ngIf="rdvform.controls['phoneNumber'].touched && rdvform.controls['phoneNumber'].invalid"
-      class="warning-message">Phone Number must contain 10 digit numbers</p>
+        class="warning-message">Phone Number must contain 10 digit numbers</p>
   </div>
-  <!-- error msg -->
-  <div *ngIf="somethingWentWrong" class="error-msg-div">{{ somethingWentWrong }}</div>
   <!-- buttons -->
   <div class="btns-container">
-    <button [disabled]="rdvform.invalid" class="btn btn-success" (click)="submitRDVform()"
+    <button [disabled]="rdvform.invalid" class="btn btn-success" (click)="submitForm()"
             [ngClass]="{'full-width-btn': !rdvID}">
       <span *ngIf="!rdvID">Add Rendezvous</span>
       <span *ngIf="rdvID">Update Rendezvous</span>

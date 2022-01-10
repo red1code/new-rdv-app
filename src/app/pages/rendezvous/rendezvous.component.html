@@ -1,11 +1,16 @@
 <div class="rdv-container">
   <!-- rendezvous form -->
   <div *ngIf="showForm" class="form-container facebook-style">
+    <div class="close-btn-container">
+      <i class="fas fa-times-circle" (click)="hidePopupForm()" title="Cancel"></i>
+    </div>
     <app-rdv-form
       [rdv]="rdv"
-      [userEmail]="user.email"
-      (formOff)="hidePopupForm()">
+      (rdvFormValue)="submitRDVform($event)"
+      (deleteRDVid)="deleteRDV($event)">
     </app-rdv-form>
+    <!-- error msg -->
+    <div *ngIf="formErrorMsg" class="error-msg-div">{{ formErrorMsg }}</div>
   </div>
   <!-- add new RDV button   -->
   <div class="newRDV-btn-container">

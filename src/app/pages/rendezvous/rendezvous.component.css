@@ -12,6 +12,25 @@
   z-index: 10;
 }
 
+.close-btn-container {
+  margin: 15px;
+  text-align: right;
+}
+
+.close-btn-container i {
+  font-size: x-large;
+  padding: 3px;
+  cursor: pointer;
+}
+
+.close-btn-container i:hover {
+  color: #b6b61a;
+}
+
+.error-msg-div {
+  color: #ff093a;
+}
+
 .newRDV-btn-container {
   max-width: 75%;
   min-width: 500px;
