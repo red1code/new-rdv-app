@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
-  dashboardAuth!: boolean;
   showMenu: boolean = false;
   user!: User;
 
@@ -26,8 +25,11 @@ export class HeaderComponent implements OnInit {
   getCurrentUser() {
     this.authService.getUser().subscribe(value => {
       this.user = value as User;
-      this.dashboardAuth = this.authService.canAccessDashboard(this.user)
     })
+  }
+
+  get dashboardAuth() {
+    return this.authService.canAccessDashboard(this.user)
   }
 
   logOut() {
