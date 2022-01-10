@@ -4,7 +4,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { UserCredential } from '@firebase/auth-types';
 import { FirebaseError } from 'firebase/app';
-import { map, Observable, of, switchMap } from 'rxjs';
+import { of, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,16 +19,13 @@ export class AuthService {
   ) { }
 
   getUser() {
-    const uid = this.afAuth.authState.pipe(map(auth => (!auth) ? null : auth.uid));
-    return uid.pipe(
-      switchMap(uidValue => {
-        if (!uidValue) {
-          return of(null)
-        } else {
-          return this.fireStore.doc<User>(`profiles/${uidValue}`).valueChanges() as Observable<User>
-        }
-      })
-    )
+    return this.afAuth.authState
+      .pipe(
+        switchMap(auth => !auth ?
+          of(null) :
+          this.fireStore.doc<User>(`profiles/${auth.uid}`).valueChanges()
+        )
+      )
   }
 
   // signUp
