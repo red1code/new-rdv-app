@@ -1,1 +1,36 @@
-<p>profile works!</p>
+<div class="profile-container">
+  <div class="container mt-4 mb-4 p-3 d-flex justify-content-center">
+    <div class="card p-4 facebook-style">
+      <div class=" image d-flex flex-column justify-content-center align-items-center">
+        <!-- profile picture -->
+        <div style="border-radius: 50%;">
+          <img [src]="user.imageURL" height="150" width="150" style="border-radius: 50%;">
+        </div>
+        <!-- display name -->
+        <span class="name mt-3"><strong>{{ user.firstName }} {{ user.lastName }}</strong></span>
+        <span style="font-size: smaller;"><em>{{ user.role }}</em></span><br>
+        <div style="text-align: left;">
+          <!-- email -->
+          <div><i class="fas fa-envelope"></i> {{ user.email }}</div>
+          <!-- mobile -->
+          <div><i class="fas fa-phone-square-alt"></i> {{ user.phoneNumber }}</div>
+          <!-- joining date -->
+          <div>Joined : <em>{{ joinedDate }}</em></div>
+        </div>
+        <br>
+        <!-- edit infos button -->
+        <div class=" d-flex mt-2">
+          <button class="btn1 btn-dark" (click)="showPopUp()">Edit Profile</button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="showEditTemplate" class="popup-container facebook-style">
+      hello from pop up
+      <app-edit-profile>
+      </app-edit-profile>
+    </div>
+
+    <div *ngIf="showEditTemplate" class="black-bg" (click)="hidePopUp()"></div>
+  </div>
+</div>

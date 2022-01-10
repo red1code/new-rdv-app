@@ -5,7 +5,7 @@ export interface User {
   imageURL: string;
   created_at: any;
   firstName: string;
-  familyName: string;
+  lastName: string;
   phoneNumber: number;
   role: ROLES;
 }
