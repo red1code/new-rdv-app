@@ -33,7 +33,7 @@ export class RendezvousComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getRDVsList();
+    this.RDVsList = this.rdvService.getRDVs()
     this.getCurrentUser();
     this.rdv = this.emptyRdvVlues()
   }
@@ -42,10 +42,6 @@ export class RendezvousComponent implements OnInit {
     this.authService.getUser().subscribe(value => {
       this.user = value as User
     });
-  }
-
-  getRDVsList() {
-    this.RDVsList = this.rdvService.getRDVs();
   }
 
   proceedToUpdate(data: Rendezvous) {

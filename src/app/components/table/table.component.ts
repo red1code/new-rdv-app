@@ -15,7 +15,7 @@ import { TablesCols } from 'src/app/models/tablesCols';
 })
 export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
 
-  @Input() infos!: any;
+  @Input() infos!: Rendezvous[] | null;
   @Input() tableCol!: TablesCols[];
   @Input() userEmail!: string;
 
@@ -35,24 +35,10 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
   }
 
   ngOnInit(): void {
-    this.dtOptions = this.tableOptions()
-  }
-
-  ngAfterViewInit(): void {
-    this.dtTrigger.next(this.dtOptions);
-  }
-
-  ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe()
-  }
-
-  // table settings options
-  tableOptions() {
-    return {
-      data: this.infos,
+    this.dtOptions = {
+      data: this.infos as Rendezvous[],
       columns: this.tableCol,
       responsive: true,
-      multiple: true,
       pagingType: 'full_numbers',
       pageLength: 5,
       lengthMenu: [3, 5, 10, 25, 50, 100],
@@ -92,6 +78,14 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
     }
   }
 
+  ngAfterViewInit(): void {
+    this.dtTrigger.next(this.dtOptions);
+  }
+
+  ngOnDestroy(): void {
+    this.dtTrigger.unsubscribe()
+  }
+
   someClickHandler(info: Rendezvous): void {
     this.updateInfosEvent.emit(info);
   }
@@ -101,7 +95,7 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
       // Destroy the table first
       dtInstance.destroy();
       // Update table infos
-      this.dtOptions.data = this.infos;
+      this.dtOptions.data = this.infos as Rendezvous[];
       // Call the dtTrigger to rerender again
       this.dtTrigger.next(this.dtOptions);
     });
