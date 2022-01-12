@@ -33,15 +33,11 @@ export class RendezvousComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.RDVsList = this.rdvService.getRDVs()
-    this.getCurrentUser();
-    this.rdv = this.emptyRdvVlues()
-  }
-
-  getCurrentUser() {
+    this.rdv = this.emptyRdvVlues();
+    this.RDVsList = this.rdvService.getRDVs();
     this.authService.getUser().subscribe(value => {
       this.user = value as User
-    });
+    })
   }
 
   proceedToUpdate(data: Rendezvous) {
@@ -58,14 +54,13 @@ export class RendezvousComponent implements OnInit {
     this.rdv = this.emptyRdvVlues();
   }
 
-  async submitRDVform(data: FormGroup) {
-    const formValues = data as any;
+  async submitRDVform(data: any) {
+    const formValues = data;
     if (!this.rdv.rdvID) { // id empty means it's a new RDV
       formValues.created_at = new Date();
       formValues.created_by = this.user.email;
       try {
         await this.rdvService.creatNewRDV(formValues)
-        this.hidePopupForm();
       }
       catch (error) {
         this.formErrorMsg = error as string
@@ -75,12 +70,12 @@ export class RendezvousComponent implements OnInit {
       formValues.lastUpdate = new Date();
       try {
         await this.rdvService.updateRDV(this.rdv.rdvID, formValues);
-        this.hidePopupForm();
       }
       catch (error) {
         this.formErrorMsg = error as string
       }
     }
+    this.hidePopupForm()
   }
 
   async deleteRDV(id: string) {

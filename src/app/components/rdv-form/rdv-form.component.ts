@@ -11,7 +11,7 @@ export class RdvFormComponent implements OnInit {
 
   @Input() rdv!: Rendezvous;
 
-  @Output() rdvFormValue = new EventEmitter<FormGroup>();
+  @Output() rdvFormValue = new EventEmitter();
   @Output() deleteRDVid = new EventEmitter<string>();
 
   rdvID!: string;
