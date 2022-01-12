@@ -16,7 +16,7 @@ import { TablesCols } from 'src/app/models/tablesCols';
 export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
 
   @Input() infos!: Rendezvous[] | null;
-  @Input() tableCol!: TablesCols[];
+  @Input() tableCols!: TablesCols[];
   @Input() userEmail!: string;
 
   @Output() updateInfosEvent = new EventEmitter<Rendezvous>();
@@ -35,9 +35,21 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
   }
 
   ngOnInit(): void {
-    this.dtOptions = {
-      data: this.infos as Rendezvous[],
-      columns: this.tableCol,
+    this.dtOptions = this.tableOptions(this.infos as Rendezvous[], this.tableCols, this.userEmail)
+  }
+
+  ngAfterViewInit(): void {
+    this.dtTrigger.next(this.dtOptions)
+  }
+
+  ngOnDestroy(): void {
+    this.dtTrigger.unsubscribe()
+  }
+
+  tableOptions(tableData: Rendezvous[], cols: TablesCols[], usrMail: string) {
+    return {
+      data: tableData,
+      columns: cols,
       responsive: true,
       pagingType: 'full_numbers',
       pageLength: 5,
@@ -58,32 +70,19 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
         // (see https://github.com/l-lin/angular-datatables/issues/87)
         // Note: In newer jQuery v3 versions, `unbind` and `bind` are
         // deprecated in favor of `off` and `on`
-        $('td', row).off('click');
         let dt = data as Rendezvous;
-        if (dt.created_by === this.userEmail) {
-          $(row).attr('class', () => {
-            return 'table-editable-row'
-          });
-          $(row).attr('title', () => {
-            return 'Click to edit informations or delete Rendezvous'
-          });
+        if (dt.created_by === usrMail) {
+          $(row).attr('class', () => 'table-editable-row');
+          $(row).attr('title', () => 'Click to edit informations or delete Rendezvous')
         }
-        $('td', row).on('click', () => {
-          if (dt.created_by === this.userEmail) {
-            self.someClickHandler(data as Rendezvous);
+        $(row).on('click', () => {
+          if (dt.created_by === usrMail) {
+            self.someClickHandler(data as Rendezvous)
           }
         });
-        return row;
+        return row
       }
     }
-  }
-
-  ngAfterViewInit(): void {
-    this.dtTrigger.next(this.dtOptions);
-  }
-
-  ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe()
   }
 
   someClickHandler(info: Rendezvous): void {

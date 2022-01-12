@@ -23,7 +23,7 @@
   <div class="facebook-style table-container">
     <app-table
       *ngIf="RDVsList"
-      [tableCol]="rdvCol"
+      [tableCols]="rdvCol"
       [infos]="RDVsList | async"
       [userEmail]="user.email"
       (updateInfosEvent)="proceedToUpdate($event)">
