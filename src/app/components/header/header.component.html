@@ -2,11 +2,11 @@
   <!-- top header -->
   <div class="top-header">
     <!-- welcome message + social media icons -->
-    <div *ngIf="userIsLoggedIn">
-      <span style="margin-right: 9px;">Welcome</span>
-      <span *ngIf="userIsLoggedIn">{{ user.firstName }} {{ user.lastName }}</span>
+    <div *ngIf="user">
+      <span style="margin-right: 9px;">Welcome,</span>
+      <span>{{ user.firstName }} {{ user.lastName }}</span>
     </div>
-    <div [ngClass]="{'SM-container': !userIsLoggedIn}">Social media icons here</div>
+    <div [ngClass]="{'SM-container': !user}">Social media icons here</div>
   </div>
   <!-- main header -->
   <div class="nav-container">
@@ -14,16 +14,15 @@
     <div class="logo-container"><a class="logo-link" routerLink="">RENDEZVOUS</a></div>
     <!-- navigation links -->
     <nav class="nav-links-container">
-      <a class="nav-links" routerLinkActive="active-link" routerLink="/home"
-         *ngIf="userIsLoggedIn">Home</a>
-      <a class="nav-links" routerLinkActive="active-link" routerLink="/rendezvous"
-         *ngIf="userIsLoggedIn">Rendezvous</a>
-      <a class="nav-links" routerLinkActive="active-link" routerLink="/dashboard"
-         *ngIf="userIsLoggedIn && dashboardAuth">Dashboard</a>
+      <a *ngIf="user" class="nav-links" routerLink="/home" routerLinkActive="active-link"
+          [routerLinkActiveOptions]="{exact:true}">Home</a>
+      <a *ngIf="user" class="nav-links" routerLink="/rendezvous" routerLinkActive="active-link"
+          [routerLinkActiveOptions]="{exact:true}">Rendezvous</a>
+      <a *ngIf="dashboardAuth" class="nav-links" routerLink="/dashboard" routerLinkActive="active-link"
+          [routerLinkActiveOptions]="{exact:true}">Dashboard</a>
     </nav>
     <!-- popup menu at the far right of the header -->
-    <button *ngIf="userIsLoggedIn" (click)="toggleMenu()" (blur)="showMenu=false"
-      class="right-menu-container">
+    <button *ngIf="user" (click)="toggleMenu()" (blur)="showMenu=false" class="right-menu-container">
       <div class="menu-header">
         <img *ngIf="user.imageURL" [src]="user.imageURL" class="userIMG">
         <span class="userName">{{ user.firstName }}</span>
@@ -32,14 +31,6 @@
       <!-- the menu -->
       <div *ngIf="showMenu" class="menu">
         <hr style="margin: 0 0 7px 0; opacity: 0;">
-        <!-- go to my-RDVs -->
-        <div (click)="goToMyRDVs()" class="profile-sec">
-          <div><i class="fas fa-calendar-check"></i></div>
-          <div style="text-align: left; margin-left: 11px;">
-            <a style="color: inherit;">My Rendezvous</a>
-          </div>
-        </div>
-        <hr style="margin: 7px 0;">
         <!-- go to profile -->
         <div (click)="goToProfile()" class="profile-sec">
           <div>
@@ -54,6 +45,14 @@
           </div>
         </div>
         <hr style="margin: 7px 0;">
+        <!-- go to my-RDVs -->
+        <div (click)="goToMyRDVs()" class="profile-sec">
+          <div><i class="fas fa-calendar-check"></i></div>
+          <div style="text-align: left; margin-left: 11px;">
+            <a style="color: inherit;">My Rendezvous</a>
+          </div>
+        </div>
+        <hr style="margin: 7px 0;">
         <!-- logout -->
         <div (click)="logOut()" class="log-out-sec">
           <div class="inside" style="font-size: 1rem;">
@@ -65,8 +64,10 @@
       </div>
     </button>
     <!-- signup -->
-    <button *ngIf="!userIsLoggedIn" routerLink="auth/signup" class="btn btn-info">Sign Up</button>
+    <button *ngIf="!user" routerLink="auth/signup" class="btn btn-info">Sign Up</button>
   </div>
 </div>
+
+
 
 <!-- THE END -->

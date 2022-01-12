@@ -1,0 +1,34 @@
+.form {
+  padding: 15px;
+}
+
+.name-div, .mobile-div, .error-msg-div {
+  margin: 15px 0;
+}
+
+.btns-container {
+  display: flex;
+  margin-top: 25px;
+}
+
+.btn {
+  width: 50%;
+}
+
+.full-width-btn {
+  width: 100%;
+}
+
+.btn-success {
+  margin-right: 7px;
+}
+
+.btn-danger {
+  margin-left: 7px;
+}
+
+.warning-message {
+  color: #ff093a;
+  font-size: small;
+  padding: 0 5px;
+}
