@@ -1,1 +1,33 @@
-<p>rendezvous works!</p>
+<div class="rdv-container">
+  <!-- rendezvous form -->
+  <div *ngIf="showForm" class="form-container facebook-style">
+    <div class="close-btn-container">
+      <i class="fas fa-times-circle" (click)="hidePopupForm()" title="Cancel"></i>
+    </div>
+    <app-rdv-form
+      [rdv]="rdv"
+      (rdvFormValue)="submitRDVform($event)"
+      (deleteRDVid)="deleteRDV($event)">
+    </app-rdv-form>
+    <!-- error msg -->
+    <div *ngIf="formErrorMsg" class="error-msg-div">{{ formErrorMsg }}</div>
+  </div>
+  <!-- add new RDV button   -->
+  <div class="newRDV-btn-container">
+    <button class="btn btn-success" (click)="showPopupForm()">
+      <i class="far fa-calendar-plus"></i>
+      <span style="margin-left: 7px;">New Rendezvous</span>
+    </button>
+  </div>
+  <!-- Rendezvous list table -->
+  <div class="facebook-style table-container">
+    <app-table
+      *ngIf="RDVsList"
+      [tableCols]="rdvCol"
+      [infos]="RDVsList | async"
+      [userEmail]="user.email"
+      (updateInfosEvent)="proceedToUpdate($event)">
+    </app-table>
+  </div>
+  <div *ngIf="showForm" class="black-bg" (click)="hidePopupForm()"></div>
+</div>

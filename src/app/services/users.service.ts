@@ -1,7 +1,6 @@
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Injectable } from '@angular/core';
 import { User } from '../models/user';
-import { FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'

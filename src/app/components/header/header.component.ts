@@ -1,9 +1,6 @@
-import { Observable } from 'rxjs';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AuthService } from './../../auth/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/models/user';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,45 +10,27 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
-  userIsLoggedIn!: boolean;
-  dashboardAuth!: boolean;
-  showMenu: boolean;
-  user!: any;
+  showMenu: boolean = false;
+  user!: User;
 
   constructor(
     private router: Router,
-    private authService: AuthService,
-    private afAuth: AngularFireAuth,
-    private fireStore: AngularFirestore
-  ) {
-    this.getAuthInfos();
-    this.showMenu = false;
+    public authService: AuthService
+  ) { }
+
+  ngOnInit(): void {
+    this.getCurrentUser()
   }
 
-  ngOnInit(): void { }
-
-  getAuthInfos() {
-    this.afAuth.onAuthStateChanged((usr) => {
-      if (usr) {
-        this.userIsLoggedIn = true;
-        this.fireStore.doc<User>('/profiles/' + usr.uid).valueChanges()
-          .subscribe(data => {
-            this.user = data;
-            this.dashboardAuth = this.authService.canAccessDashboard(this.user)
-          })
-      } else {
-        this.userIsLoggedIn = false;
-      }
+  getCurrentUser() {
+    this.authService.getUser().subscribe(value => {
+      this.user = value as User;
     })
   }
 
-  toggleMenu() {
-    (!this.showMenu) ? this.showMenu = true : this.showMenu = false;
+  get dashboardAuth() {
+    return this.authService.canAccessDashboard(this.user)
   }
-
-  goToMyRDVs = ()  => this.router.navigate(['/rendezvous/my-rendezvous']);
-
-  goToProfile = () => this.router.navigate(['/home/profile/', this.user.uid]);
 
   logOut() {
     this.authService.logOut().then(() => {
@@ -59,4 +38,14 @@ export class HeaderComponent implements OnInit {
     })
   }
 
+  goToMyRDVs = () => this.router.navigate(['/rendezvous/my-rendezvous']);
+
+  goToProfile = () => this.router.navigate(['/home/profile/', this.user.uid]);
+
+  toggleMenu = () => (!this.showMenu) ? this.showMenu = true : this.showMenu = false;
+
 }
+
+
+
+// THE END.

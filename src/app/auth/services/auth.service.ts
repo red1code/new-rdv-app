@@ -4,6 +4,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { UserCredential } from '@firebase/auth-types';
 import { FirebaseError } from 'firebase/app';
+import { of, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,16 @@ export class AuthService {
     private fireStore: AngularFirestore
   ) { }
 
+  getUser() {
+    return this.afAuth.authState
+      .pipe(
+        switchMap(auth => !auth ?
+          of(null) :
+          this.fireStore.doc<User>(`profiles/${auth.uid}`).valueChanges()
+        )
+      )
+  }
+
   // signUp
   createNewUser(user: User, userPassword: string): Promise<void> {
     return this.afAuth.createUserWithEmailAndPassword(user.email, userPassword)
@@ -29,7 +40,7 @@ export class AuthService {
         user.uid = id as string;
         user.role = ROLES.PATIENT;
         user.created_at = new Date();
-        user.imageURL = 'assets/unknown-profile-picture.png';
+        user.imageURL = 'assets/unknown-profile-picture.jpg';
         return this.fireStore.doc('/profiles/' + user.uid).set(user)
       })
   }
@@ -59,11 +70,7 @@ export class AuthService {
     return await this.afAuth.sendPasswordResetEmail(email)
   }
 
-
-
-
-
-  // authorization access based on users roles
+  // authorizations access based on users roles
   private checkAuthorization(user: User, allowedRoles: ROLES[]): boolean {
     if (!user) return false;
     for (let role of allowedRoles) {
@@ -93,6 +100,8 @@ export class AuthService {
   }
 
 }
+
+
 
 // THE END.
 
