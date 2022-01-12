@@ -1,5 +1,5 @@
 <div class="profile-container">
-  <div class="container mt-4 mb-4 p-3 d-flex justify-content-center">
+  <div class="card-container"  [ngClass]="{'black-bg': showEditTemplate}">
     <div class="card p-4 facebook-style">
       <div class=" image d-flex flex-column justify-content-center align-items-center">
         <!-- profile picture -->
@@ -24,13 +24,17 @@
         </div>
       </div>
     </div>
-
-    <div *ngIf="showEditTemplate" class="popup-container facebook-style">
-      hello from pop up
-      <app-edit-profile>
-      </app-edit-profile>
-    </div>
-
-    <div *ngIf="showEditTemplate" class="black-bg" (click)="hidePopUp()"></div>
   </div>
+
+  <button *ngIf="showEditTemplate" class="popup-container facebook-style" (blur)="hidePopUp()">
+    <div class="close-btn-container">
+      <h5 class="form-title">Edit Profile</h5>
+      <i class="fas fa-times-circle" (click)="hidePopUp()" title="Cancel"></i>
+    </div>
+    <hr style="margin: 15px;">
+    <app-edit-profile
+      [profileInfos]="user"
+      (updatedValues)="updateProfile($event)">
+    </app-edit-profile>
+  </button>
 </div>

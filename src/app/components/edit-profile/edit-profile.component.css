@@ -1,0 +1,31 @@
+.form-section {
+  margin: 9px 0;
+  text-align: left;
+}
+
+.btn-success {
+  width: 100%;
+  margin-top: 15px;
+}
+
+.edit-pic {
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+}
+
+.edit-pic:hover {
+  filter: brightness(50%)
+
+}
+
+.warning {
+  border: 1px solid rgb(253, 51, 91);
+}
+
+.warning-message {
+  color: rgb(253, 51, 91);
+  font-size: smaller;
+  padding: 0 5px;
+  border-radius: 3px;
+}

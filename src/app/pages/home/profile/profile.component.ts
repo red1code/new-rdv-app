@@ -2,6 +2,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from 'src/app/services/users.service';
 import { User } from 'src/app/models/user';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-profile',
@@ -27,6 +28,12 @@ export class ProfileComponent implements OnInit {
     this.usersService.getCurrentProfile(uid).subscribe(value => {
       this.user = value as User;
     })
+  }
+
+  async updateProfile(data: FormGroup) {
+    const val = data as any;
+    await this.usersService.updateProfile(this.user.uid as string, val);
+    this.hidePopUp()
   }
 
   showPopUp() {

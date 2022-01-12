@@ -5,6 +5,7 @@ import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { EditProfileComponent } from 'src/app/components/edit-profile/edit-profile.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -15,7 +16,9 @@ import { EditProfileComponent } from 'src/app/components/edit-profile/edit-profi
   ],
   imports: [
     CommonModule,
-    HomeRoutingModule
+    HomeRoutingModule,
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class HomeModule { }
