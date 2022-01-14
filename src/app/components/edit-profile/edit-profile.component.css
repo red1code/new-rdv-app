@@ -8,17 +8,6 @@
   margin-top: 15px;
 }
 
-.edit-pic {
-  height: 150px;
-  width: 150px;
-  border-radius: 50%;
-}
-
-.edit-pic:hover {
-  filter: brightness(50%)
-
-}
-
 .warning {
   border: 1px solid rgb(253, 51, 91);
 }

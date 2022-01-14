@@ -1,11 +1,12 @@
 <div class="profile-container">
-  <div class="card-container"  [ngClass]="{'black-bg': showEditTemplate}">
+  <div class="card-container" [ngClass]="{'black-bg': editProfilePopup || editPicPopup}">
     <div class="card p-4 facebook-style">
       <div class=" image d-flex flex-column justify-content-center align-items-center">
         <!-- profile picture -->
-        <div style="border-radius: 50%;">
-          <img [src]="user.imageURL" height="150" width="150" style="border-radius: 50%;">
-        </div>
+        <button *ngIf="user.imageURL" class="btn-img" (click)="showEditPicPopup()">
+          <img [src]="user.imageURL" class="edit-pic" alt="User's profile picture" title="Click To Change Photo">
+          <i class="fas fa-upload" id="camera-pic"></i>
+        </button>
         <!-- display name -->
         <span class="name mt-3"><strong>{{ user.firstName }} {{ user.lastName }}</strong></span>
         <span style="font-size: smaller;"><em>{{ user.role }}</em></span><br>
@@ -15,26 +16,46 @@
           <!-- mobile -->
           <div><i class="fas fa-phone-square-alt"></i> {{ user.phoneNumber }}</div>
           <!-- joining date -->
-          <div>Joined : <em>{{ joinedDate }}</em></div>
+          <div>Joined: <em>{{ user.created_at.toDate() | date: 'MMMM dd, yyyy' }}</em></div>
         </div>
         <br>
         <!-- edit infos button -->
         <div class=" d-flex mt-2">
-          <button class="btn1 btn-dark" (click)="showPopUp()">Edit Profile</button>
+          <button class="btn1 btn-dark" (click)="showEditProfilePopUp()">Edit Profile</button>
         </div>
       </div>
     </div>
   </div>
 
-  <button *ngIf="showEditTemplate" class="popup-container facebook-style" (blur)="hidePopUp()">
+  <!-- now popups begins -->
+
+  <!-- edit profile picture popup -->
+  <div *ngIf="editPicPopup" class="wrapper facebook-style">
+    <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+      <h5 class="form-title">Edit picture</h5>
+      <i *ngIf="!uploading" class="fas fa-times-circle" (click)="hideEditPicPopup()" title="Cancel"></i>
+    </div>
+    <div *ngIf="!uploading" class="upload-container">
+      <input type="file" accept="image/*" class="inputfile" id="file" (change)="uploadPhoto($event)">
+      <label for="file"><i class="fas fa-upload"></i> Upload New Picture</label>
+    </div>
+    <div *ngIf="uploading" class="text-warning">Uploading Picture...</div>
+    <progress *ngIf="persentage | async as progress" [value]="progress" max="100" style="width:100%">
+    </progress>
+    <span *ngIf="persentage | async">{{ persentage | async | number: '1.0-0' }}%</span>
+    <p *ngIf="updateErrMsg" class="text-danger">{{ updateErrMsg }}</p>
+  </div>
+
+  <!-- edit profile infos popup -->
+  <button *ngIf="editProfilePopup" class="popup-container facebook-style">
     <div class="close-btn-container">
       <h5 class="form-title">Edit Profile</h5>
-      <i class="fas fa-times-circle" (click)="hidePopUp()" title="Cancel"></i>
+      <i class="fas fa-times-circle" (click)="hideEditProfilePopUp()" title="Cancel"></i>
     </div>
     <hr style="margin: 15px;">
-    <app-edit-profile
-      [profileInfos]="user"
-      (updatedValues)="updateProfile($event)">
+    <app-edit-profile [profileInfos]="user" (updatedValues)="updateProfile($event)">
     </app-edit-profile>
+    <p *ngIf="updateErrMsg" class="text-danger">{{ updateErrMsg }}</p>
   </button>
+
 </div>

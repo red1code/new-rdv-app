@@ -10,7 +10,7 @@ import { User } from 'src/app/models/user';
 export class EditProfileComponent implements OnInit {
 
   @Input() profileInfos!: User;
-  @Output() updatedValues = new EventEmitter<FormGroup>();
+  @Output() updatedValues = new EventEmitter();
 
   editProfileForm!: FormGroup;
 

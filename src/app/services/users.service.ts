@@ -7,9 +7,7 @@ import { User } from '../models/user';
 })
 export class UsersService {
 
-  constructor(
-    private afStore: AngularFirestore
-  ) { }
+  constructor(private afStore: AngularFirestore) { }
 
   getCurrentProfile(uid: string) {
     return this.afStore.doc<User>(`profiles/${uid}`).valueChanges()
