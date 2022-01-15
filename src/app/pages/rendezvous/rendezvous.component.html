@@ -20,11 +20,10 @@
     </button>
   </div>
   <!-- Rendezvous list table -->
-  <div class="facebook-style table-container">
+  <div *ngIf="RDVsList | async as RDVs" class="facebook-style table-container">
     <app-table
-      *ngIf="RDVsList"
       [tableCols]="rdvCol"
-      [infos]="RDVsList | async"
+      [infos]="RDVs"
       [userEmail]="user.email"
       (updateInfosEvent)="proceedToUpdate($event)">
     </app-table>

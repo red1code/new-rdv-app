@@ -9,7 +9,7 @@ import { Rendezvous } from 'src/app/models/rendezvous';
 })
 export class RdvFormComponent implements OnInit {
 
-  @Input() rdv!: Rendezvous;
+  @Input() rdv!: Rendezvous | null;
 
   @Output() rdvFormValue = new EventEmitter();
   @Output() deleteRDVid = new EventEmitter<string>();
@@ -20,13 +20,13 @@ export class RdvFormComponent implements OnInit {
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    this.rdvID = this.rdv.rdvID as string;
+    this.rdvID = this.rdv?.rdvID as string;
     this.initForm()
   }
 
   initForm() {
-    const nameInput = this.rdv.displayName;
-    const mobileInput = this.rdv.phoneNumber;
+    const nameInput = this.rdv?.displayName;
+    const mobileInput = this.rdv?.phoneNumber;
     this.rdvform = this.formBuilder.group({
       displayName: [nameInput, [Validators.required, Validators.pattern(/.*\S.*/)]],
       phoneNumber: [mobileInput, [Validators.required, Validators.pattern(/^(\+213|0)?[0-9]{9}$/)]]
