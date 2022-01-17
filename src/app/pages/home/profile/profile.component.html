@@ -40,9 +40,9 @@
       <label for="file"><i class="fas fa-upload"></i> Upload New Picture</label>
     </div>
     <div *ngIf="uploading" class="text-warning">Uploading Picture...</div>
-    <progress *ngIf="persentage | async as progress" [value]="progress" max="100" style="width:100%">
+    <progress *ngIf="percentage | async as progress" [value]="progress" max="100" style="width:100%">
     </progress>
-    <span *ngIf="persentage | async">{{ persentage | async | number: '1.0-0' }}%</span>
+    <span *ngIf="percentage | async">{{ percentage | async | number: '1.0-0' }}%</span>
     <p *ngIf="updateErrMsg" class="text-danger">{{ updateErrMsg }}</p>
   </div>
 
@@ -53,6 +53,7 @@
       <i class="fas fa-times-circle" (click)="hideEditProfilePopUp()" title="Cancel"></i>
     </div>
     <hr style="margin: 15px;">
+    <!-- calling EditProfileComponent -->
     <app-edit-profile [profileInfos]="user" (updatedValues)="updateProfile($event)">
     </app-edit-profile>
     <p *ngIf="updateErrMsg" class="text-danger">{{ updateErrMsg }}</p>

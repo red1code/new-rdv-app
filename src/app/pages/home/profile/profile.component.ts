@@ -18,7 +18,7 @@ export class ProfileComponent implements OnInit {
 
   editPicPopup = false;
   uploading = false;
-  persentage!: Observable<number | undefined>;
+  percentage!: Observable<number | undefined>;
 
   constructor(
     private route: ActivatedRoute,
@@ -48,14 +48,13 @@ export class ProfileComponent implements OnInit {
     const filePath = `profile-pictures/${this.user.uid}`;
     const fileRef = this.afStorage.ref(filePath);
     const task = this.afStorage.upload(filePath, event.target.files[0]);
-    this.persentage = task.percentageChanges();
+    this.percentage = task.percentageChanges();
     task.snapshotChanges().pipe(
       finalize(() => {
         fileRef.getDownloadURL().subscribe(url => {
           if (url) {
-            this.uploading = false;
             this.user.imageURL = url;
-            this.updateProfile(this.user)
+            this.updateProfile(this.user).then(() => this.uploading = false)
           }
         })
       })
@@ -75,7 +74,7 @@ export class ProfileComponent implements OnInit {
     this.editPicPopup = false;
     this.uploading = false;
     this.updateErrMsg = '';
-    this.persentage = of(undefined)
+    this.percentage = of(undefined)
   }
 
 }
