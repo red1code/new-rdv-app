@@ -33,8 +33,10 @@ export class MyRendezvousComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.authService.getUser().subscribe(usr => this.user = usr as User);
-    this.myRDVs = this.rdvService.getMyRDVs()
+    this.authService.getUser().subscribe(usr => {
+      this.user = usr as User;
+      this.myRDVs = this.rdvService.getRDVsByEmail(this.user.email)
+    })
   }
 
   proceedToUpdate(data: Rendezvous) {

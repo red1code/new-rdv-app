@@ -1,5 +1,4 @@
 import { AngularFirestore, DocumentReference } from '@angular/fire/compat/firestore';
-import { AuthService } from '../auth/services/auth.service';
 import { Rendezvous } from './../models/rendezvous';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
@@ -10,14 +9,8 @@ import { User } from '../models/user';
 })
 export class RendezvousService {
 
-  usrEmail!: string | undefined;
 
-  constructor(
-    private authService: AuthService,
-    private fireStore: AngularFirestore
-  ) {
-    this.authService.getUser().subscribe(usr => this.usrEmail = usr?.email)
-  }
+  constructor(private fireStore: AngularFirestore) { }
 
   creatNewRDV(rdv: Rendezvous, currentUser: User): Promise<DocumentReference<Rendezvous>> {
     rdv.created_at = new Date();
@@ -46,8 +39,8 @@ export class RendezvousService {
             return {
               ...load,
               rdvID: rdv.payload.doc.id,
-              created_at: this.convertToDate(load.created_at),
-              lastUpdate: load.lastUpdate ? this.convertToDate(load.lastUpdate) : 'Not updated',
+              created_at: this.convertToDateString(load.created_at),
+              lastUpdate: load.lastUpdate ? this.convertToDateString(load.lastUpdate) : 'Not Updated',
               order: i++
             }
           })
@@ -55,11 +48,27 @@ export class RendezvousService {
       )
   }
 
-  getMyRDVs() {
-    return this.getRDVs().pipe(map(action => action.filter(rdv => rdv.created_by === this.usrEmail)));
+  getRDVsByEmail(usrEmail: string) {
+    return this.fireStore
+      .collection<Rendezvous>('Rendezvous', ref => ref.orderBy('created_at'))
+      .snapshotChanges()
+      .pipe(map(action => action.filter(rdv => rdv.payload.doc.data().created_by === usrEmail)))
+      .pipe(map(values => {
+        let i = 1;
+        return values.map(rdv => {
+          const load = rdv.payload.doc.data();
+          return {
+            ...load,
+            rdvID: rdv.payload.doc.id,
+            created_at: this.convertToDateString(load.created_at),
+            lastUpdate: load.lastUpdate ? this.convertToDateString(load.lastUpdate) : 'Not Updated',
+            order: i++
+          }
+        })
+      }))
   }
 
-  private convertToDate(param: any) {
+  private convertToDateString(param: any): string {
     return param.toDate().toLocaleString('en-US', {
       year: 'numeric',
       month: 'short',
