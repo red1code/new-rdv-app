@@ -18,6 +18,9 @@ const routes: Routes = [
     loadChildren: () => import('./pages/rendezvous/rendezvous.module').then(m => m.RendezvousModule),
     canLoad: [AuthGuard]
   }, {
+    path: 'profile/:id',
+    loadChildren: () => import('./pages/profile/profile.module').then(m => m.ProfileModule)
+  }, {
     path: 'dashboard',
     loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule),
     canLoad: [AuthGuard]

@@ -1,9 +1,9 @@
-import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { UsersService } from 'src/app/services/users.service';
-import { User } from 'src/app/models/user';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { finalize, Observable, of } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { Observable, finalize, of } from 'rxjs';
+import { User } from 'src/app/models/user';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-profile',
