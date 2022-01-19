@@ -38,8 +38,8 @@ export class RendezvousService {
             return {
               ...load,
               rdvID: rdv.payload.doc.id,
-              created_at: this.convertToDate(load.created_at),
-              lastUpdate: load.lastUpdate ? this.convertToDate(load.lastUpdate) : 'Not updated',
+              created_at: this.convertToDateString(load.created_at),
+              lastUpdate: load.lastUpdate ? this.convertToDateString(load.lastUpdate) : 'Not Updated',
               order: i++
             }
           })
@@ -47,7 +47,7 @@ export class RendezvousService {
       )
   }
 
-  private convertToDate(param: any) {
+  private convertToDateString(param: any): string {
     return param.toDate().toLocaleString('en-US', {
       year: 'numeric',
       month: 'short',
