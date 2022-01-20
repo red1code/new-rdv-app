@@ -40,7 +40,7 @@ export class HeaderComponent implements OnInit {
 
   goToMyRDVs = () => this.router.navigate(['/rendezvous/my-rendezvous']);
 
-  goToProfile = () => this.router.navigate(['/home/profile/', this.user.uid]);
+  goToProfile = () => this.router.navigate(['/profile/', this.user.uid]);
 
   toggleMenu = () => (!this.showMenu) ? this.showMenu = true : this.showMenu = false;
 
