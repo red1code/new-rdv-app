@@ -1,1 +1,21 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+  <!-- sidebar -->
+  <div class="sidebar">
+    <div class="users-title-container" (click)="showUsers()" [ngClass]="{'active': usersON}">Users</div>
+    <hr style="color: #fff; margin: 0;">
+    <div class="rdvs-title-container" (click)="showRDVs()" [ngClass]="{'active': RDVsON}">Rendezvous</div>
+  </div>
+
+  <!-- main content -->
+  <div class="dashboard-content">
+    <!-- users -->
+    <div *ngIf="usersON" class="users-container facebook-style">
+      <h1>hello from users</h1>
+    </div>
+
+    <!-- rendezvous -->
+    <div *ngIf="RDVsON" class="rdvs-container facebook-style">
+      <h1>hello from rendezvous</h1>
+    </div>
+  </div>
+</div>

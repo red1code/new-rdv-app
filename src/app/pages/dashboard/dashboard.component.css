@@ -1,0 +1,31 @@
+.dashboard-container {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 225px auto;
+}
+
+.sidebar {
+  background: rgb(27, 27, 27);
+  color: #fff;
+}
+
+.sidebar>div {
+  padding: 15px 20px;
+  cursor: pointer;
+}
+
+.sidebar>div:hover {
+  filter: brightness(75%)
+}
+
+.active {
+  background-color: #707019;
+}
+
+.dashboard-content {
+  padding: 15px;
+}
+
+.users-container, .rdvs-container {
+  padding: 15px;
+}
