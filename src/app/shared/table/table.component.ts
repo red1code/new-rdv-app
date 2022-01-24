@@ -68,7 +68,7 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
         let dt = data as any;
         if (dt.created_by === usrMail || this.canCRUD) { // only the owner or moderator or admin, can edit table
           $(row).attr('class', () => 'table-editable-row');
-          $(row).attr('title', () => `Click To Edit ${dt.uid}`);
+          $(row).attr('title', () => `Click To Edit`);
         }
         $(row).on('click', () => {
           if (dt.created_by === usrMail || this.canCRUD) { // only the owner or moderator or admin, can edit table
