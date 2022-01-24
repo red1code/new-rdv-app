@@ -24,7 +24,8 @@
     <app-table
       [tableCols]="rdvCol"
       [infos]="RDVs"
-      [userEmail]="user.email"
+      [showBtns]="false"
+      [currentUser]="user"
       (updateInfosEvent)="proceedToUpdate($event)">
     </app-table>
   </div>

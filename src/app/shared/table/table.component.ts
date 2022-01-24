@@ -5,8 +5,9 @@ import {
 import { DataTableDirective } from 'angular-datatables';
 import { ADTSettings } from 'angular-datatables/src/models/settings';
 import { Subject } from 'rxjs';
-import { Rendezvous } from 'src/app/models/rendezvous';
+import { AuthService } from 'src/app/auth/services/auth.service';
 import { TablesCols } from 'src/app/models/tablesCols';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-table',
@@ -15,11 +16,12 @@ import { TablesCols } from 'src/app/models/tablesCols';
 })
 export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
 
-  @Input() infos!: Rendezvous[] | null;
+  @Input() infos!: any[] | null;
   @Input() tableCols!: TablesCols[];
-  @Input() userEmail!: string;
+  @Input() currentUser!: User | null;
+  @Input() showBtns!: boolean;
 
-  @Output() updateInfosEvent = new EventEmitter<Rendezvous>();
+  @Output() updateInfosEvent = new EventEmitter();
 
   @ViewChild(DataTableDirective, { static: false })
   dtElement!: DataTableDirective;
@@ -27,7 +29,7 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
   dtOptions: any = {};
   dtTrigger: Subject<ADTSettings> = new Subject<ADTSettings>();
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   // component life cycle hooks
   ngOnChanges(changes: SimpleChanges): void {
@@ -35,7 +37,7 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
   }
 
   ngOnInit(): void {
-    this.dtOptions = this.tableOptions(this.infos as Rendezvous[], this.tableCols, this.userEmail)
+    this.dtOptions = this.tableOptions(this.infos, this.tableCols, this.currentUser?.email, this.showBtns)
   }
 
   ngAfterViewInit(): void {
@@ -46,7 +48,7 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
     this.dtTrigger.unsubscribe()
   }
 
-  tableOptions(tableData: Rendezvous[], cols: TablesCols[], usrMail: string) {
+  tableOptions(tableData: any[] | null, cols: TablesCols[], usrMail: string | undefined, showBTNs: boolean) {
     return {
       data: tableData,
       columns: cols,
@@ -56,28 +58,21 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
       lengthMenu: [3, 5, 10, 25, 50, 100],
       dom: 'Bfrtip',
       // Configure buttons (I disabled them coz the user doesn't need them)
-      buttons: [
-        // 'columnsToggle',
-        // 'colvis',
-        // 'copy',
-        // 'print',
-        // 'csv',
-        // 'excel',
-      ],
+      buttons: this.tableBTNs(showBTNs),
       rowCallback: (row: Node, data: any[] | Object, index: number) => {
         const self = this;
         // Unbind first in order to avoid any duplicate handler
         // (see https://github.com/l-lin/angular-datatables/issues/87)
         // Note: In newer jQuery v3 versions, `unbind` and `bind` are
         // deprecated in favor of `off` and `on`
-        let dt = data as Rendezvous;
-        if (dt.created_by === usrMail) {
+        let dt = data as any;
+        if (dt.created_by === usrMail || this.canCRUD) { // only the owner or moderator or admin, can edit table
           $(row).attr('class', () => 'table-editable-row');
-          $(row).attr('title', () => 'Click to edit informations or delete Rendezvous')
+          $(row).attr('title', () => `Click To Edit ${dt.uid}`);
         }
         $(row).on('click', () => {
-          if (dt.created_by === usrMail) {
-            self.someClickHandler(data as Rendezvous)
+          if (dt.created_by === usrMail || this.canCRUD) { // only the owner or moderator or admin, can edit table
+            self.someClickHandler(dt)
           }
         });
         return row
@@ -85,7 +80,7 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
     }
   }
 
-  someClickHandler(info: Rendezvous): void {
+  someClickHandler(info: any): void {
     this.updateInfosEvent.emit(info);
   }
 
@@ -94,10 +89,17 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
       // Destroy the table first
       dtInstance.destroy();
       // Update table infos
-      this.dtOptions.data = this.infos as Rendezvous[];
+      this.dtOptions.data = this.infos;
       // Call the dtTrigger to rerender again
       this.dtTrigger.next(this.dtOptions);
     });
+  }
+
+  // we need table buttons in dashboard, but we don't need them in rendezvous, so i made this method:
+  private tableBTNs = (showBTNs: boolean): any[] => showBTNs ? ['colvis', 'csv', 'excel'] : [];
+
+  get canCRUD() {
+    return this.authService.canCRUDrendezvous(this.currentUser as User)
   }
 
 }
