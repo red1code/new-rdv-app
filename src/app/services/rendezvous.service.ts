@@ -50,7 +50,7 @@ export class RendezvousService {
 
   getRDVsByEmail(usrEmail: string) {
     return this.fireStore
-      .collection<Rendezvous>('Rendezvous', ref => ref.where('created_by', '==', usrEmail))
+      .collection<Rendezvous>('Rendezvous', ref => ref.where('created_by', '==', usrEmail).orderBy('created_at'))
       .snapshotChanges().pipe(map(values => {
         let i = 1;
         return values.map(rdv => {
