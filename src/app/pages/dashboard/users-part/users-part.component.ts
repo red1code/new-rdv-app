@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { map, Observable } from 'rxjs';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { TablesCols } from 'src/app/models/tablesCols';
+import { User } from 'src/app/models/user';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-users-part',
@@ -7,9 +12,55 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UsersPartComponent implements OnInit {
 
-  constructor() { }
+  user!: User;
+  users$!: Observable<User[]>
+  usrsCols: TablesCols[] = [
+    { title: 'First Name', data: 'firstName' },
+    { title: 'Last Name', data: 'lastName' },
+    { title: 'Phone Number', data: 'phoneNumber' },
+    { title: 'Email', data: 'email' },
+    { title: 'Created At', data: 'created_at' },
+    { title: 'Role', data: 'role' }
+  ];
+  editProfilePopup = false;
+  updateErrMsg = '';
+  updateUser!: User | null;
+  updateUID!: string | null;
+
+  constructor(
+    private authService: AuthService,
+    private usersService: UsersService
+  ) { }
 
   ngOnInit(): void {
+    this.authService.getUser().subscribe(usr => this.user = usr as User);
+    this.users$ = this.usersService.getAllUsers()
   }
+
+  get adminAccess() {
+    return this.authService.canCRUDusers(this.user)
+  }
+
+  proceedToUpdate(data: User) {
+    this.updateUser = data;
+    // this.updateUID = data.uid?
+    this.showEditProfilePopUp()
+  }
+
+  async updateProfile(data: User) {
+    try {
+      await this.usersService.updateProfile(this.updateUser?.uid as string, data);
+      this.hideEditProfilePopUp()
+    } catch (error) {
+      this.updateErrMsg = error as string
+    }
+  }
+
+  hideEditProfilePopUp() {
+    this.editProfilePopup = false;
+    this.updateErrMsg = ''
+  }
+
+  showEditProfilePopUp = () => this.editProfilePopup = true;
 
 }

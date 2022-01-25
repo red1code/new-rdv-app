@@ -1,7 +1,7 @@
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Injectable } from '@angular/core';
 import { User } from '../models/user';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,26 @@ export class UsersService {
   }
 
   getAllUsers(): Observable<User[]> {
-    return this.afStore.collection<User>('profiles', ref => ref.orderBy('created_at')).valueChanges()
+    return this.afStore.collection<User>('profiles', ref => ref.orderBy('created_at'))
+      .valueChanges()
+      .pipe(
+        map(action => {
+          return action.map(rdv => {
+            return {
+              ...rdv,
+              created_at: this.convertToDateString(rdv.created_at)
+            }
+          })
+        })
+      )
+  }
+
+  private convertToDateString(param: any): string {
+    return param.toDate().toLocaleString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    })
   }
 
 }
