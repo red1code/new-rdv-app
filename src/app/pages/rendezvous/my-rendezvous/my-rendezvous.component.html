@@ -1,1 +1,27 @@
-<p>my-rendezvous works!</p>
+<div *ngIf="myRDVs | async as rdvs">
+  <div class="facebook-style" style="padding: 15px; margin: 25px 50px;">
+    <app-table
+      [tableCols]="rdvCol"
+      [infos]="rdvs"
+      [userEmail]="user.email"
+      (updateInfosEvent)="proceedToUpdate($event)">
+    </app-table>
+  </div>
+
+  <!-- rendezvous form popup -->
+  <div *ngIf="showForm" class="form-container facebook-style">
+    <div class="close-btn-container">
+      <i class="fas fa-times-circle" (click)="hidePopupForm()" title="Cancel"></i>
+    </div>
+    <app-rdv-form
+      [rdv]="rdv"
+      (rdvFormValue)="submitRDVform($event)"
+      (deleteRDVid)="deleteRDV($event)">
+    </app-rdv-form>
+    <!-- error msg -->
+    <div *ngIf="formErrorMsg" class="error-msg-div">{{ formErrorMsg }}</div>
+  </div>
+
+  <!-- darken bg -->
+  <div *ngIf="showForm" class="black-bg" (click)="hidePopupForm()"></div>
+</div>

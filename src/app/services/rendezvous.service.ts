@@ -9,6 +9,7 @@ import { User } from '../models/user';
 })
 export class RendezvousService {
 
+
   constructor(private fireStore: AngularFirestore) { }
 
   creatNewRDV(rdv: Rendezvous, currentUser: User): Promise<DocumentReference<Rendezvous>> {
@@ -45,6 +46,24 @@ export class RendezvousService {
           })
         })
       )
+  }
+
+  getRDVsByEmail(usrEmail: string) {
+    return this.fireStore
+      .collection<Rendezvous>('Rendezvous', ref => ref.where('created_by', '==', usrEmail).orderBy('created_at'))
+      .snapshotChanges().pipe(map(values => {
+        let i = 1;
+        return values.map(rdv => {
+          const load = rdv.payload.doc.data();
+          return {
+            ...load,
+            rdvID: rdv.payload.doc.id,
+            created_at: this.convertToDateString(load.created_at),
+            lastUpdate: load.lastUpdate ? this.convertToDateString(load.lastUpdate) : 'Not Updated',
+            order: i++
+          }
+        })
+      }))
   }
 
   private convertToDateString(param: any): string {
