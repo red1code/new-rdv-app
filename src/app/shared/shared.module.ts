@@ -5,6 +5,8 @@ import { TableComponent } from './table/table.component';
 import { RdvFormComponent } from './rdv-form/rdv-form.component'
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { ChartComponent } from './chart/chart.component';
+import { NgChartsModule } from 'ng2-charts';
 
 
 
@@ -12,18 +14,21 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
   declarations: [
     TableComponent,
     RdvFormComponent,
-    EditProfileComponent
+    EditProfileComponent,
+    ChartComponent
   ],
   imports: [
     CommonModule,
     DataTablesModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    NgChartsModule
   ],
   exports: [
     TableComponent,
     RdvFormComponent,
-    EditProfileComponent
+    EditProfileComponent,
+    ChartComponent
   ]
 })
 export class SharedModule { }

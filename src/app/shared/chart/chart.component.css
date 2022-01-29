@@ -1,0 +1,23 @@
+.hdr-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 11px;
+  border-bottom: 1px dotted #000;
+}
+
+.bg-color {
+  width: 75px;
+  padding: 0;
+  cursor: pointer;
+  border: 1px solid #191970;
+}
+
+.btn-outline-success {
+  height: 40px;
+}
+
+.chart {
+  padding: 15px;
+  border-radius: 7px;
+}
