@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { map, Observable } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { TablesCols } from 'src/app/models/tablesCols';
 import { User } from 'src/app/models/user';
 import { UsersService } from 'src/app/services/users.service';
+import { Months } from 'src/app/utils/utilities';
 
 @Component({
   selector: 'app-users-part',
@@ -13,7 +13,7 @@ import { UsersService } from 'src/app/services/users.service';
 export class UsersPartComponent implements OnInit {
 
   user!: User;
-  users$!: Observable<User[]>
+  users!: User[]
   usrsCols: TablesCols[] = [
     { title: 'First Name', data: 'firstName' },
     { title: 'Last Name', data: 'lastName' },
@@ -27,6 +27,9 @@ export class UsersPartComponent implements OnInit {
   updateUser!: User | null;
   updateUID!: string | null;
 
+  months = Months;
+  usrsPerMonth!: number[];
+
   constructor(
     private authService: AuthService,
     private usersService: UsersService
@@ -34,7 +37,14 @@ export class UsersPartComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.getUser().subscribe(usr => this.user = usr as User);
-    this.users$ = this.usersService.getAllUsers()
+    this.usersService.getAllUsers().subscribe(values => {
+      this.users = values;
+      // getting chart data:
+      const usrsInEveryMonth = this.users.map(
+        usr => new Date(usr.created_at).toLocaleString('en', { month: 'short' }));
+      this.usrsPerMonth = this.months.map(
+        month => usrsInEveryMonth.filter(val => val == month).length)
+    })
   }
 
   get adminAccess() {
@@ -43,7 +53,6 @@ export class UsersPartComponent implements OnInit {
 
   proceedToUpdate(data: User) {
     this.updateUser = data;
-    // this.updateUID = data.uid?
     this.showEditProfilePopUp()
   }
 

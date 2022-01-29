@@ -1,8 +1,8 @@
 <div class="usrs-part-container">
-  <div *ngIf="adminAccess && (users$ | async)" class="table_container">
+  <div *ngIf="adminAccess && users" class="table_container facebook-style" style="padding: 9px;">
     <app-table
       [tableCols]="usrsCols"
-      [infos]="users$ | async"
+      [infos]="users"
       [showBtns]="true"
       [currentUser]="user"
       (updateInfosEvent)="proceedToUpdate($event)">
@@ -23,6 +23,16 @@
       (updatedValues)="updateProfile($event)">
     </app-edit-profile>
     <p *ngIf="updateErrMsg" class="text-danger">{{ updateErrMsg }}</p>
+  </div>
+  <!-- chart here -->
+  <div *ngIf="users && usrsPerMonth" class="chart-comp-container facebook-style" style="padding: 9px;margin-top: 15px;">
+    <app-chart
+      [chartX]="months"
+      [chartY]="usrsPerMonth"
+      [chartType]="'bar'"
+      [chartTitle]="'New Users Per Month'"
+      [chartID]="'usrsChart'">
+    </app-chart>
   </div>
 </div>
 <div *ngIf="editProfilePopup" class="black-bg" (click)="hideEditProfilePopUp()"></div>
