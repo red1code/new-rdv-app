@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Chart, ChartTypeRegistry } from 'chart.js';
 
 @Component({
@@ -6,7 +6,7 @@ import { Chart, ChartTypeRegistry } from 'chart.js';
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.css']
 })
-export class ChartComponent implements OnInit, OnChanges, AfterViewInit {
+export class ChartComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
 
   @Input() chartID!: string;
   @Input() chartX!: string[];
@@ -26,11 +26,17 @@ export class ChartComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.chart.destroy();
     this.chart = this.initChart
   }
 
   ngAfterViewInit(): void {
+    this.chart.destroy();
     this.chart = this.initChart
+  }
+
+  ngOnDestroy(): void {
+    this.chart.destroy()
   }
 
   get initChart() {
@@ -43,26 +49,41 @@ export class ChartComponent implements OnInit, OnChanges, AfterViewInit {
       data: {
         labels: x,
         datasets: [{
-          label: 'Data',
+          label: '',
           data: y,
           backgroundColor: [
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
             'rgba(255, 99, 132, 0.2)',
             'rgba(54, 162, 235, 0.2)',
             'rgba(255, 206, 86, 0.2)',
             'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)'
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)'
           ],
           borderColor: [
+            'rgba(153, 102, 255, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)',
             'rgba(255, 99, 132, 1)',
             'rgba(54, 162, 235, 1)',
             'rgba(255, 206, 86, 1)',
             'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)'
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)'
           ],
           borderWidth: 1
         }]
       },
       options: {
+        responsive: true,
         maintainAspectRatio: false,
         plugins: {
           title: {
