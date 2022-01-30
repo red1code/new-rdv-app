@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Chart, ChartTypeRegistry } from 'chart.js';
 
 @Component({
@@ -6,7 +6,7 @@ import { Chart, ChartTypeRegistry } from 'chart.js';
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.css']
 })
-export class ChartComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
+export class ChartComponent implements OnInit, OnChanges, AfterViewInit {
 
   @Input() chartID!: string;
   @Input() chartX!: string[];
@@ -21,30 +21,24 @@ export class ChartComponent implements OnInit, OnChanges, AfterViewInit, OnDestr
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['chartY']) {
-      this.chart = this.initChart
+      this.updateChart(this.chartY);
     }
   }
 
-  ngOnInit(): void {
-    this.chart.destroy();
-    this.chart = this.initChart
-  }
+  ngOnInit(): void { }
 
   ngAfterViewInit(): void {
-    this.chart.destroy();
-    this.chart = this.initChart
+    this.chart = this.loadChart()
   }
 
-  ngOnDestroy(): void {
-    this.chart.destroy()
-  }
-
-  get initChart() {
+  loadChart(): Chart {
     return this.chartConfig(this.chartID, this.chartX, this.chartY, this.chartTitle, this.chartType)
   }
 
   chartConfig(id: string, x: string[], y: number[], title: string, tp: keyof ChartTypeRegistry): Chart {
-    return new Chart(id, {
+    const canvas = <HTMLCanvasElement>document.getElementById(id);
+    const ctx = <CanvasRenderingContext2D>canvas.getContext('2d');
+    return new Chart(ctx, {
       type: tp,
       data: {
         labels: x,
@@ -79,7 +73,8 @@ export class ChartComponent implements OnInit, OnChanges, AfterViewInit, OnDestr
             'rgba(153, 102, 255, 1)',
             'rgba(255, 159, 64, 1)'
           ],
-          borderWidth: 1
+          borderWidth: 1,
+          borderRadius: 5
         }]
       },
       options: {
@@ -96,6 +91,11 @@ export class ChartComponent implements OnInit, OnChanges, AfterViewInit, OnDestr
         }
       }
     })
+  }
+
+  updateChart(value: number[]) {
+    this.chart.data.datasets.map(val => val.data = value);
+    this.chart.update()
   }
 
   exportChart() {
