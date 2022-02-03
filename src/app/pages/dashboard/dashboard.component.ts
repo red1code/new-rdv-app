@@ -1,7 +1,5 @@
-import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,17 +8,12 @@ import { User } from 'src/app/models/user';
 })
 export class DashboardComponent implements OnInit {
 
-  user!: Observable<User>;
   usersON = true;
   RDVsON = false;
 
-  constructor(
-    private authService: AuthService,
-  ) { }
+  constructor(private authService: AuthService) { }
 
-  ngOnInit(): void {
-    this.user = this.authService.getUser() as Observable<User>;
-  }
+  ngOnInit(): void { }
 
   showUsers() {
     this.RDVsON = false;
