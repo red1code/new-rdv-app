@@ -12,14 +12,16 @@ export class EditProfileComponent implements OnInit {
 
   @Input() profileInfos!: User | null;
   @Input() currentUser!: User;
-  roles = ROLES;
+  roles: string[] = [];
   editProfileForm!: FormGroup;
   @Output() updatedValues = new EventEmitter();
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService
-  ) { }
+  ) {
+    Object.entries(ROLES).forEach(([key, value]) => this.roles.push(value))
+  }
 
   ngOnInit(): void {
     this.editProfileForm = this.formBuilder.group({

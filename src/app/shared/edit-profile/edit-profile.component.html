@@ -30,9 +30,7 @@
     <div *ngIf="isAdmin" class="form-section role">
       <label for="role">Role</label>
       <select class="form-select" formControlName="role">
-        <option [value]="roles.PATIENT">{{ roles.PATIENT }}</option>
-        <option [value]="roles.MODERATOR">{{ roles.MODERATOR }}</option>
-        <option [value]="roles.ADMIN">{{ roles.ADMIN }}</option>
+        <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
       </select>
     </div>
     <!-- submit button -->
