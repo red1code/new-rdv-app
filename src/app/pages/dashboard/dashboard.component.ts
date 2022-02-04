@@ -11,7 +11,7 @@ export class DashboardComponent implements OnInit {
   usersON = true;
   RDVsON = false;
 
-  constructor(private authService: AuthService) { }
+  constructor() { }
 
   ngOnInit(): void { }
 
