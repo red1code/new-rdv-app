@@ -1,1 +1,21 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+  <!-- sidebar -->
+  <div class="sidebar">
+    <div class="users-title-container" (click)="showUsers()" [ngClass]="{'active': usersON}">Users</div>
+    <hr style="color: #fff; margin: 0;">
+    <div class="rdvs-title-container" (click)="showRDVs()" [ngClass]="{'active': RDVsON}">Rendezvous</div>
+  </div>
+
+  <!-- main content -->
+  <div class="dashboard-content">
+    <!-- users -->
+    <div *ngIf="usersON" class="users-container">
+      <app-users-part></app-users-part>
+    </div>
+
+    <!-- rendezvous -->
+    <div *ngIf="RDVsON" class="rdvs-container">
+      <app-rdvs-part></app-rdvs-part>
+    </div>
+  </div>
+</div>

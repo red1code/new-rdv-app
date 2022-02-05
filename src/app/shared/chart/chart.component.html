@@ -1,0 +1,15 @@
+<div class="chart-container">
+  <!-- header -->
+  <div class="hdr-container">
+    <div style="display: flex; align-items: center;">
+      <span style="margin-right: 7px;">Change Background Color </span>
+      <input type="color" class="bg-color form-control" [(ngModel)]="bgColor">
+    </div>
+    <button class="btn btn-outline-success" (click)="exportChart()">Export To Image</button>
+  </div>
+
+  <!-- canvas -->
+  <div class="canva-container" style="position: relative; height:75vh; width:100%">
+    <canvas [id]="chartID" class="chart" [style.background-color]="bgColor"></canvas>
+  </div>
+</div>

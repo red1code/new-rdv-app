@@ -1,0 +1,41 @@
+.rdvs-part-container {
+  position: relative;
+}
+
+.form-container {
+  display: block;
+  position: fixed;
+  top: 30%;
+  left: 40%;
+  width: clamp(300px, 35%, 500px);
+  z-index: 10;
+}
+
+.close-btn-container {
+  margin: 11px 15px;
+  margin-bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.fa-times-circle {
+  font-size: x-large;
+  padding: 3px;
+  cursor: pointer;
+}
+
+.fa-times-circle:hover {
+  color: #b6b61a;
+}
+
+.black-bg {
+  position: absolute;
+  opacity: 0.5;
+  width: 100%;
+  min-height: 100vh;
+  max-height: 100%;
+  top: 0;
+  left: 0;
+  background-color: black;
+  z-index: 9;
+}

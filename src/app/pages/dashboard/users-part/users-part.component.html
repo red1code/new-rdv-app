@@ -1,0 +1,38 @@
+<div class="usrs-part-container">
+  <div *ngIf="adminAccess && users" class="table_container facebook-style" style="padding: 9px;">
+    <app-table
+      [tableCols]="usrsCols"
+      [infos]="users"
+      [showBtns]="true"
+      [currentUser]="user"
+      (updateInfosEvent)="proceedToUpdate($event)">
+    </app-table>
+  </div>
+
+  <!-- popup (edit profile) -->
+  <div *ngIf="editProfilePopup" class="popup-container facebook-style">
+    <div class="close-btn-container">
+      <h5 class="form-title">Edit Profile</h5>
+      <i class="fas fa-times-circle" (click)="hideEditProfilePopUp()" title="Cancel"></i>
+    </div>
+    <hr style="margin: 11px 0;">
+    <!-- calling EditProfileComponent -->
+    <app-edit-profile
+      [profileInfos]="updateUser"
+      [currentUser]="user"
+      (updatedValues)="updateProfile($event)">
+    </app-edit-profile>
+    <p *ngIf="updateErrMsg" class="text-danger">{{ updateErrMsg }}</p>
+  </div>
+  <!-- chart here -->
+  <div *ngIf="users && usrsPerMonth" class="chart-comp-container facebook-style" style="padding: 9px;margin-top: 15px;">
+    <app-chart
+      [chartX]="months"
+      [chartY]="usrsPerMonth"
+      [chartType]="'bar'"
+      [chartTitle]="'New Users Per Month'"
+      [chartID]="'usrsChart'">
+    </app-chart>
+  </div>
+</div>
+<div *ngIf="editProfilePopup" class="black-bg" (click)="hideEditProfilePopUp()"></div>
