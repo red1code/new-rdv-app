@@ -19,7 +19,8 @@ const routes: Routes = [
     canLoad: [AuthGuard]
   }, {
     path: 'profile/:id',
-    loadChildren: () => import('./pages/profile/profile.module').then(m => m.ProfileModule)
+    loadChildren: () => import('./pages/profile/profile.module').then(m => m.ProfileModule),
+    canLoad: [AuthGuard]
   }, {
     path: 'dashboard',
     loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule),
