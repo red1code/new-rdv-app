@@ -3,7 +3,7 @@
     <app-table
       [tableCols]="rdvCol"
       [infos]="rdvs"
-      [userEmail]="user.email"
+      [currentUser]="user"
       (updateInfosEvent)="proceedToUpdate($event)">
     </app-table>
   </div>
