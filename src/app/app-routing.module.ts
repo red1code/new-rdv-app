@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth/services/auth.guard';
+import { DashboardGuard } from './pages/dashboard/services/dashboard.guard';
 
 const routes: Routes = [
   {
@@ -19,11 +20,12 @@ const routes: Routes = [
     canLoad: [AuthGuard]
   }, {
     path: 'profile/:id',
-    loadChildren: () => import('./pages/profile/profile.module').then(m => m.ProfileModule)
+    loadChildren: () => import('./pages/profile/profile.module').then(m => m.ProfileModule),
+    canLoad: [AuthGuard]
   }, {
     path: 'dashboard',
     loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule),
-    canLoad: [AuthGuard]
+    canLoad: [AuthGuard, DashboardGuard]
   }, {
     path: '**',
     loadChildren: () => import('./pages/not-found/not-found.module').then(m => m.NotFoundModule)
