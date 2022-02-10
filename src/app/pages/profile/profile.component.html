@@ -36,14 +36,32 @@
       <i *ngIf="!uploading" class="fas fa-times-circle" (click)="hideEditPicPopup()" title="Cancel"></i>
     </div>
     <div *ngIf="!uploading" class="upload-container">
-      <input type="file" accept="image/*" class="inputfile" id="file" (change)="uploadPhoto($event)">
+      <input type="file" accept="image/*" class="inputfile" id="file" (change)="fileChangeEvent($event)">
       <label for="file"><i class="fas fa-upload"></i> Upload New Picture</label>
     </div>
     <div *ngIf="uploading" class="text-warning">Uploading Picture...</div>
     <progress *ngIf="percentage | async as progress" [value]="progress" max="100" style="width:100%">
     </progress>
     <span *ngIf="percentage | async">{{ percentage | async | number: '1.0-0' }}%</span>
-    <p *ngIf="updateErrMsg" class="text-danger">{{ updateErrMsg }}</p>
+    <p *ngIf="updateErrMsg" class="text-danger" style="text-align: center;">{{ updateErrMsg }}</p>
+
+    <!-- crop image -->
+    <div class="row" style="margin-top: 15px;">
+      <div *ngIf="imageFile" class="text-center col-md-8" style="margin: 0 auto;">
+          <h5>Crop Image</h5>
+          <image-cropper
+            [imageChangedEvent]="imageFile"
+            [maintainAspectRatio]="true"
+            [aspectRatio]="1"
+            [resizeToWidth]="256"
+            format="png"
+            (imageCropped)="imageCropped($event)"
+            (imageLoaded)="imageLoaded()"
+            (loadImageFailed)="loadImageFailed()">
+          </image-cropper>
+          <button class="btn btn-success" (click)="saveImg()">Save</button>
+      </div>
+  </div>
   </div>
 
   <!-- edit profile infos popup -->
