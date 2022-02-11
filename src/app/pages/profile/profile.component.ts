@@ -16,7 +16,7 @@ export class ProfileComponent implements OnInit {
 
   user!: User;
   editProfilePopup = false;
-  updateErrMsg = '';
+  errorMsg = '';
 
   editPicPopup = false;
   uploading = false;
@@ -33,9 +33,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     const uid = this.route.snapshot.params['id'];
-    this.usersService.getCurrentProfile(uid).subscribe(value => {
-      this.user = value as User;
-    })
+    this.usersService.getCurrentProfile(uid).subscribe(value => this.user = value as User)
   }
 
   async updateProfile(data: User) {
@@ -44,31 +42,34 @@ export class ProfileComponent implements OnInit {
       this.hideEditProfilePopUp();
       this.hideEditPicPopup();
     } catch (error) {
-      this.updateErrMsg = error as string;
+      this.errorMsg = error as string;
     }
   }
 
   showEditProfilePopUp = () => this.editProfilePopup = true;
 
-  showEditPicPopup = () => this.editPicPopup = true;
-
   hideEditProfilePopUp() {
     this.editProfilePopup = false;
-    this.updateErrMsg = '';
+    this.errorMsg = '';
   }
 
   hideEditPicPopup() {
     this.editPicPopup = false;
     this.uploading = false;
-    this.updateErrMsg = '';
+    this.errorMsg = '';
     this.percentage = of(undefined);
     this.imageFile = null;
   }
 
   // crop image
-  fileChangeEvent(event: object): void {
-    this.updateErrMsg = '';
-    this.imageFile = event;
+  fileChangeEvent(event: any): void {
+    if (!event) {
+      this.hideEditPicPopup()
+    } else {
+      this.editPicPopup = true;
+      this.errorMsg = '';
+      this.imageFile = event;
+    }
   }
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64 as string;
@@ -76,7 +77,7 @@ export class ProfileComponent implements OnInit {
 
   loadImageFailed() {
     this.imageFile = null;
-    this.updateErrMsg = 'Please, Load a valid image'
+    this.errorMsg = 'Please, Load a valid image'
   }
 
   saveImg() {
@@ -100,10 +101,7 @@ export class ProfileComponent implements OnInit {
         fileRef.getDownloadURL().subscribe(url => {
           if (url) {
             this.user.imageURL = url;
-            this.updateProfile(this.user).then(() => {
-              this.uploading = false;
-              this.imageFile = null;
-            })
+            this.updateProfile(this.user).then(() => this.hideEditPicPopup())
           }
         })
       })
