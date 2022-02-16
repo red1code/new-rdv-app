@@ -1,0 +1,51 @@
+<div class="rdvs-part-container">
+  <div *ngIf="RDVsList" class="table_container facebook-style" style="padding: 9px;">
+    <app-table
+      [tableCols]="rdvCol"
+      [infos]="RDVsList"
+      [showBtns]="true"
+      [currentUser]="user"
+      (updateInfosEvent)="proceedToApproveRDV($event)">
+    </app-table>
+  </div>
+
+  <!-- popup: approve rdv -->
+  <div class="approve-rdv-popup facebook-style" *ngIf="showApproveRDVpopup">
+    <div class="close-btn-container">
+      <h4>Approve Rendezvous</h4>
+      <i class="fas fa-times-circle" (click)="hidePopup()" title="Cancel"></i>
+    </div>
+    <hr style="margin: 7px 0;">
+    <p *ngIf="rdv" style="margin: 15px 0 30px 0;">
+      Do you want to approve this Rendezvous?<br>
+      - Name: <strong>{{ rdv?.displayName }}</strong><br>
+      - Created in: <strong>{{ rdv?.created_at }}</strong>.
+    </p>
+    <label for="rdv-date" style="font-size: small;">Please add a Date:</label><br>
+    <input class="form-control" type="datetime-local" name="rdv-date" #rdvDateInput
+           [ngClass]="{'input-alert': errorMsg}">
+    <p class="alert alert-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
+    <div class="btns-container">
+      <button class="btn btn-success" (click)="approveRDV(rdv, rdvDateInput.value)">
+        Approve
+      </button>
+      <button class="btn btn-danger" (click)="deleteRDV(rdv?.rdvID)">
+        Delete Rendezvous
+      </button>
+    </div>
+
+  </div> <!-- /approve-rdv-popup -->
+
+  <!-- chart here -->
+  <div *ngIf="RDVsList && rdvsPerMonth" class="chart-comp-container facebook-style" style="padding: 9px;margin-top: 15px;">
+    <app-chart
+      [chartX]="months"
+      [chartY]="rdvsPerMonth"
+      [chartType]="'bar'"
+      [chartTitle]="'New Rendezvous Per Month'"
+      [chartID]="'rdvsChart'">
+    </app-chart>
+  </div>
+</div>
+
+<div *ngIf="showApproveRDVpopup" class="black-bg" (click)="hidePopup()"></div>

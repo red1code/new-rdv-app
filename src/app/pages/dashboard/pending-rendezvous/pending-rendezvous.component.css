@@ -1,0 +1,77 @@
+.rdvs-part-container {
+  position: relative;
+}
+
+.form-container {
+  display: block;
+  position: fixed;
+  top: 30%;
+  left: 40%;
+  width: clamp(35%, 50%, 90%);
+  z-index: 10;
+}
+
+.close-btn-container {
+  margin: 11px 15px;
+  margin-bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.fa-times-circle {
+  font-size: x-large;
+  padding: 3px;
+  cursor: pointer;
+}
+
+.fa-times-circle:hover {
+  color: #b6b61a;
+}
+
+.approve-rdv-popup {
+  display: block;
+  position: fixed;
+  top: 25%;
+  left: 40%;
+  width: clamp(30%, 35%, 90%);
+  z-index: 10;
+  padding: 11px;
+  margin: 15px auto;
+}
+
+.approve-rdv-popup>.close-btn-container {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 0;
+  padding: 0 0;
+
+}
+
+.approve-rdv-popup>.btn-success {
+  width: 100%;
+  margin-top: 7px;
+}
+
+.btns-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.black-bg {
+  position: absolute;
+  opacity: 0.5;
+  width: 100%;
+  min-height: 100%;
+  top: 0;
+  left: 0;
+  background-color: black;
+  z-index: 9;
+}
+
+.input-alert {
+  border: 1px solid orangered;
+}

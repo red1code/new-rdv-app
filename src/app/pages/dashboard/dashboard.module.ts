@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { UsersPartComponent } from './users-part/users-part.component';
-import { RdvsPartComponent } from './rdvs-part/rdvs-part.component';
+import { PendingRendezvousComponent } from './pending-rendezvous/pending-rendezvous.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ApprovedRendezvousComponent } from './approved-rendezvous/approved-rendezvous.component';
 
@@ -13,7 +13,7 @@ import { ApprovedRendezvousComponent } from './approved-rendezvous/approved-rend
   declarations: [
     DashboardComponent,
     UsersPartComponent,
-    RdvsPartComponent,
+    PendingRendezvousComponent,
     ApprovedRendezvousComponent
   ],
   imports: [
