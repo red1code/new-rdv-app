@@ -80,12 +80,12 @@ export class AuthService {
   }
 
   canRead(user: User): boolean {
-    const allowed: ROLES[] = [ROLES.ADMIN, ROLES.MODERATOR, ROLES.PATIENT];
+    const allowed: ROLES[] = [ROLES.ADMIN, ROLES.MODERATOR, ROLES.PATIENT, ROLES.MEDECIN];
     return this.checkAuthorization(user, allowed)
   }
 
   canAccessDashboard(user: User): boolean {
-    const allowed: ROLES[] = [ROLES.ADMIN, ROLES.MODERATOR];
+    const allowed: ROLES[] = [ROLES.ADMIN, ROLES.MODERATOR, ROLES.MEDECIN];
     return this.checkAuthorization(user, allowed)
   }
 
@@ -101,14 +101,4 @@ export class AuthService {
 
 }
 
-
-
 // THE END.
-
-
-
-/*
-
-import { FirebaseError } from 'firebase/app';
-
-*/
