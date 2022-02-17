@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { ActivatedRoute } from '@angular/router';
-import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 import { Observable, finalize, of } from 'rxjs';
 import { User } from 'src/app/models/user';
 import { UsersService } from 'src/app/services/users.service';
@@ -15,15 +15,15 @@ import { dataUrlToFile } from 'src/app/utils/utilities';
 export class ProfileComponent implements OnInit {
 
   user!: User;
-  editProfilePopup = false;
   errorMsg = '';
 
+  editProfilePopup = false;
+
   editPicPopup = false;
+  imageFile: LoadedImage | null = null;
+  croppedImage!: string | null;
   uploading = false;
   percentage!: Observable<number | undefined>;
-
-  imageFile!: object | null;
-  croppedImage!: string | null;
 
   constructor(
     private route: ActivatedRoute,
@@ -59,18 +59,18 @@ export class ProfileComponent implements OnInit {
     this.errorMsg = '';
     this.percentage = of(undefined);
     this.imageFile = null;
+    this.croppedImage = null;
   }
 
   // crop image
   fileChangeEvent(event: any): void {
-    if (!event) {
-      this.hideEditPicPopup()
-    } else {
-      this.editPicPopup = true;
-      this.errorMsg = '';
+    if (event.target.files[0]) {
       this.imageFile = event;
+      this.errorMsg = ''
+      this.editPicPopup = true;
     }
   }
+
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64 as string;
   }
@@ -78,14 +78,11 @@ export class ProfileComponent implements OnInit {
   loadImageFailed() {
     this.imageFile = null;
     this.errorMsg = 'Please, Load a valid image'
+    setTimeout(() => { this.hideEditPicPopup() }, 3000)
   }
 
   saveImg() {
     this.uploadPhoto(this.croppedImage as string)
-  }
-
-  imageLoaded() {
-    /* show cropper */
   }
 
   async uploadPhoto(event: string) {
