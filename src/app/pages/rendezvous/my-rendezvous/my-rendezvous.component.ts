@@ -35,7 +35,7 @@ export class MyRendezvousComponent implements OnInit {
   ngOnInit(): void {
     this.authService.getUser().subscribe(usr => {
       this.user = usr as User;
-      this.myRDVs = this.rdvService.getRDVsByEmail(this.user.email)
+      // this.myRDVs = this.rdvService.getRDVsByEmail(this.user.email)
     })
   }
 
@@ -46,27 +46,25 @@ export class MyRendezvousComponent implements OnInit {
 
   async submitRDVform(data: any) {
     const formValues = data;
-    try {
-      await this.rdvService.updateRDV(this.rdv?.rdvID as string, formValues);
-      this.hidePopupForm()
-    }
-    catch (error) {
-      this.formErrorMsg = error as string
-    }
+    // try {
+    //   await this.rdvService.updateRDV(this.rdv?.rdvID as string, formValues);
+    //   this.hidePopupForm()
+    // }
+    // catch (error) {
+    //   this.formErrorMsg = error as string
+    // }
   }
 
   async deleteRDV(id: string) {
-    if (confirm('Are you sure You want to delete this Rendezvous?')) {
-      try {
-        await this.rdvService.eraseRDV(id);
-        this.hidePopupForm();
-      } catch (error) {
-        this.formErrorMsg = error as string
-      }
-    }
+    // if (confirm('Are you sure You want to delete this Rendezvous?')) {
+    //   try {
+    //     await this.rdvService.eraseRDV(id);
+    //     this.hidePopupForm();
+    //   } catch (error) {
+    //     this.formErrorMsg = error as string
+    //   }
+    // }
   }
-
-  showPopupForm = () => this.showForm = true;
 
   hidePopupForm() {
     this.showForm = false;

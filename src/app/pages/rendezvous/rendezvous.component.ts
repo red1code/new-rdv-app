@@ -17,7 +17,13 @@ export class RendezvousComponent implements OnInit {
   formErrorMsg!: string;
   showForm: boolean = false;
   user!: User;
-  RDVsList!: Observable<Rendezvous[]>;
+
+  pendingRDVs!: Observable<Rendezvous[]>;
+  approvedRDVs!: Observable<Rendezvous[]>;
+  finishedRDVs!: Observable<Rendezvous[]>;
+  canceledRDVs!: Observable<Rendezvous[]>;
+  deletedRDVs!: Observable<Rendezvous[]>;
+
   rdvCol: TablesCols[] = [
     { title: 'Order', data: 'order' },
     { title: 'Display Name', data: 'displayName' },
@@ -33,7 +39,13 @@ export class RendezvousComponent implements OnInit {
 
   ngOnInit(): void {
     this.rdv = null;
-    this.RDVsList = this.rdvService.getRDVs();
+
+    this.pendingRDVs = this.rdvService.getPendingRendezvous();
+    this.approvedRDVs = this.rdvService.getApprovedRendezvous();
+    this.finishedRDVs = this.rdvService.getPendingRendezvous();
+    this.canceledRDVs = this.rdvService.getPendingRendezvous();
+    this.deletedRDVs = this.rdvService.getPendingRendezvous();
+
     this.authService.getUser().subscribe(value => {
       this.user = value as User
     })
@@ -57,32 +69,32 @@ export class RendezvousComponent implements OnInit {
     const formValues = data;
     if (!this.rdv?.rdvID) { // id empty means it's a new RDV
       try {
-        await this.rdvService.creatNewRDV(formValues, this.user)
+        await this.rdvService.createRendezvous(formValues, this.user)
       }
       catch (error) {
         this.formErrorMsg = error as string
       }
     }
     else if (this.rdv.rdvID) { // here the id isn't empty, so it's an update of an existing RDV
-      try {
-        await this.rdvService.updateRDV(this.rdv.rdvID, formValues);
-      }
-      catch (error) {
-        this.formErrorMsg = error as string
-      }
+      // try {
+      //   await this.rdvService.updateRDV(this.rdv.rdvID, formValues);
+      // }
+      // catch (error) {
+      //   this.formErrorMsg = error as string
+      // }
     }
     this.hidePopupForm()
   }
 
   async deleteRDV(id: string) {
-    if (confirm('Are you sure You want to delete this Rendezvous?')) {
-      try {
-        await this.rdvService.eraseRDV(id);
-        this.hidePopupForm();
-      } catch (error) {
-        this.formErrorMsg = error as string
-      }
-    }
+    // if (confirm('Are you sure You want to delete this Rendezvous?')) {
+    //   try {
+    //     await this.rdvService.eraseRDV(id);
+    //     this.hidePopupForm();
+    //   } catch (error) {
+    //     this.formErrorMsg = error as string
+    //   }
+    // }
   }
 
 }

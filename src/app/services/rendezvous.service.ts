@@ -1,5 +1,5 @@
 import { AngularFirestore, DocumentReference } from '@angular/fire/compat/firestore';
-import { ApprovedRendezvous, Rendezvous } from './../models/rendezvous';
+import { Rendezvous, RendezvousStates } from './../models/rendezvous';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { User } from '../models/user';
@@ -11,6 +11,150 @@ export class RendezvousService {
 
   constructor(private fireStore: AngularFirestore) { }
 
+  // ======= CREATE =======
+
+  createRendezvous(rdv: Rendezvous, currentUser: User) {
+    rdv.created_at = new Date();
+    rdv.created_by = currentUser.email;
+    rdv.rdvState = RendezvousStates.PENDING;
+    return this.fireStore.collection<Rendezvous>('Rendezvous').add(rdv)
+  }
+
+  // ======= READ =======
+
+  getPendingRendezvous(): Observable<Rendezvous[]> {
+    return this.fireStore
+      .collection<Rendezvous>('Rendezvous',
+        ref => ref.where('rdvState', '==', RendezvousStates.PENDING).orderBy('created_at')
+      )
+      .snapshotChanges()
+      .pipe(map(values => {
+        let i = 1;
+        return values.map(rdv => {
+          const load = rdv.payload.doc.data();
+          return {
+            ...load,
+            rdvID: rdv.payload.doc.id,
+            created_at: this.convertToDateString(load.created_at),
+            lastUpdate: load.lastUpdate ? this.convertToDateString(load.lastUpdate) : 'Not Updated',
+            order: i++
+          }
+        })
+      }))
+  }
+
+  getApprovedRendezvous(): Observable<Rendezvous[]> {
+    return this.fireStore
+      .collection<Rendezvous>('Rendezvous',
+        ref => ref.where('rdvState', '==', RendezvousStates.APPROVED).orderBy('created_at')
+      )
+      .snapshotChanges()
+      .pipe(map(values => {
+        let i = 1;
+        return values.map(rdv => {
+          const load = rdv.payload.doc.data();
+          return {
+            ...load,
+            rdvID: rdv.payload.doc.id,
+            created_at: this.convertToDateString(load.created_at),
+            lastUpdate: load.lastUpdate ? this.convertToDateString(load.lastUpdate) : 'Not Updated',
+            order: i++
+          }
+        })
+      }))
+  }
+
+  getFinishedRendezvous(): Observable<Rendezvous[]> {
+    return this.fireStore
+      .collection<Rendezvous>('Rendezvous',
+        ref => ref.where('rdvState', '==', RendezvousStates.FINISHED).orderBy('created_at')
+      )
+      .snapshotChanges()
+      .pipe(map(values => {
+        let i = 1;
+        return values.map(rdv => {
+          const load = rdv.payload.doc.data();
+          return {
+            ...load,
+            rdvID: rdv.payload.doc.id,
+            created_at: this.convertToDateString(load.created_at),
+            lastUpdate: load.lastUpdate ? this.convertToDateString(load.lastUpdate) : 'Not Updated',
+            order: i++
+          }
+        })
+      }))
+  }
+
+  getCanceledRendezvous(): Observable<Rendezvous[]> {
+    return this.fireStore
+      .collection<Rendezvous>('Rendezvous',
+        ref => ref.where('rdvState', '==', RendezvousStates.CANCELED).orderBy('created_at')
+      )
+      .snapshotChanges()
+      .pipe(map(values => {
+        let i = 1;
+        return values.map(rdv => {
+          const load = rdv.payload.doc.data();
+          return {
+            ...load,
+            rdvID: rdv.payload.doc.id,
+            created_at: this.convertToDateString(load.created_at),
+            lastUpdate: load.lastUpdate ? this.convertToDateString(load.lastUpdate) : 'Not Updated',
+            order: i++
+          }
+        })
+      }))
+  }
+
+  getDeletedRendezvous(): Observable<Rendezvous[]> {
+    return this.fireStore
+      .collection<Rendezvous>('Rendezvous',
+        ref => ref.where('rdvState', '==', RendezvousStates.DELETED).orderBy('created_at')
+      )
+      .snapshotChanges()
+      .pipe(map(values => {
+        let i = 1;
+        return values.map(rdv => {
+          const load = rdv.payload.doc.data();
+          return {
+            ...load,
+            rdvID: rdv.payload.doc.id,
+            created_at: this.convertToDateString(load.created_at),
+            lastUpdate: load.lastUpdate ? this.convertToDateString(load.lastUpdate) : 'Not Updated',
+            order: i++
+          }
+        })
+      }))
+  }
+
+  getAllRendezvous(): Observable<Rendezvous[]> {
+    return this.fireStore
+      .collection<Rendezvous>('Rendezvous', ref => ref.orderBy('created_at'))
+      .snapshotChanges()
+      .pipe(map(values => {
+        let i = 1;
+        return values.map(rdv => {
+          const load = rdv.payload.doc.data();
+          return {
+            ...load,
+            rdvID: rdv.payload.doc.id,
+            created_at: this.convertToDateString(load.created_at),
+            lastUpdate: load.lastUpdate ? this.convertToDateString(load.lastUpdate) : 'Not Updated',
+            order: i++
+          }
+        })
+      }))
+  }
+
+  // ======= UPDATE =======
+
+  // ======= DELETE =======
+
+  // ======= end of CRUD =======
+
+
+  // ======= OLD METHODS =======
+  /*
   creatNewRDV(rdv: Rendezvous, currentUser: User): Promise<DocumentReference<Rendezvous>> {
     rdv.created_at = new Date();
     rdv.created_by = currentUser.email;
@@ -143,6 +287,7 @@ export class RendezvousService {
       rdvDate: new Date(rdvDt)
     }
   }
+  */
   // End of approveRDVs methods.
 
   private convertToDateString(param: any): string {

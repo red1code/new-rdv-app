@@ -39,16 +39,16 @@ export class PendingRendezvousComponent implements OnInit {
   ngOnInit(): void {
     this.authService.getUser().subscribe(value => this.user = value as User);
 
-    this.rdvService.getRDVs().subscribe(values => {
-      this.RDVsList = values;
-      // getting chart data:
-      const rdvsInEveryMonth = this.RDVsList.map(
-        rdv => new Date(rdv.created_at).toLocaleString('en', { month: 'short' })
-      );
-      this.rdvsPerMonth = this.months.map(
-        month => rdvsInEveryMonth.filter(val => val == month).length
-      )
-    })
+    // this.rdvService.getRDVs().subscribe(values => {
+    //   this.RDVsList = values;
+    //   // getting chart data:
+    //   const rdvsInEveryMonth = this.RDVsList.map(
+    //     rdv => new Date(rdv.created_at).toLocaleString('en', { month: 'short' })
+    //   );
+    //   this.rdvsPerMonth = this.months.map(
+    //     month => rdvsInEveryMonth.filter(val => val == month).length
+    //   )
+    // })
   }
 
   proceedToApproveRDV(data: Rendezvous) {
@@ -57,28 +57,28 @@ export class PendingRendezvousComponent implements OnInit {
   }
 
   async approveRDV(data: Rendezvous | null, date: string) {
-    if (!date) {
-      this.errorMsg = 'Please enter a date';
-      return
-    }
-    try {
-      await this.rdvService.addApprovedRDV(data as Rendezvous, date, this.user);
-      this.hidePopup()
-    }
-    catch (error) {
-      this.errorMsg = error as string
-    }
+    // if (!date) {
+    //   this.errorMsg = 'Please enter a date';
+    //   return
+    // }
+    // try {
+    //   await this.rdvService.addApprovedRDV(data as Rendezvous, date, this.user);
+    //   this.hidePopup()
+    // }
+    // catch (error) {
+    //   this.errorMsg = error as string
+    // }
   }
 
   async deleteRDV(id: string | undefined) {
-    if (confirm(`Are you sure You want to delete "${this.rdv?.displayName}"?`)) {
-      try {
-        await this.rdvService.eraseRDV(id as string);
-        this.hidePopup()
-      } catch (error) {
-        this.errorMsg = error as string
-      }
-    }
+    // if (confirm(`Are you sure You want to delete "${this.rdv?.displayName}"?`)) {
+    //   try {
+    //     await this.rdvService.eraseRDV(id as string);
+    //     this.hidePopup()
+    //   } catch (error) {
+    //     this.errorMsg = error as string
+    //   }
+    // }
   }
 
   hidePopup() {
