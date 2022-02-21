@@ -1,38 +1,15 @@
 <div class="rdv-container">
-  <!-- add rendezvous popup -->
-  <div *ngIf="showForm" class="form-container facebook-style">
-    <div class="close-btn-container">
-      <i class="fas fa-times-circle" (click)="hidePopupForm()" title="Cancel"></i>
-    </div>
-    <app-rdv-form [rdv]="rdv" (rdvFormValue)="submitRDVform($event)" (deleteRDVid)="deleteRDV($event)">
-    </app-rdv-form>
-    <!-- error msg -->
-    <div *ngIf="formErrorMsg" class="error-msg-div">{{ formErrorMsg }}</div>
-  </div>
-
-  <!-- add new RDV button   -->
+  <!-- button   -->
   <div class="newRDV-btn-container">
-    <button class="btn btn-success" (click)="showPopupForm()">
+    <button class="btn btn-success" (click)="showPopup()">
       <i class="far fa-calendar-plus"></i>
       <span style="margin-left: 7px;">New Rendezvous</span>
     </button>
   </div>
 
-  <!-- Pending Rendezvous -->
-  <div *ngIf="pendingRDVs | async as RDVs" class="facebook-style table-container">
-    <h4 style="text-align: center; color: #191970;">Pending Rendezvous</h4>
-    <app-table
-      [tableCols]="rdvCol"
-      [infos]="RDVs"
-      [showBtns]="false"
-      [currentUser]="user"
-      (updateInfosEvent)="proceedToUpdate($event)">
-    </app-table>
-  </div>
-
-  <!-- Approved Rendezvous -->
+  <!-- table -->
   <div *ngIf="approvedRDVs | async as RDVs" class="facebook-style table-container">
-    <h4 style="text-align: center; color: #191970;">Approved Rendezvous</h4>
+    <h5 class="table-title">Approved Rendezvous</h5>
     <app-table
       [tableCols]="rdvCol"
       [infos]="RDVs"
@@ -42,5 +19,19 @@
     </app-table>
   </div>
 
-  <div *ngIf="showForm" class="black-bg" (click)="hidePopupForm()"></div>
+  <!-- popup -->
+  <div *ngIf="showForm" class="form-container facebook-style">
+    <div class="close-btn-container">
+      <i class="fas fa-times-circle" (click)="hidePopup()" title="Cancel"></i>
+    </div>
+    <app-rdv-form
+      [rdv]="rdv"
+      [showDeleteBtn]="false"
+      (rdvFormValue)="submitRDVform($event)">
+    </app-rdv-form>
+    <!-- error msg -->
+    <div *ngIf="formErrorMsg" class="alert alert-danger">{{ formErrorMsg }}</div>
+  </div> <!-- /popup -->
+
+  <div *ngIf="showForm" class="black-bg" (click)="hidePopup()"></div>
 </div>

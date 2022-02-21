@@ -13,24 +13,19 @@ import { AuthService } from 'src/app/auth/services/auth.service';
 })
 export class RendezvousComponent implements OnInit {
 
-  rdv!: Rendezvous | null;
-  formErrorMsg!: string;
-  showForm: boolean = false;
   user!: User;
-
-  pendingRDVs!: Observable<Rendezvous[]>;
   approvedRDVs!: Observable<Rendezvous[]>;
-  finishedRDVs!: Observable<Rendezvous[]>;
-  canceledRDVs!: Observable<Rendezvous[]>;
-  deletedRDVs!: Observable<Rendezvous[]>;
-
   rdvCol: TablesCols[] = [
     { title: 'Order', data: 'order' },
     { title: 'Display Name', data: 'displayName' },
     { title: 'Phone Number', data: 'phoneNumber' },
-    { title: 'Created At', data: 'created_at' },
+    { title: 'Created At', data: 'createdAt' },
     { title: 'Last Update', data: 'lastUpdate' },
+    { title: 'Rendezvous Date', data: 'rdvDate' }
   ];
+  showForm = false;
+  formErrorMsg = '';
+  rdv: Rendezvous | null = null;
 
   constructor(
     private authService: AuthService,
@@ -38,13 +33,7 @@ export class RendezvousComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.rdv = null;
-
-    this.pendingRDVs = this.rdvService.getPendingRendezvous();
     this.approvedRDVs = this.rdvService.getApprovedRendezvous();
-    this.finishedRDVs = this.rdvService.getPendingRendezvous();
-    this.canceledRDVs = this.rdvService.getPendingRendezvous();
-    this.deletedRDVs = this.rdvService.getPendingRendezvous();
 
     this.authService.getUser().subscribe(value => {
       this.user = value as User
@@ -53,48 +42,39 @@ export class RendezvousComponent implements OnInit {
 
   proceedToUpdate(data: Rendezvous) {
     this.rdv = data;
-    this.showForm = true;
+    this.showForm = true
   }
 
-  showPopupForm() {
-    this.showForm = true;
+  showPopup() {
+    this.showForm = true
   }
 
-  hidePopupForm() {
+  hidePopup() {
     this.showForm = false;
-    this.rdv = null;
+    this.formErrorMsg = '';
+    this.rdv = null
   }
 
-  async submitRDVform(data: any) {
-    const formValues = data;
-    if (!this.rdv?.rdvID) { // id empty means it's a new RDV
+  async submitRDVform(data: Rendezvous) {
+    // no ID = new RDV
+    if (!this.rdv?.rdvID) {
       try {
-        await this.rdvService.createRendezvous(formValues, this.user)
+        await this.rdvService.createRendezvous(data, this.user)
       }
       catch (error) {
         this.formErrorMsg = error as string
       }
     }
-    else if (this.rdv.rdvID) { // here the id isn't empty, so it's an update of an existing RDV
-      // try {
-      //   await this.rdvService.updateRDV(this.rdv.rdvID, formValues);
-      // }
-      // catch (error) {
-      //   this.formErrorMsg = error as string
-      // }
+    // ID exist = update RDV
+    if (this.rdv?.rdvID) {
+      try {
+        await this.rdvService.updateRendezvous(this.rdv.rdvID, data)
+      }
+      catch (error) {
+        this.formErrorMsg = error as string
+      }
     }
-    this.hidePopupForm()
-  }
-
-  async deleteRDV(id: string) {
-    // if (confirm('Are you sure You want to delete this Rendezvous?')) {
-    //   try {
-    //     await this.rdvService.eraseRDV(id);
-    //     this.hidePopupForm();
-    //   } catch (error) {
-    //     this.formErrorMsg = error as string
-    //   }
-    // }
+    this.hidePopup()
   }
 
 }

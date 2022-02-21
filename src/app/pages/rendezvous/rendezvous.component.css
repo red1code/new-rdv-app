@@ -3,6 +3,16 @@
   position: relative;
 }
 
+.table-title {
+  text-align: center;
+  width: fit-content;
+  padding: 5px 9px;
+  margin: 0 auto 5px auto;
+  background-color: #191970;
+  color: #fff;
+  border-radius: 3px;
+}
+
 .form-container {
   display: block;
   position: fixed;
