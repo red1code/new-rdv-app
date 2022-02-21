@@ -1,39 +1,70 @@
-.form-container {
+.my-rdvs-container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  padding: 15px;
+}
+
+.approved-rdvs-container, .pending-rdvs-container {
+  padding: 15px;
+  margin: 0 auto;
+  margin-bottom: 15px;
+  width: clamp(750px, 85%, 1500px);
+}
+
+.table-title {
+  text-align: center;
+  width: fit-content;
+  padding: 5px 9px;
+  margin: 0 auto 5px auto;
+  background-color: #191970;
+  color: #fff;
+  border-radius: 3px;
+}
+
+.btns-container {
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.halfway-popup {
+  padding: 15px;
+}
+
+.update-popup, .halfway-popup {
   display: block;
   position: fixed;
-  top: 30%;
+  top: 25px;
   left: 33%;
   width: 500px;
   z-index: 10;
 }
 
 .close-btn-container {
-  margin: 15px;
-  text-align: right;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.close-btn-container i {
+.close-btn-container>i {
   font-size: x-large;
   padding: 3px;
   cursor: pointer;
 }
 
-.close-btn-container i:hover {
+.close-btn-container>i:hover {
   color: #b6b61a;
-}
-
-.error-msg-div {
-  color: #ff093a;
 }
 
 .black-bg {
   position: absolute;
-  opacity: 0.5;
   width: 100%;
-  min-height: 100vh;
-  max-height: 100%;
-  top: -15px;
+  min-height: 100%;
+  top: 0;
   left: 0;
   background-color: black;
+  opacity: 0.5;
   z-index: 9;
 }
