@@ -1,15 +1,24 @@
 export interface Rendezvous {
   displayName: string;
   phoneNumber: string;
-  created_by: string;
-  created_at: Date | string;
-  lastUpdate: Date | string;
+  createdAt: Date | string;
+  createdBy: string;
+  lastUpdate?: Date | string;
+  order?: number;
+  rdvID?: string;
   rdvState: RendezvousStates;
+
   approvedAt?: Date | string;
   approvedBy?: string;
   rdvDate?: Date | string;
-  order?: number;
-  rdvID?: string;
+
+  finishedAt?: Date | string;
+
+  canceledAt?: Date | string;
+  canceledBy?: string;
+
+  deletedAt?: Date | string;
+  deletedBy?: string;
 }
 
 export enum RendezvousStates {
