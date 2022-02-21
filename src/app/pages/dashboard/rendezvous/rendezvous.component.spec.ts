@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PendingRendezvousComponent } from './pending-rendezvous.component';
+import { RendezvousComponent } from './rendezvous.component';
 
-describe('PendingRendezvousComponent', () => {
-  let component: PendingRendezvousComponent;
-  let fixture: ComponentFixture<PendingRendezvousComponent>;
+describe('RendezvousComponent', () => {
+  let component: RendezvousComponent;
+  let fixture: ComponentFixture<RendezvousComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PendingRendezvousComponent]
+      declarations: [RendezvousComponent]
     })
       .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PendingRendezvousComponent);
+    fixture = TestBed.createComponent(RendezvousComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

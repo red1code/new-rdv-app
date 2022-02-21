@@ -5,12 +5,8 @@
       Users
     </div>
     <hr style="color: #fff; margin: 0;">
-    <div class="approved-rdvs-title-container" (click)="showApprovedRDVs()" [ngClass]="{'active': approvedRDVsON}">
-      Approved Rendezvous
-    </div>
-    <hr style="color: #fff; margin: 0;">
     <div class="rdvs-title-container" (click)="showRDVs()" [ngClass]="{'active': RDVsON}">
-      Pending Rendezvous
+      Rendezvous
     </div>
   </div> <!-- /sidebar -->
 
@@ -22,11 +18,7 @@
     </div>
     <!-- rendezvous -->
     <div *ngIf="RDVsON" class="rdvs-container">
-      <app-pending-rendezvous></app-pending-rendezvous>
-    </div>
-    <!-- approved rendezvous -->
-    <div *ngIf="approvedRDVsON" class="approved-rdvs-container">
-      <app-approved-rendezvous></app-approved-rendezvous>
+      <app-rendezvous></app-rendezvous>
     </div>
   </div> <!-- /main-content -->
 
