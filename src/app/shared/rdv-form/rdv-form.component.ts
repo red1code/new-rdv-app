@@ -10,6 +10,7 @@ import { Rendezvous } from 'src/app/models/rendezvous';
 export class RdvFormComponent implements OnInit {
 
   @Input() rdv!: Rendezvous | null;
+  @Input() showDeleteBtn!: boolean;
 
   @Output() rdvFormValue = new EventEmitter();
   @Output() deleteRDVid = new EventEmitter<string>();
