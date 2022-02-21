@@ -4,7 +4,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { UserCredential } from '@firebase/auth-types';
 import { FirebaseError } from 'firebase/app';
-import { Observable, of, switchMap } from 'rxjs';
+import { map, Observable, of, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -27,9 +27,7 @@ export class AuthService {
   }
 
   get isEmailVerified(): Observable<boolean> {
-    return this.afAuth.authState.pipe(
-      switchMap(async (auth) => auth?.emailVerified ? true : false)
-    )
+    return this.afAuth.authState.pipe(map(auth => auth?.emailVerified ? true : false))
   }
 
   // signUp
