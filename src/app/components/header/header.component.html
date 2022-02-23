@@ -19,7 +19,7 @@
     <!-- popup menu at the far right of the header -->
     <button *ngIf="user" (click)="toggleMenu()" (blur)="showMenu=false" class="right-menu-container">
       <div class="menu-header">
-        <img *ngIf="user.imageURL" [src]="user.imageURL" class="userIMG">
+        <img *ngIf="user.imageURL" [src]="user.imageURL" class="userIMG"  onerror="this.src='../../../assets/unknown-profile-picture.jpg'">
         <span class="userName">{{ user.firstName }}</span>
         <i class="fas fa-caret-down"></i>
       </div>
@@ -29,7 +29,7 @@
         <!-- go to profile -->
         <div (click)="goToProfile()" class="profile-sec">
           <div>
-            <img [src]="user.imageURL" class="rounded-circle" style="width: 50px; height: 50px;">
+            <img [src]="user.imageURL" class="rounded-circle" style="width: 50px; height: 50px;"  onerror="this.src='../../../assets/unknown-profile-picture.jpg'">
           </div>
           <div style="text-align: left; margin-left: 11px;">
             <div style="font-size: medium;">
