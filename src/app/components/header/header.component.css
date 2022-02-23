@@ -2,20 +2,10 @@
 
 .header-container {
   width: 100%;
-}
-
-.top-header {
-  padding: 5px 15px;
-  color: #ffffff;
-  background-color: #707019;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  border-bottom: 1px solid #fff;
-}
-
-.SM-container {
-  margin: 0 auto;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .nav-container {
@@ -30,6 +20,8 @@
 
 .logo-link {
   color: #ffffff;
+  display: flex;
+  align-items: center;
 }
 
 a {
@@ -55,23 +47,21 @@ a {
   position: relative;
   background-color: transparent;
   color: #fff;
-  border: none
+  border: none;
 }
 
 .menu-header {
   padding: 5px;
-  padding-left: 2px;
+  border-radius: 40px;
+}
+
+.menu-header:hover {
+  background-color: #707019;
+  transition: 0.2s;
 }
 
 .fa-caret-down {
   margin-left: 5px;
-}
-
-.right-menu-container:hover {
-  background-color: #707019;
-  color: #ffffff;
-  border-radius: 40px;
-  transition: 0.2s;
 }
 
 .userIMG {
@@ -125,4 +115,17 @@ a {
   background-color: #701919;
   color: #ffffff;
   transition: 0.3s;
+}
+
+.signup-btn {
+  background-color: transparent;
+  color: #ffffff;
+  padding: 5px 15px;
+  border: 2px solid #ffffff;
+  border-radius: 9px;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.4);
+}
+
+.signup-btn:hover {
+  border-color: #707019;
 }

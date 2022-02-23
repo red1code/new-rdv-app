@@ -1,17 +1,12 @@
 <div class="header-container">
-  <!-- top header -->
-  <div class="top-header">
-    <!-- welcome message + social media icons -->
-    <div *ngIf="user">
-      <span style="margin-right: 9px;">Welcome,</span>
-      <span>{{ user.firstName }} {{ user.lastName }}</span>
-    </div>
-    <div [ngClass]="{'SM-container': !user}">Social media icons here</div>
-  </div>
-  <!-- main header -->
   <div class="nav-container">
     <!-- webesite logo -->
-    <div class="logo-container"><a class="logo-link" routerLink="">RENDEZVOUS</a></div>
+    <div class="logo-container">
+      <a class="logo-link" routerLink="">
+        <img src="../../../assets/rendezvous-icon.svg" style="width: 30px;" alt="">
+        <span style="font-size: 25px; margin-left: 7px;">RENDEZVOUS</span>
+      </a>
+    </div>
     <!-- navigation links -->
     <nav class="nav-links-container">
       <a *ngIf="user" class="nav-links" routerLink="/home" routerLinkActive="active-link"
@@ -64,7 +59,7 @@
       </div>
     </button>
     <!-- signup -->
-    <button *ngIf="!user" routerLink="auth/signup" class="btn btn-info">Sign Up</button>
+    <button *ngIf="!user" routerLink="auth/signup" class="signup-btn">Sign Up</button>
   </div>
 </div>
 
