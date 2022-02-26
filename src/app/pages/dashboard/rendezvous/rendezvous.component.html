@@ -38,12 +38,9 @@
     <!-- err msg -->
     <p class="alert alert-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
     <!-- buttons -->
-    <div class="halfway-btns-container cols-3">
+    <div class="halfway-btns-container" [ngClass]="{'cols-3': isPending, 'cols-2': isApproved}">
       <button *ngIf="isPending" class="btn btn-success" (click)="proceedToApproveRDV()">
         Approve
-      </button>
-      <button *ngIf="isApproved" class="btn btn-dark" (click)="finishRendezvous()">
-        Finish
       </button>
       <button class="btn btn-info" (click)="proceedToUpdateRDV()">
         Update

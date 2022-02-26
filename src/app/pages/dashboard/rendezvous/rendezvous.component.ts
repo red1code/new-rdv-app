@@ -152,19 +152,4 @@ export class RendezvousComponent implements OnInit {
     }
   }
 
-  async finishRendezvous() {
-    if (!this.rdv?.rdvID) return this.errorMsg = 'Rendezvous ID not found';
-    if (confirm(`Are you sure You want to set this Rendezvous as Finished? \n
-      - Name: ${this.rdv?.displayName} \n
-      - Created At: ${this.rdv?.createdAt}`
-    )) {
-      try {
-        await this.rdvService.finishRendezvous(this.rdv.rdvID, this.rdv);
-        return this.hidePopup()
-      } catch (error) {
-        this.errorMsg = error as string
-      }
-    }
-  }
-
 }
