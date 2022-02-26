@@ -1,5 +1,6 @@
 .rdvs-container {
   position: relative;
+  min-height: 100vh;
 }
 
 .table-title {
@@ -10,15 +11,6 @@
   background-color: #191970;
   color: #fff;
   border-radius: 3px;
-}
-
-.form-container {
-  display: block;
-  position: fixed;
-  top: 30%;
-  left: 40%;
-  width: clamp(35%, 50%, 90%);
-  z-index: 10;
 }
 
 .close-btn-container {
@@ -61,13 +53,6 @@
 .cols-3 {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 15px;
-  margin-top: 15px;
-}
-
-.cols-2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: 15px;
   margin-top: 15px;
 }

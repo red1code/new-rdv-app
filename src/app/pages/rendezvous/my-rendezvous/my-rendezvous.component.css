@@ -36,7 +36,7 @@
 .update-popup, .halfway-popup {
   display: block;
   position: fixed;
-  top: 25px;
+  top: 25%;
   left: 33%;
   width: 500px;
   z-index: 10;
