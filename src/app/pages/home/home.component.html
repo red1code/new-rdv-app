@@ -1,9 +1,5 @@
-<h4>welcome home!</h4>
-<!-- signup & email sent succefully -->
-<div *ngIf="successAlert" class="alert alert-success">
-  <span (click)="successAlertOff()" style="float: right; padding: 3px; font-weight: bold; cursor: pointer;">
-    X
-  </span>
-  <h5>You have successfully signed up</h5>
-  <h4>An email verification link has been sent to your email adresse.</h4>
-</div>
+<p *ngIf="!(emailVerified | async)" class="alert alert-warning" style="text-align: center;">
+  Please verify your email address. (Check your inbox)
+</p>
+
+<h5 style=" text-align: center; padding: 25px;">Welcome Home!</h5>
