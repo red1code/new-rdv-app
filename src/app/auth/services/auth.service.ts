@@ -90,7 +90,7 @@ export class AuthService {
   }
 
   canCRUDrendezvous(user: User): boolean {
-    const allowed: ROLES[] = [ROLES.ADMIN, ROLES.MODERATOR];
+    const allowed: ROLES[] = [ROLES.ADMIN, ROLES.MODERATOR, ROLES.MEDECIN];
     return this.checkAuthorization(user, allowed)
   }
 
