@@ -4,14 +4,12 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { UserCredential } from '@firebase/auth-types';
 import { FirebaseError } from 'firebase/app';
-import { of, switchMap } from 'rxjs';
+import { Observable, of, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-
-  successAlert: boolean = false;
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -28,6 +26,10 @@ export class AuthService {
       )
   }
 
+  get isEmailVerified(): Observable<boolean> {
+    return this.afAuth.authState.pipe(switchMap(auth => auth?.emailVerified ? of(true) : of(false)))
+  }
+
   // signUp
   createNewUser(user: User, userPassword: string): Promise<void> {
     return this.afAuth.createUserWithEmailAndPassword(user.email, userPassword)
@@ -35,7 +37,6 @@ export class AuthService {
         return [result.user?.uid, result.user?.sendEmailVerification()]
       })
       .then((param: (string | Promise<void> | undefined)[]) => {
-        this.successAlert = true;
         let id = param[0];
         user.uid = id as string;
         user.role = ROLES.PATIENT;
@@ -49,7 +50,6 @@ export class AuthService {
   async createNewUser2(user: User, userPassword: string): Promise<void> {
     const signup = await this.afAuth.createUserWithEmailAndPassword(user.email, userPassword);
     await signup.user?.sendEmailVerification();
-    this.successAlert = true;
     user.uid = signup.user?.uid;
     user.role = ROLES.PATIENT;
     user.created_at = new Date();
@@ -101,14 +101,4 @@ export class AuthService {
 
 }
 
-
-
 // THE END.
-
-
-
-/*
-
-import { FirebaseError } from 'firebase/app';
-
-*/
