@@ -27,7 +27,7 @@ export class AuthService {
   }
 
   get isEmailVerified(): Observable<boolean> {
-    return this.afAuth.authState.pipe(map(auth => auth?.emailVerified ? true : false))
+    return this.afAuth.authState.pipe(switchMap(auth => auth?.emailVerified ? of(true) : of(false)))
   }
 
   // signUp
