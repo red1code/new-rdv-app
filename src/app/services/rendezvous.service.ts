@@ -47,7 +47,7 @@ export class RendezvousService {
     return await this.fireStore.collection<Rendezvous>('Rendezvous').doc(id).update(rdv)
   }
 
-  async finishRendezvous(id: string, rdv: Rendezvous, user: User): Promise<void> {
+  async finishRendezvous(id: string, rdv: Rendezvous): Promise<void> {
     rdv.createdAt = new Date(rdv.createdAt);
     (rdv.lastUpdate && rdv.lastUpdate !== 'Not Updated') ? rdv.lastUpdate = new Date(rdv.lastUpdate) : null;
     rdv.approvedAt ? rdv.approvedAt = new Date(rdv.approvedAt) : null;
