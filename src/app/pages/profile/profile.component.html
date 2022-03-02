@@ -3,7 +3,7 @@
     <!-- profile picture -->
     <div class="img-container profile-section" (click)="editPicInput.click()">
       <img [src]="user.imageURL" class="edit-pic" alt="User's profile picture">
-      <i class="fas fa-upload" title="Click To Upload New Photo"></i>
+      <i class="fas fa-upload" title="{{'Click To Upload New Photo' | translate}}"></i>
       <input #editPicInput (change)="fileChangeEvent($event)" style="display: none;" type="file" accept="image/*">
     </div>
     <!-- display name -->
@@ -15,12 +15,12 @@
       <!-- mobile -->
       <div><i class="fas fa-phone-square-alt"></i> {{ user.phoneNumber }}</div>
       <!-- joining date -->
-      <div>Joined: <em>{{ user.created_at.toDate() | date: 'MMMM dd, yyyy' }}</em></div>
+      <div>{{'Joined:' | translate}} <em>{{ user.created_at.toDate() | date: 'MMMM dd, yyyy' }}</em></div>
     </div>
     <br>
     <!-- button(Edit Profile) -->
     <div class="profile-section">
-      <button class="btn1 btn-dark" (click)="showEditProfilePopUp()">Edit Profile</button>
+      <button class="btn1 btn-dark" (click)="showEditProfilePopUp()">{{'Edit Profile' | translate}}</button>
     </div>
   </div> <!-- /profile-container -->
 
@@ -29,8 +29,8 @@
     <div class="crop-inside">
       <!-- crop header container -->
       <div class="crop-hdr-container">
-        <h5 class="form-title">Crop Image</h5>
-        <i *ngIf="!uploading" class="fas fa-times-circle" (click)="hideEditPicPopup()" title="Cancel"></i>
+        <h5 class="form-title">{{'Crop Image' | translate}}</h5>
+        <i *ngIf="!uploading" class="fas fa-times-circle" (click)="hideEditPicPopup()" title="{{'Cancel' | translate}}"></i>
       </div>
       <hr style="color: black; margin: 9px 0;">
       <!-- crop image -->
@@ -45,10 +45,10 @@
           (loadImageFailed)="loadImageFailed()">
         </image-cropper>
       </div>
-      <button class="btn btn-success" *ngIf="croppedImage" (click)="saveImg()">Save Image</button>
+      <button class="btn btn-success" *ngIf="croppedImage" (click)="saveImg()">{{'Save Image' | translate}}</button>
       <!-- progress field -->
       <div *ngIf="uploading" class="progress-container">
-        <p class="text-warning">Uploading Picture...</p>
+        <p class="text-warning">{{'Uploading Picture...' | translate}}</p>
         <div style="display: flex; flex-wrap: nowrap;">
           <progress [value]="percentage | async" max="100" style="width:100%"></progress>
           <span *ngIf="percentage | async">{{ percentage | async | number: '1.0-0' }}%</span>
@@ -62,8 +62,8 @@
   <!-- edit profile infos popup -->
   <button *ngIf="editProfilePopup" class="popup-container facebook-style">
     <div class="close-btn-container">
-      <h5 class="form-title">Edit Profile</h5>
-      <i class="fas fa-times-circle" (click)="hideEditProfilePopUp()" title="Cancel"></i>
+      <h5 class="form-title">{{'Edit Profile' | translate}}</h5>
+      <i class="fas fa-times-circle" (click)="hideEditProfilePopUp()" title="{{'Cancel' | translate}}"></i>
     </div>
     <hr style="margin: 15px;">
     <!-- calling EditProfileComponent -->

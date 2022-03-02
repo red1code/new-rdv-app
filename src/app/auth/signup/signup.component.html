@@ -1,64 +1,64 @@
 <div class="form-container facebook-style">
   <form [formGroup]="signupForm" class="signup-form" (ngSubmit)="onSubmitForm()" autocomplete="off">
     <!-- form title -->
-    <h2 class="form-title">Sign Up</h2>
-    <div style="margin-top: -20px; font-size: 15px; opacity: 0.8;">It's quick and easy.</div>
+    <h2 class="form-title">{{'Sign Up' | translate}}</h2>
+    <div style="margin-top: -20px; font-size: 15px; opacity: 0.8;">{{'It is quick and easy' | translate}}</div>
     <hr class="hr">
     <!-- first name -->
     <div class="form-section first-name">
-      <label for="firstName">First Name</label>
+      <label for="firstName">{{'First Name' | translate}}</label>
       <input class="form-control" type="text" formControlName="firstName" [ngClass]="{'warning':
             signupForm.controls['firstName'].invalid && signupForm.controls['firstName'].touched}">
 
       <p *ngIf="signupForm.controls['firstName'].invalid && signupForm.controls['firstName'].touched"
-          class="warning-message">First Name is invalid</p>
+          class="warning-message">{{'First Name is invalid' | translate}}</p>
     </div>
     <!-- last name -->
     <div class="form-section last-name">
-      <label for="lastName">Last Name</label>
+      <label for="lastName">{{'Last Name' | translate}}</label>
       <input class="form-control" type="text" formControlName="lastName" [ngClass]="{'warning':
             signupForm.controls['lastName'].invalid && signupForm.controls['lastName'].touched}">
 
       <p *ngIf="signupForm.controls['lastName'].invalid && signupForm.controls['lastName'].touched"
-          class="warning-message">Last Name is invalid</p>
+          class="warning-message">{{'Last Name is invalid' | translate}}</p>
     </div>
     <!-- email -->
     <div class="form-section email">
-      <label for="email">Email</label>
+      <label for="email">{{'Email' | translate}}</label>
       <input class="form-control" type="email" formControlName="email" [ngClass]="{'warning':
             signupForm.controls['email'].invalid && signupForm.controls['email'].touched}">
 
       <p *ngIf="signupForm.controls['email'].invalid && signupForm.controls['email'].touched"
-          class="warning-message">Email is invalid</p>
+          class="warning-message">{{'Email is invalid' | translate}}</p>
     </div>
     <!-- phone number -->
     <div class="form-section phone-number">
-      <label for="phoneNumber">Phone Number</label>
+      <label for="phoneNumber">{{'Phone Number' | translate}}</label>
       <input class="form-control" type="tel" formControlName="phoneNumber" [ngClass]="{'warning':
             signupForm.controls['phoneNumber'].invalid && signupForm.controls['phoneNumber'].touched}">
 
       <p *ngIf="signupForm.controls['phoneNumber'].invalid && signupForm.controls['phoneNumber'].touched"
-          class="warning-message">Phone Number must contain 10 digit numbers</p>
+          class="warning-message">{{'Phone Number must contain 10 digit numbers' | translate}}</p>
     </div>
     <!-- password -->
     <div class="form-section password">
-      <label for="password">Password</label>
+      <label for="password">{{'Password' | translate}}</label>
       <input class="form-control" type="password" formControlName="password" [ngClass]="{'warning':
             signupForm.controls['password'].invalid && signupForm.controls['password'].touched}">
 
       <p *ngIf="signupForm.controls['password'].invalid && signupForm.controls['password'].touched"
-          class="warning-message">Password must contain at least 6 characters</p>
+          class="warning-message">{{'Password must contain at least 6 characters' | translate}}</p>
     </div>
     <!-- error message -->
     <div *ngIf="errorMessage" class="error-message"><span>{{ errorMessage }}</span></div>
     <!-- submit button -->
-    <button class="btn btn-success" type="submit" [disabled]="signupForm.invalid">Submit</button>
+    <button class="btn btn-success" type="submit" [disabled]="signupForm.invalid">{{'Submit' | translate}}</button>
     <!-- submit button 2 (for async await mothod) -->
     <button class="btn btn-warning" (click)="onSubmitForm2" [disabled]="signupForm.invalid">Submit with async await</button>
     <hr class="hr">
     <!-- navigate to login link -->
     <div class="link" style="margin-top: 25px; text-align: center;">
-      Already have an account? <a routerLink="/auth/login">Sign in</a>
+      {{'Already have an account' | translate}}? <a routerLink="/auth/login">{{'Sign in' | translate}}</a>
     </div>
   </form>
 </div>

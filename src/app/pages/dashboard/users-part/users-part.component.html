@@ -12,8 +12,8 @@
   <!-- popup (edit profile) -->
   <div *ngIf="editProfilePopup" class="popup-container facebook-style">
     <div class="close-btn-container">
-      <h5 class="form-title">Edit Profile</h5>
-      <i class="fas fa-times-circle" (click)="hideEditProfilePopUp()" title="Cancel"></i>
+      <h5 class="form-title">{{'Edit Profile' | translate}}</h5>
+      <i class="fas fa-times-circle" (click)="hideEditProfilePopUp()" title="{{'Cancel' | translate}}"></i>
     </div>
     <hr style="margin: 11px 0;">
     <!-- calling EditProfileComponent -->
@@ -30,7 +30,7 @@
       [chartX]="months"
       [chartY]="usrsPerMonth"
       [chartType]="'bar'"
-      [chartTitle]="'New Users Per Month'"
+      chartTitle="{{'New Users Per Month' | translate}}"
       [chartID]="'usrsChart'">
     </app-chart>
   </div>

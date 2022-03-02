@@ -3,13 +3,13 @@
   <div class="newRDV-btn-container">
     <button class="btn btn-success" (click)="showPopup()">
       <i class="far fa-calendar-plus"></i>
-      <span style="margin-left: 7px;">New Rendezvous</span>
+      <span style="margin-left: 7px;">{{'Add New Rendezvous' | translate}}</span>
     </button>
   </div>
 
   <!-- table -->
   <div *ngIf="approvedRDVs | async as RDVs" class="facebook-style table-container">
-    <h5 class="table-title">Approved Rendezvous</h5>
+    <h5 class="table-title">{{'Approved Rendezvous' | translate}}</h5>
     <app-table
       [tableCols]="rdvCol"
       [infos]="RDVs"
@@ -22,7 +22,7 @@
   <!-- popup -->
   <div *ngIf="showForm" class="form-container facebook-style">
     <div class="close-btn-container">
-      <i class="fas fa-times-circle" (click)="hidePopup()" title="Cancel"></i>
+      <i class="fas fa-times-circle" (click)="hidePopup()" title="{{'Cancel' | translate}}"></i>
     </div>
     <app-rdv-form
       [rdv]="rdv"
