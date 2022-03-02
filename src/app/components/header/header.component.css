@@ -43,6 +43,38 @@ a {
   background-color: #707019;
 }
 
+/* styling select language */
+
+.select-container {
+  padding: 5px;
+  margin-left: 5px;
+  background-color: transparent;
+  border: none;
+  border-radius: 3px;
+  vertical-align: baseline;
+}
+
+.language-select {
+  border: none;
+  color: #fff;
+  background-color: transparent;
+}
+
+.select-container:hover {
+  background-color: #707019;
+  cursor: pointer;
+}
+
+.language-select:focus {
+  outline: none;
+}
+
+.select-container>select>option {
+  background-color: #707019;
+}
+
+/* End of styling select language */
+
 .right-menu-container {
   position: relative;
   background-color: transparent;

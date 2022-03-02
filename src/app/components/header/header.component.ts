@@ -12,6 +12,7 @@ export class HeaderComponent implements OnInit {
 
   showMenu: boolean = false;
   user!: User;
+  language!: string;
 
   constructor(
     private router: Router,
@@ -19,7 +20,8 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getCurrentUser()
+    this.getCurrentUser();
+    this.language = localStorage.getItem('language') || 'en'
   }
 
   getCurrentUser() {
@@ -44,8 +46,10 @@ export class HeaderComponent implements OnInit {
 
   toggleMenu = () => (!this.showMenu) ? this.showMenu = true : this.showMenu = false;
 
+  changeLanguage(event: Event) {
+    const language = (event.target as HTMLTextAreaElement).value;
+    localStorage.setItem('language', language);
+    window.location.reload()
+  }
+
 }
-
-
-
-// THE END.

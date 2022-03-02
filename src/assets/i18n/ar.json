@@ -1,0 +1,87 @@
+{
+  "Change Language": "غير اللغة",
+  "Sign Up": "إشتراك",
+  "Sign out": "تسجيل الخروج",
+  "My Rendezvous": "مواعيدي",
+  "Dashboard": "لوحة التحكم",
+  "Rendezvous": "المواعيد",
+  "Home": "الاستقبال",
+
+  "It is quick and easy": "بكل سرعة وسهولة",
+  "First Name": "الاسم الأول",
+  "First Name is invalid": "الاسم غير صالح",
+  "Last Name": "اللقب",
+  "Last Name is invalid": "اللقب غير صالح",
+  "Email": "البريد الالكتروني",
+  "Email is invalid": "البريد الالكتروني غير صالح",
+  "Phone Number": "رقم الهاتف",
+  "Phone Number must contain 10 digit numbers": "يجب أن يتكون رقم الهاتف من 10 أرقام",
+  "Password": "كلمة المرور",
+  "Password must contain at least 6 characters": "يجب أن تحتوي كلمة المرور على 6 أحرف على الأقل",
+  "Submit": "إرسال",
+  "Already have an account": "لديك حساب سابق",
+  "Sign in": "تسجيل الدخول",
+
+  "Log In": "تسجيل الدخول",
+  "Forgot Password": "هل نسيت كلمة السر",
+  "You don not have an account": "ليس لديك حساب ؟",
+
+  "Find your account": "جِد حسابك",
+  "Enter your e-mail address so we can send you a reset password link.": "أدخل عنوان بريدك الإلكتروني حتى نتمكن من إرسال رابط إعادة تعيين كلمة المرور إليك.",
+  "Reset my password": "إعادة تعيين كلمة المرور الخاصة بي",
+  "A link has been sent to your email address!": "تم إرسال الرابط إلى بريدك الإلكتروني!",
+  "Go back to login?": "العودة لتسجيل الدخول؟",
+
+  "landing-page works!": "صفحة الهبوط تعمل!",
+
+  "Please verify your email address. (Check your inbox)": "يرجى تأكيد عنوان بريدك الإلكتروني. (تحقق من بريدك الوارد)",
+  "Welcome Home!": "مرحبا بك في الاستقبال!",
+
+  "Click To Upload New Photo": "انقر لتحميل صورة جديدة",
+  "Joined:": "انضم:",
+  "Edit Profile": "تعديل الملف الشخصي",
+  "Crop Image": "قص الصوره",
+  "Cancel": "إلغاء",
+  "Save Image": "اِحفظ الصورة",
+  "Uploading Picture...": "جاري تحميل الصورة...",
+
+  "My Approved Rendezvous": "مواعيدي المؤكدة",
+  "My Pending Rendezvous": "مواعيدي المعلقة",
+  "Update or Delete this Rendezvous": "تعديل أو حذف هذا الموعد",
+  "Update or Call Off this Rendezvous": "تعديل أو إلغاء هذا الموعد",
+  "Name:": "الاسم :",
+  "Created in:": "تم إنشائه في :",
+  "Rendezvous Date:": "تاريخ الموعد :",
+  "Update Rendezvous": "تعديل الموعد",
+  "Delete Rendezvous": "حذف الموعد",
+  "Call Off Rendezvous": "إلغاء الموعد",
+  "Updating Rendezvous": "تعديل الموعد",
+
+  "Add New Rendezvous": "إضافة موعد جديد",
+  "Approved Rendezvous": "المواعيد المؤكدة",
+
+  "not-found works!": "صفحة غير موجود، تعمل",
+
+  "Users": "المستخدمون",
+  "Pending Rendezvous": "المواعيد المعلقة",
+  "Approve, Update or Delete this Rendezvous": "قُم بتأكيد أو تعديل أو حذف هذا الموعد",
+  "Update, Finish or Cancel this Rendezvous": "قُم بتعديل أو إنهاء أو إلغاء هذا الموعد",
+  "Approve": "تأكيد",
+  "Update": "تعديل",
+  "Delete": "حذف",
+  "Approve Rendezvous": "تأكيد الموعد",
+  "Do you want to approve this Rendezvous?": "هل تريد تأكيد هذا الموعد ؟",
+  "Please add a Date:": "الرجاء إضافة تاريخ :",
+  "New Users Per Month": "المستخدمون الجدد في كل شهر",
+  "New Rendezvous Per Month": "المواعيد الجديدة في كل شهر",
+
+  "Change Background Color ": "تغيير لون الخلفية ",
+  "Export To Image": "تصدير إلى صورة",
+
+  "Role": "الدور",
+  "Save": "اِحفظ",
+
+  "Enter a name": "أدخل اسم",
+  "invalid name": "اِسم غير صالح",
+  "Add Rendezvous": "أضف موعد"
+}

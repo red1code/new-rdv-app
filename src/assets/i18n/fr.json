@@ -1,0 +1,87 @@
+{
+  "Change Language": "Changer La Langue",
+  "Sign Up": "S'inscrire",
+  "Sign out": "Déconnexion",
+  "My Rendezvous": "Mon Rendezvous",
+  "Dashboard": "Tableau de bord",
+  "Rendezvous": "Rendez-vous",
+  "Home": "Accueil",
+
+  "It is quick and easy": "C'est rapide et facile",
+  "First Name": "Prénom",
+  "First Name is invalid": "Prénom invalide",
+  "Last Name": "Nom",
+  "Last Name is invalid": "Nom invalid",
+  "Email": "E-mail",
+  "Email is invalid": "E-mail invalid",
+  "Phone Number": "Numéro de téléphone",
+  "Phone Number must contain 10 digit numbers": "Numéro de téléphone doit contenir 10 chiffres",
+  "Password": "Mot de passe",
+  "Password must contain at least 6 characters": "Le mot de passe doit contenir au moins 6 caractères",
+  "Submit": "Soumettre",
+  "Already have an account": "Vous avez déjà un compte",
+  "Sign in": "Connexion",
+
+  "Log In": "Connexion",
+  "Forgot Password": "Mot de passe oublié",
+  "You don not have an account": "Vous n'avez pas de compte ?",
+
+  "Find your account": "Trouvez votre compte",
+  "Enter your e-mail address so we can send you a reset password link.": "Entrez votre adresse e-mail afin que nous puissions vous envoyer un lien de réinitialisation du mot de passe.",
+  "Reset my password": "Réinitialiser mon mot de passe",
+  "A link has been sent to your email address!": "Un lien a été envoyé à votre adresse e-mail !",
+  "Go back to login?": "Revenir à la connexion ?",
+
+  "landing-page works!": "la page de destination fonctionne !",
+
+  "Please verify your email address. (Check your inbox)": "Veuillez vérifier votre adresse e-mail. (Vérifiez votre boîte de réception)",
+  "Welcome Home!": "Bienvenue à l'Accueil'!",
+
+  "Click To Upload New Photo": "Cliquez pour télécharger une nouvelle photo",
+  "Joined:": "Rejoint:",
+  "Edit Profile": "Editer le profil",
+  "Crop Image": "Recadrer l'image",
+  "Cancel": "Annuler",
+  "Save Image": "Enregistrer l'image",
+  "Uploading Picture...": "Téléchargement de l'image...",
+
+  "My Approved Rendezvous": "Mes Rendez-vous Approuvés",
+  "My Pending Rendezvous": "Mes Rendez-vous En Attente",
+  "Update or Delete this Rendezvous": "Réviser ou supprimer ce Rendez-vous",
+  "Update or Call Off this Rendezvous": "Réviser ou annuler ce Rendez-vous",
+  "Name:": "Nom :",
+  "Created in:": "Créé en :",
+  "Rendezvous Date:": "Date de Rendez-vous :",
+  "Update Rendezvous": "Réviser le Rendez-vous",
+  "Delete Rendezvous": "Supprimer Rendez-vous",
+  "Call Off Rendezvous": "Annuler Rendez-vous",
+  "Updating Rendezvous": "Réviser le Rendez-vous",
+
+  "Add New Rendezvous": "Ajouter Un Nouveau Rendez-vous",
+  "Approved Rendezvous": "Rendez-vous Approuvé",
+
+  "not-found works!": "introuvable fonctionne !",
+
+  "Users": "Utilisateurs",
+  "Pending Rendezvous": "Rendez-vous En Attente",
+  "Approve, Update or Delete this Rendezvous": "Approuver, Mettre à Jour ou Supprimer ce Rendez-vous",
+  "Update, Finish or Cancel this Rendezvous": "Mettre à Jour, Terminer ou Annuler ce Rendez-vous",
+  "Approve": "Approuver",
+  "Update": "Mettre à Jour",
+  "Delete": "Supprimer",
+  "Approve Rendezvous": "Approuver le Rendez-vous",
+  "Do you want to approve this Rendezvous?": "Souhaitez-vous approuver ce Rendez-vous ?",
+  "Please add a Date:": "Veuillez ajouter une date :",
+  "New Users Per Month": "Nouveau Utilisateurs Par Mois",
+  "New Rendezvous Per Month": "Nouveau Rendez-vous Par Mois",
+
+  "Change Background Color ": "Changer La Couleur De Fond ",
+  "Export To Image": "Exporter Vers Une Image",
+
+  "Role": "Rôle",
+  "Save": "Enregistrer",
+
+  "Enter a name": "Entrez un nom",
+  "invalid name": "nom non valide",
+  "Add Rendezvous": "Ajouter un Rendez-vous"
+}
