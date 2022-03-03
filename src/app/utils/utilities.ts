@@ -1,4 +1,7 @@
+import { Rendezvous } from './../models/rendezvous';
 import { FirebaseError } from 'firebase/app';
+
+const lang = localStorage.getItem('language') || 'en';
 
 export const isFirebaseError = (x: any): x is FirebaseError => typeof x.message === 'string';
 
@@ -12,15 +15,49 @@ export async function dataUrlToFile(dataUrl: string): Promise<File> {
   return new File([blob], `${Date.now()}`, { type: 'image/png' });
 }
 
-
-
-
-
-
-
 export function timeTolocalISOstring(date: Date): string {
   return (date.getFullYear().toString() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + ("0" + (date.getDate())).slice(-2)) + 'T' + date.toTimeString().slice(0, 5)
 }
+
+export function getDeleteConfirmMsg(rdv: Rendezvous): string {
+  const ArMsg = `هل أنت متأكد من حذف هذا الموعد ؟
+  - الاسم : ${rdv?.displayName}
+  - أُنشئَ في : ${rdv?.createdAt}
+  `;
+  const FrMsg = `Êtes-vous sûr de vouloir Supprimer ce rendez-vous ?
+  - Nom : ${rdv?.displayName}
+  - Créé À : ${rdv?.createdAt}
+  `;
+  const EngMsg = `Are you sure You want to Delete this Rendezvous?
+  - Name: ${rdv?.displayName}
+  - Created At: ${rdv?.createdAt}
+  `;
+
+  if (lang === 'ar') return ArMsg;
+  if (lang === 'fr') return FrMsg;
+  return EngMsg
+}
+
+export function getCancelConfirmMsg(rdv: Rendezvous): string {
+  const ArMsg = `هل أنت متأكد من إلغاء هذا الموعد ؟
+  - الاسم : ${rdv?.displayName}
+  - أُنشئَ في : ${rdv?.createdAt}
+  `;
+  const FrMsg = `Êtes-vous sûr de vouloir Annuler ce rendez-vous ?
+  - Nom : ${rdv?.displayName}
+  - Créé À : ${rdv?.createdAt}
+  `;
+  const EngMsg = `Are you sure You want to Cancel this Rendezvous?
+  - Name: ${rdv?.displayName}
+  - Created At: ${rdv?.createdAt}
+  `;
+
+  if (lang === 'ar') return ArMsg;
+  if (lang === 'fr') return FrMsg;
+  return EngMsg
+}
+
+
 
 
 

@@ -3,8 +3,8 @@ import { Observable } from 'rxjs';
 import { User } from './../../models/user';
 import { RendezvousService } from './../../services/rendezvous.service';
 import { Component, OnInit } from '@angular/core';
-import { TablesCols } from 'src/app/models/tablesCols';
 import { AuthService } from 'src/app/auth/services/auth.service';
+import { getApprovedRDVsCols } from 'src/app/utils/tables-cols';
 
 @Component({
   selector: 'app-rendezvous',
@@ -15,14 +15,7 @@ export class RendezvousComponent implements OnInit {
 
   user!: User;
   approvedRDVs!: Observable<Rendezvous[]>;
-  rdvCol: TablesCols[] = [
-    { title: 'Order', data: 'order' },
-    { title: 'Display Name', data: 'displayName' },
-    { title: 'Phone Number', data: 'phoneNumber' },
-    { title: 'Created At', data: 'createdAt' },
-    { title: 'Last Update', data: 'lastUpdate' },
-    { title: 'Rendezvous Date', data: 'rdvDate' }
-  ];
+  rdvCol = getApprovedRDVsCols();
   showForm = false;
   formErrorMsg = '';
   rdv: Rendezvous | null = null;

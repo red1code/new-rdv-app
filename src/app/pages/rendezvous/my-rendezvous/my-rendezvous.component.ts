@@ -1,10 +1,11 @@
+import { getApprovedRDVsCols, getPendingRDVsCols } from 'src/app/utils/tables-cols';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { Rendezvous, RendezvousStates } from 'src/app/models/rendezvous';
-import { TablesCols } from 'src/app/models/tablesCols';
 import { User } from 'src/app/models/user';
 import { RendezvousService } from 'src/app/services/rendezvous.service';
+import { getCancelConfirmMsg, getDeleteConfirmMsg } from 'src/app/utils/utilities';
 
 @Component({
   selector: 'app-my-rendezvous',
@@ -15,22 +16,9 @@ export class MyRendezvousComponent implements OnInit {
 
   user!: User;
   myApprovedRDVs!: Observable<Rendezvous[]>;
-  myApprovedRDVsCols: TablesCols[] = [
-    { title: 'Order', data: 'order' },
-    { title: 'Display Name', data: 'displayName' },
-    { title: 'Phone Number', data: 'phoneNumber' },
-    { title: 'Created At', data: 'createdAt' },
-    { title: 'Last Update', data: 'lastUpdate' },
-    { title: 'Rendezvous Date', data: 'rdvDate' }
-  ];
+  myApprovedRDVsCols = getApprovedRDVsCols();
   myPendingRDVs!: Observable<Rendezvous[]>;
-  myPendingRDVsCols: TablesCols[] = [
-    { title: 'Order', data: 'order' },
-    { title: 'Display Name', data: 'displayName' },
-    { title: 'Phone Number', data: 'phoneNumber' },
-    { title: 'Created At', data: 'createdAt' },
-    { title: 'Last Update', data: 'lastUpdate' },
-  ];
+  myPendingRDVsCols = getPendingRDVsCols();
   halfwayPopup = false;
   updatePopup = false;
   rdv!: Rendezvous | null;
@@ -83,10 +71,7 @@ export class MyRendezvousComponent implements OnInit {
 
   async deleteRendezvous() {
     if (!this.rdv?.rdvID) return this.errMsg = 'Rendezvous ID not found';
-    if (confirm(`Are you sure You want to delete this Rendezvous? \n
-      - Name: ${this.rdv?.displayName} \n
-      - Created At: ${this.rdv?.createdAt}`
-    )) {
+    if (confirm(getDeleteConfirmMsg(this.rdv))) {
       try {
         await this.rdvService.deleteRendezvous(this.rdv.rdvID, this.rdv, this.user);
         return this.hidePopup()
@@ -98,10 +83,7 @@ export class MyRendezvousComponent implements OnInit {
 
   async cancelRendezvous() {
     if (!this.rdv?.rdvID) return this.errMsg = 'Rendezvous ID not found';
-    if (confirm(`Are you sure You want to Call Off this Rendezvous? \n
-      - Name: ${this.rdv?.displayName} \n
-      - Created At: ${this.rdv?.createdAt}`
-    )) {
+    if (confirm(getCancelConfirmMsg(this.rdv))) {
       this.rdv.rdvState = RendezvousStates.CANCELED;
       try {
         await this.rdvService.cancelRendezvous(this.rdv.rdvID, this.rdv, this.user);

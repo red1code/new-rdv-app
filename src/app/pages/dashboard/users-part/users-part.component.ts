@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/auth/services/auth.service';
-import { TablesCols } from 'src/app/models/tablesCols';
 import { User } from 'src/app/models/user';
 import { UsersService } from 'src/app/services/users.service';
+import { getUsersCols } from 'src/app/utils/tables-cols';
 import { Months } from 'src/app/utils/utilities';
 
 @Component({
@@ -14,14 +14,8 @@ export class UsersPartComponent implements OnInit {
 
   user!: User;
   users!: User[]
-  usrsCols: TablesCols[] = [
-    { title: 'First Name', data: 'firstName' },
-    { title: 'Last Name', data: 'lastName' },
-    { title: 'Phone Number', data: 'phoneNumber' },
-    { title: 'Email', data: 'email' },
-    { title: 'Created At', data: 'created_at' },
-    { title: 'Role', data: 'role' }
-  ];
+  usrsCols = getUsersCols();
+
   editProfilePopup = false;
   updateErrMsg = '';
   updateUser!: User | null;

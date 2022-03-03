@@ -68,7 +68,7 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
         let dt = data as any;
         if (dt.created_by === usrMail || this.canCRUD) { // only the owner or moderator or admin, can edit table
           $(row).attr('class', () => 'table-editable-row');
-          $(row).attr('title', () => `Click To Edit`);
+          $(row).attr('title', () => this.getRowTitle());
         }
         $(row).on('click', () => {
           if (dt.created_by === usrMail || this.canCRUD) { // only the owner or moderator or admin, can edit table
@@ -100,6 +100,13 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
 
   get canCRUD() {
     return this.authService.canCRUDrendezvous(this.currentUser as User)
+  }
+
+  getRowTitle(): string {
+    const lang = localStorage.getItem('language') || 'en';
+    if (lang === 'fr') return 'Cliquez Pour Modifier';
+    if (lang === 'ar') return 'إضغط للتعديل';
+    return 'Click To Edit'
   }
 
 }
