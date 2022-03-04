@@ -5,9 +5,17 @@ const lang = localStorage.getItem('language') || 'en';
 
 export const isFirebaseError = (x: any): x is FirebaseError => typeof x.message === 'string';
 
-export const Months: string[] = Array.from({ length: 12 }, (item, i) =>
-  new Date(0, i).toLocaleString('en', { month: 'short' })
-);
+function getMonths(lang: 'en' | 'fr' | 'ar'): string[] {
+  return Array.from({ length: 12 }, (item, i) => new Date(0, i).toLocaleString(lang, { month: 'short' }));
+}
+
+export function getMonthsByLanguage(): string[] {
+  if (lang === 'ar') return getMonths('ar');
+  if (lang === 'fr') return getMonths('fr');
+  return getMonths('en')
+}
+
+export const getEngMonths = getMonths('en');
 
 export async function dataUrlToFile(dataUrl: string): Promise<File> {
   const res: Response = await fetch(dataUrl);

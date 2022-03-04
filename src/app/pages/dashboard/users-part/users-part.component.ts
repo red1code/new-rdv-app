@@ -3,7 +3,7 @@ import { AuthService } from 'src/app/auth/services/auth.service';
 import { User } from 'src/app/models/user';
 import { UsersService } from 'src/app/services/users.service';
 import { getUsersCols } from 'src/app/utils/tables-cols';
-import { Months } from 'src/app/utils/utilities';
+import { getMonthsByLanguage, getEngMonths } from 'src/app/utils/utilities';
 
 @Component({
   selector: 'app-users-part',
@@ -21,7 +21,7 @@ export class UsersPartComponent implements OnInit {
   updateUser!: User | null;
   updateUID!: string | null;
 
-  months = Months;
+  months = getMonthsByLanguage();
   usrsPerMonth!: number[];
 
   constructor(
@@ -35,9 +35,11 @@ export class UsersPartComponent implements OnInit {
       this.users = values;
       // getting chart data:
       const usrsInEveryMonth = this.users.map(
-        usr => new Date(usr.created_at).toLocaleString('en', { month: 'short' }));
-      this.usrsPerMonth = this.months.map(
-        month => usrsInEveryMonth.filter(val => val == month).length)
+        usr => new Date(usr.created_at).toLocaleString('en', { month: 'short' })
+      );
+      this.usrsPerMonth = getEngMonths.map(
+        month => usrsInEveryMonth.filter(val => val == month).length
+      )
     })
   }
 

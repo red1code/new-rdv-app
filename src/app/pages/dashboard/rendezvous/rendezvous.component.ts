@@ -4,7 +4,7 @@ import { AuthService } from 'src/app/auth/services/auth.service';
 import { Rendezvous, RendezvousStates } from 'src/app/models/rendezvous';
 import { User } from 'src/app/models/user';
 import { RendezvousService } from 'src/app/services/rendezvous.service';
-import { getCancelConfirmMsg, getDeleteConfirmMsg, Months } from 'src/app/utils/utilities';
+import { getCancelConfirmMsg, getDeleteConfirmMsg, getMonthsByLanguage, getEngMonths } from 'src/app/utils/utilities';
 import { getApprovedRDVsCols, getPendingRDVsCols } from 'src/app/utils/tables-cols';
 
 @Component({
@@ -27,7 +27,7 @@ export class RendezvousComponent implements OnInit {
   rdv: Rendezvous | null = null;
   errorMsg = '';
   // chart variables
-  months = Months;
+  months = getMonthsByLanguage();
   rdvsPerMonth!: number[];
 
   constructor(
@@ -45,7 +45,7 @@ export class RendezvousComponent implements OnInit {
       const rdvsInEveryMonth = values.map(
         rdv => new Date(rdv.createdAt).toLocaleString('en', { month: 'short' })
       );
-      this.rdvsPerMonth = this.months.map(
+      this.rdvsPerMonth = getEngMonths.map(
         month => rdvsInEveryMonth.filter(val => val == month).length
       )
     })
