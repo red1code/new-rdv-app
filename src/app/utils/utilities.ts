@@ -23,10 +23,6 @@ export async function dataUrlToFile(dataUrl: string): Promise<File> {
   return new File([blob], `${Date.now()}`, { type: 'image/png' });
 }
 
-export function timeTolocalISOstring(date: Date): string {
-  return (date.getFullYear().toString() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + ("0" + (date.getDate())).slice(-2)) + 'T' + date.toTimeString().slice(0, 5)
-}
-
 export function getDeleteConfirmMsg(rdv: Rendezvous): string {
   const ArMsg = `هل أنت متأكد من حذف هذا الموعد ؟
   - الاسم : ${rdv?.displayName}
@@ -65,7 +61,9 @@ export function getCancelConfirmMsg(rdv: Rendezvous): string {
   return EngMsg
 }
 
-
+export function timeTolocalISOstring(date: Date): string {
+  return (date.getFullYear().toString() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + ("0" + (date.getDate())).slice(-2)) + 'T' + date.toTimeString().slice(0, 5)
+}
 
 
 
