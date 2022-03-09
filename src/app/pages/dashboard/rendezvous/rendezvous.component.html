@@ -1,0 +1,110 @@
+<div class="rdvs-container">
+  <!-- Pending Rendezvous -->
+  <div *ngIf="pendingRendezvous | async" class="table_container facebook-style" style="padding: 15px;">
+    <h5 class="table-title">Pending Rendezvous</h5>
+    <app-table
+      [tableCols]="pendingRDVsCols"
+      [infos]="pendingRendezvous | async"
+      [showBtns]="true"
+      [currentUser]="user"
+      (updateInfosEvent)="showHalfwayPopup($event)">
+    </app-table>
+  </div>
+  <!-- Approved Rendezvous -->
+  <div *ngIf="approvedRendezvous | async" class="table_container facebook-style" style="padding: 15px; margin-top: 15px;">
+    <h5 class="table-title">Approved Rendezvous</h5>
+    <app-table
+      [tableCols]="approvedRDVsCols"
+      [infos]="approvedRendezvous | async"
+      [showBtns]="true"
+      [currentUser]="user"
+      (updateInfosEvent)="showHalfwayPopup($event)">
+    </app-table>
+  </div>
+
+  <!-- halfway popup -->
+  <div class="popup-container facebook-style" *ngIf="halfwayPopup">
+    <div class="close-btn-container">
+      <h6 *ngIf="isPending">Approve, Update or Delete this Rendezvous</h6>
+      <h6 *ngIf="isApproved">Update, Finish or Cancel this Rendezvous</h6>
+      <i class="fas fa-times-circle" (click)="hidePopup()" title="Cancel"></i>
+    </div>
+    <hr style="margin: 7px 0;">
+    <!-- rdv infos -->
+    <p style="margin: 15px 0 30px 0;">
+      - Name: <strong>{{ rdv?.displayName }}</strong><br>
+      - Created in: <strong>{{ rdv?.createdAt }}</strong>.
+    </p>
+    <!-- err msg -->
+    <p class="alert alert-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
+    <!-- buttons -->
+    <div class="halfway-btns-container" [ngClass]="{'cols-3': isPending, 'cols-2': isApproved}">
+      <button *ngIf="isPending" class="btn btn-success" (click)="proceedToApproveRDV()">
+        Approve
+      </button>
+      <button class="btn btn-info" (click)="proceedToUpdateRDV()">
+        Update
+      </button>
+      <button *ngIf="isPending" class="btn btn-danger" (click)="deleteRendezvous()">
+        Delete
+      </button>
+      <button *ngIf="isApproved" class="btn btn-danger" (click)="cancelRendezvous()">
+        Cancel
+      </button>
+    </div>
+  </div> <!-- /halfway popup -->
+
+  <!-- approve rdv popup -->
+  <div class="popup-container facebook-style" *ngIf="approveRDVpopup">
+    <div class="close-btn-container">
+      <h4>Approve Rendezvous</h4>
+      <i class="fas fa-times-circle" (click)="hidePopup()" title="Cancel"></i>
+    </div>
+    <hr style="margin: 7px 0;">
+    <p *ngIf="rdv" style="margin: 15px 0 30px 0;">
+      Do you want to approve this Rendezvous?<br>
+      - Name: <strong>{{ rdv?.displayName }}</strong><br>
+      - Created in: <strong>{{ rdv?.createdAt }}</strong>.
+    </p>
+    <label for="rdv-date" style="font-size: small;">Please add a Date:</label><br>
+    <input class="form-control" type="datetime-local" name="rdv-date" #rdvDateInput
+           [ngClass]="{'input-alert': errorMsg}">
+    <p class="alert alert-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
+    <div class="btns-container">
+      <button class="btn btn-success" (click)="approveRDV(rdv, rdvDateInput.value)">
+        Approve
+      </button>
+    </div>
+  </div> <!-- /approve-rdv-popup -->
+
+  <!-- update rdv popup -->
+  <div class="popup-container facebook-style" *ngIf="updateRDVpopup">
+    <div class="close-btn-container">
+      <h4>Update Rendezvous</h4>
+      <i class="fas fa-times-circle" (click)="hidePopup()" title="Cancel"></i>
+    </div>
+    <hr style="margin: 7px 0;">
+    <div style="margin: -15px;">
+      <app-rdv-form
+        [rdv]="rdv"
+        [showDeleteBtn]="false"
+        (rdvFormValue)="updateRendezvous($event)">
+      </app-rdv-form>
+    </div>
+    <!-- err msg -->
+    <p class="alert alert-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
+  </div> <!-- /update rdv popup -->
+
+  <!-- chart -->
+  <div *ngIf="rdvsPerMonth" class="chart-comp-container facebook-style" style="padding: 15px;margin-top: 15px;">
+    <app-chart
+      [chartX]="months"
+      [chartY]="rdvsPerMonth"
+      [chartType]="'bar'"
+      [chartTitle]="'New Rendezvous Per Month'"
+      [chartID]="'rdvsChart'">
+    </app-chart>
+  </div>
+</div>
+
+<div *ngIf="halfwayPopup || approveRDVpopup || updateRDVpopup" class="black-bg" (click)="hidePopup()"></div>
