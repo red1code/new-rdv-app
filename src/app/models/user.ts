@@ -13,5 +13,6 @@ export interface User {
 export enum ROLES {
   ADMIN = 'ADMIN',
   MODERATOR = 'MODERATOR',
-  PATIENT = 'PATIENT'
+  PATIENT = 'PATIENT',
+  MEDECIN = 'MEDECIN'
 }

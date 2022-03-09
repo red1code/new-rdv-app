@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RdvsPartComponent } from './rdvs-part.component';
+import { RendezvousComponent } from './rendezvous.component';
 
-describe('RdvsPartComponent', () => {
-  let component: RdvsPartComponent;
-  let fixture: ComponentFixture<RdvsPartComponent>;
+describe('RendezvousComponent', () => {
+  let component: RendezvousComponent;
+  let fixture: ComponentFixture<RendezvousComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RdvsPartComponent ]
+      declarations: [RendezvousComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RdvsPartComponent);
+    fixture = TestBed.createComponent(RendezvousComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

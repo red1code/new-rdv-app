@@ -23,10 +23,6 @@
   background-color: #707019;
 }
 
-.dashboard-content {
-  padding: 15px;
-}
-
-.users-container, .rdvs-container {
+.users-container, .rdvs-container, .approved-rdvs-container {
   padding: 15px;
 }

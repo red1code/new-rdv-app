@@ -14,11 +14,11 @@
   <!-- buttons -->
   <div class="btns-container">
     <button [disabled]="rdvform.invalid" class="btn btn-success" (click)="submitForm()"
-            [ngClass]="{'full-width-btn': !rdvID}">
+            [ngClass]="{'full-width-btn': !rdvID || !showDeleteBtn}">
       <span *ngIf="!rdvID">Add Rendezvous</span>
       <span *ngIf="rdvID">Update Rendezvous</span>
     </button>
     <!-- delete btn -->
-    <button *ngIf="rdvID" class="btn btn-danger" (click)="deleteRDV()">Delete Rendezvous</button>
+    <button *ngIf="rdvID && showDeleteBtn" class="btn btn-danger" (click)="deleteRDV()">Delete Rendezvous</button>
   </div>
 </form>
