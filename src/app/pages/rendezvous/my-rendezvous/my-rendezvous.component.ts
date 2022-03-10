@@ -1,11 +1,11 @@
-import { getApprovedRDVsCols, getPendingRDVsCols } from 'src/app/utils/tables-cols';
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { map, Observable } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { Rendezvous, RendezvousStates } from 'src/app/models/rendezvous';
 import { User } from 'src/app/models/user';
 import { RendezvousService } from 'src/app/services/rendezvous.service';
-import { getCancelConfirmMsg, getDeleteConfirmMsg } from 'src/app/utils/utilities';
+import { TranslatingService } from 'src/app/services/translating.service';
 
 @Component({
   selector: 'app-my-rendezvous',
@@ -16,9 +16,9 @@ export class MyRendezvousComponent implements OnInit {
 
   user!: User;
   myApprovedRDVs!: Observable<Rendezvous[]>;
-  myApprovedRDVsCols = getApprovedRDVsCols();
+  myApprovedRDVsCols = this.translatingService.getApprovedRDVsCols();
   myPendingRDVs!: Observable<Rendezvous[]>;
-  myPendingRDVsCols = getPendingRDVsCols();
+  myPendingRDVsCols = this.translatingService.getPendingRDVsCols();
   halfwayPopup = false;
   updatePopup = false;
   rdv!: Rendezvous | null;
@@ -26,15 +26,39 @@ export class MyRendezvousComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private rdvService: RendezvousService
+    private rdvService: RendezvousService,
+    private translate: TranslateService,
+    private translatingService: TranslatingService
   ) { }
 
   ngOnInit(): void {
     this.authService.getUser().subscribe(usr => {
       this.user = usr as User;
 
-      this.myApprovedRDVs = this.rdvService.getApprovedRendezvousByEmail(this.user.email);
+      this.myApprovedRDVs = this.rdvService.getApprovedRendezvousByEmail(this.user.email)
+        .pipe(map(rdvs => {
+          return rdvs.map(rdv => {
+            return {
+              ...rdv,
+              createdAt: this.translatingService.getTranslatedDate(rdv.createdAt as string),
+              lastUpdate: (rdv.lastUpdate === 'Not Updated') ? this.translate.instant('Not Updated') :
+                this.translatingService.getTranslatedDate(rdv.lastUpdate as string),
+              rdvDate: this.translatingService.getTranslatedDate(rdv.rdvDate as string)
+            }
+          })
+        }));
+
       this.myPendingRDVs = this.rdvService.getPendingRendezvousByEmail(this.user.email)
+        .pipe(map(rdvs => {
+          return rdvs.map(rdv => {
+            return {
+              ...rdv,
+              createdAt: this.translatingService.getTranslatedDate(rdv.createdAt as string),
+              lastUpdate: (rdv.lastUpdate === 'Not Updated') ? this.translate.instant('Not Updated') :
+                this.translatingService.getTranslatedDate(rdv.lastUpdate as string)
+            }
+          })
+        }))
     })
   }
 
@@ -71,7 +95,7 @@ export class MyRendezvousComponent implements OnInit {
 
   async deleteRendezvous() {
     if (!this.rdv?.rdvID) return this.errMsg = 'Rendezvous ID not found';
-    if (confirm(getDeleteConfirmMsg(this.rdv))) {
+    if (confirm(this.translatingService.getDeleteConfirmMsg(this.rdv))) {
       try {
         await this.rdvService.deleteRendezvous(this.rdv.rdvID, this.rdv, this.user);
         return this.hidePopup()
@@ -83,7 +107,7 @@ export class MyRendezvousComponent implements OnInit {
 
   async cancelRendezvous() {
     if (!this.rdv?.rdvID) return this.errMsg = 'Rendezvous ID not found';
-    if (confirm(getCancelConfirmMsg(this.rdv))) {
+    if (confirm(this.translatingService.getCancelConfirmMsg(this.rdv))) {
       this.rdv.rdvState = RendezvousStates.CANCELED;
       try {
         await this.rdvService.cancelRendezvous(this.rdv.rdvID, this.rdv, this.user);

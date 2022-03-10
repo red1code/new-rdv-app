@@ -1,4 +1,5 @@
 {
+  "en": "ar",
   "Change Language": "غير اللغة",
   "Sign Up": "إشتراك",
   "Sign out": "تسجيل الخروج",
@@ -83,5 +84,16 @@
 
   "Enter a name": "أدخل اسم",
   "invalid name": "اِسم غير صالح",
-  "Add Rendezvous": "أضف موعد"
+  "Add Rendezvous": "أضف موعد",
+
+  "Are you sure You want to Delete this Rendezvous?": "هل أنت متأكد من حذف هذا الموعد ؟",
+  "Are you sure You want to Cancel this Rendezvous?": "هل أنت متأكد من إلغاء هذا الموعد ؟",
+  "Created At:": "أُنشئَ في :",
+  "Created At": "أُنشئَ في",
+  "Order": "الترتيب",
+  "Display Name": "الاِسم",
+  "Last Update": "آخر تحديث",
+  "Rendezvous Date": "تاريخ الموعد",
+  "Not Updated": "لم يتم تحديثه",
+  "Click To Edit": "إضغط للتعديل"
 }

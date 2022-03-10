@@ -1,4 +1,5 @@
 {
+  "en": "en",
   "Change Language": "Change Language",
   "Sign Up": "Sign Up",
   "Sign out": "Sign out",
@@ -83,5 +84,15 @@
 
   "Enter a name": "Enter a name",
   "invalid name": "invalid name",
-  "Add Rendezvous": "Add Rendezvous"
+  "Add Rendezvous": "Add Rendezvous",
+
+  "Are you sure You want to Delete this Rendezvous?": "Are you sure You want to Delete this Rendezvous?",
+  "Are you sure You want to Cancel this Rendezvous?": "Are you sure You want to Cancel this Rendezvous?",
+  "Created At:": "Created At:",
+  "Order": "Order",
+  "Display Name": "Display Name",
+  "Last Update": "Last Update",
+  "Rendezvous Date": "Rendezvous Date",
+  "Not Updated": "Not Updated",
+  "Click To Edit": "Click To Edit"
 }

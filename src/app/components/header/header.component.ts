@@ -2,6 +2,7 @@ import { AuthService } from './../../auth/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/models/user';
 import { Router } from '@angular/router';
+import { LANGUAGES } from 'src/app/models/languages';
 
 @Component({
   selector: 'app-header',
@@ -13,6 +14,7 @@ export class HeaderComponent implements OnInit {
   showMenu: boolean = false;
   user!: User;
   language!: string;
+  langs = LANGUAGES;
 
   constructor(
     private router: Router,
@@ -21,7 +23,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCurrentUser();
-    this.language = localStorage.getItem('language') || 'en'
+    this.language = localStorage.getItem('language') || this.langs.ENG
   }
 
   getCurrentUser() {

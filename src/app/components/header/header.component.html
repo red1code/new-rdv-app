@@ -66,9 +66,9 @@
       <!-- select-language -->
       <span class="select-container" title="{{'Change Language' | translate}}">
         <select class="language-select" (change)="changeLanguage($event)">
-          <option value="en" [selected]="language == 'en'">Eng</option>
-          <option value="fr" [selected]="language == 'fr'">Fr</option>
-          <option value="ar" [selected]="language == 'ar'">عر</option>
+          <option [value]="langs.ENG" [selected]="language == langs.ENG">Eng</option>
+          <option [value]="langs.FR" [selected]="language == langs.FR">Fr</option>
+          <option [value]="langs.AR" [selected]="language == langs.AR">عر</option>
         </select>
       </span>
     </div>

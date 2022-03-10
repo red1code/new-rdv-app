@@ -1,21 +1,6 @@
-import { Rendezvous } from './../models/rendezvous';
 import { FirebaseError } from 'firebase/app';
 
-const lang = localStorage.getItem('language') || 'en';
-
 export const isFirebaseError = (x: any): x is FirebaseError => typeof x.message === 'string';
-
-function getMonths(lang: 'en' | 'fr' | 'ar'): string[] {
-  return Array.from({ length: 12 }, (item, i) => new Date(0, i).toLocaleString(lang, { month: 'short' }));
-}
-
-export function getMonthsByLanguage(): string[] {
-  if (lang === 'ar') return getMonths('ar');
-  if (lang === 'fr') return getMonths('fr');
-  return getMonths('en')
-}
-
-export const getEngMonths = getMonths('en');
 
 export async function dataUrlToFile(dataUrl: string): Promise<File> {
   const res: Response = await fetch(dataUrl);
@@ -23,49 +8,9 @@ export async function dataUrlToFile(dataUrl: string): Promise<File> {
   return new File([blob], `${Date.now()}`, { type: 'image/png' });
 }
 
-export function getDeleteConfirmMsg(rdv: Rendezvous): string {
-  const ArMsg = `هل أنت متأكد من حذف هذا الموعد ؟
-  - الاسم : ${rdv?.displayName}
-  - أُنشئَ في : ${rdv?.createdAt}
-  `;
-  const FrMsg = `Êtes-vous sûr de vouloir Supprimer ce rendez-vous ?
-  - Nom : ${rdv?.displayName}
-  - Créé À : ${rdv?.createdAt}
-  `;
-  const EngMsg = `Are you sure You want to Delete this Rendezvous?
-  - Name: ${rdv?.displayName}
-  - Created At: ${rdv?.createdAt}
-  `;
-
-  if (lang === 'ar') return ArMsg;
-  if (lang === 'fr') return FrMsg;
-  return EngMsg
-}
-
-export function getCancelConfirmMsg(rdv: Rendezvous): string {
-  const ArMsg = `هل أنت متأكد من إلغاء هذا الموعد ؟
-  - الاسم : ${rdv?.displayName}
-  - أُنشئَ في : ${rdv?.createdAt}
-  `;
-  const FrMsg = `Êtes-vous sûr de vouloir Annuler ce rendez-vous ?
-  - Nom : ${rdv?.displayName}
-  - Créé À : ${rdv?.createdAt}
-  `;
-  const EngMsg = `Are you sure You want to Cancel this Rendezvous?
-  - Name: ${rdv?.displayName}
-  - Created At: ${rdv?.createdAt}
-  `;
-
-  if (lang === 'ar') return ArMsg;
-  if (lang === 'fr') return FrMsg;
-  return EngMsg
-}
-
 export function timeTolocalISOstring(date: Date): string {
   return (date.getFullYear().toString() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + ("0" + (date.getDate())).slice(-2)) + 'T' + date.toTimeString().slice(0, 5)
 }
-
-
 
 
 

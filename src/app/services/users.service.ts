@@ -2,13 +2,14 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Injectable } from '@angular/core';
 import { User } from '../models/user';
 import { map, Observable } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
 
-  constructor(private afStore: AngularFirestore) { }
+  constructor(private afStore: AngularFirestore, private translate: TranslateService) { }
 
   getCurrentProfile(uid: string) {
     return this.afStore.doc<User>(`profiles/${uid}`).valueChanges()
@@ -34,10 +35,12 @@ export class UsersService {
   }
 
   private convertToDateString(param: any): string {
-    return param.toDate().toLocaleString('en-US', {
+    return param.toDate().toLocaleString('en', {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
     })
   }
 

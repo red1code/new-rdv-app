@@ -2,6 +2,7 @@ import {
   Component, OnInit, Input, OnDestroy, AfterViewInit, OnChanges, SimpleChanges,
   ViewChild, Output, EventEmitter
 } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { DataTableDirective } from 'angular-datatables';
 import { ADTSettings } from 'angular-datatables/src/models/settings';
 import { Subject } from 'rxjs';
@@ -29,7 +30,7 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
   dtOptions: any = {};
   dtTrigger: Subject<ADTSettings> = new Subject<ADTSettings>();
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private translate: TranslateService) { }
 
   // component life cycle hooks
   ngOnChanges(changes: SimpleChanges): void {
@@ -68,20 +69,16 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
         let dt = data as any;
         if (dt.created_by === usrMail || this.canCRUD) { // only the owner or moderator or admin, can edit table
           $(row).attr('class', () => 'table-editable-row');
-          $(row).attr('title', () => this.getRowTitle());
+          $(row).attr('title', () => this.translate.instant('Click To Edit'));
         }
         $(row).on('click', () => {
           if (dt.created_by === usrMail || this.canCRUD) { // only the owner or moderator or admin, can edit table
-            self.someClickHandler(dt)
+            self.updateInfosEvent.emit(dt);
           }
         });
         return row
       }
     }
-  }
-
-  someClickHandler(info: any): void {
-    this.updateInfosEvent.emit(info);
   }
 
   rerenderTable(): void {
@@ -100,13 +97,6 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
 
   get canCRUD() {
     return this.authService.canCRUDrendezvous(this.currentUser as User)
-  }
-
-  getRowTitle(): string {
-    const lang = localStorage.getItem('language') || 'en';
-    if (lang === 'fr') return 'Cliquez Pour Modifier';
-    if (lang === 'ar') return 'إضغط للتعديل';
-    return 'Click To Edit'
   }
 
 }
