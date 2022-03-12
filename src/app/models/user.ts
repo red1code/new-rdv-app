@@ -1,3 +1,5 @@
+import { LANGUAGES } from "./languages";
+
 export interface User {
   order?: number;
   uid?: string;
@@ -8,6 +10,7 @@ export interface User {
   lastName: string;
   phoneNumber: number;
   role: ROLES;
+  language?: LANGUAGES;
 }
 
 export enum ROLES {

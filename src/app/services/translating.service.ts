@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { LANGUAGES } from '../models/languages';
 import { Rendezvous } from '../models/rendezvous';
 import { TablesCols } from '../models/tablesCols';
 
@@ -9,6 +10,13 @@ import { TablesCols } from '../models/tablesCols';
 export class TranslatingService {
 
   constructor(private translate: TranslateService) { }
+
+  get deviceLanguage(): LANGUAGES {
+    const deviceLanguage = navigator.language;
+    if (deviceLanguage === 'fr') return LANGUAGES.FR;
+    if (deviceLanguage === 'ar') return LANGUAGES.AR;
+    return LANGUAGES.ENG
+  }
 
   getUsersCols(): TablesCols[] {
     return [

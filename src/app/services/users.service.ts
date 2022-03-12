@@ -15,8 +15,8 @@ export class UsersService {
     return this.afStore.doc<User>(`profiles/${uid}`).valueChanges()
   }
 
-  updateProfile(id: string, data: User): Promise<void> {
-    return this.afStore.collection<User>('profiles').doc(id).update(data)
+  async updateProfile(id: string, data: User): Promise<void> {
+    await this.afStore.collection<User>('profiles').doc(id).update(data)
   }
 
   getAllUsers(): Observable<User[]> {
