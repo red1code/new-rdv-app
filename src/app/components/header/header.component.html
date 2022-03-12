@@ -64,7 +64,7 @@
       <button *ngIf="!user" routerLink="auth/signup" class="signup-btn">{{'Sign Up' | translate}}</button>
 
       <!-- select-language -->
-      <span class="select-container" title="{{'Change Language' | translate}}">
+      <span *ngIf="user" class="select-container" title="{{'Change Language' | translate}}">
         <select class="language-select" (change)="changeLanguage($event)">
           <option [value]="langs.ENG" [selected]="language == langs.ENG">Eng</option>
           <option [value]="langs.FR" [selected]="language == langs.FR">Fr</option>
