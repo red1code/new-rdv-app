@@ -95,5 +95,21 @@
   "Last Update": "Dernière Mise A Jour",
   "Rendezvous Date": "Date De Rendez-vous",
   "Not Updated": "Pas Mis à Jouré",
-  "Click To Edit": "Cliquez Pour Modifier"
+  "Click To Edit": "Cliquez Pour Modifier",
+
+  "No data available in table": "Aucune donn&eacute;e disponible dans le tableau",
+  "Showing _START_ to _END_ of _TOTAL_ entries": "Affichage de l'&eacute;lement _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+  "Showing 0 to 0 of 0 entries": "Affichage de l'&eacute;lement 0 &agrave; 0 sur 0 &eacute;l&eacute;ments",
+  "(filtered from _MAX_ total entries)": "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+  "Show _MENU_ entries": "Afficher _MENU_ &eacute;l&eacute;ments",
+  "Loading...": "Chargement en cours...",
+  "Processing...": "Traitement en cours...",
+  "Search:": "Rechercher&nbsp;:",
+  "No matching records found": "Aucun &eacute;l&eacute;ment &agrave; afficher",
+  "First": "Premier",
+  "Last": "Dernier",
+  "Next": "Suivant",
+  "Previous": "Pr&eacute;c&eacute;dent",
+  ": activate to sort column ascending": ": activer pour trier la colonne par ordre croissant",
+  ": activate to sort column descending": ": activer pour trier la colonne par ordre d&eacute;croissant"
 }
