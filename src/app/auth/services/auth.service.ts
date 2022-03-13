@@ -30,24 +30,7 @@ export class AuthService {
     return this.afAuth.authState.pipe(switchMap(auth => auth?.emailVerified ? of(true) : of(false)))
   }
 
-  // signUp
-  createNewUser(user: User, userPassword: string): Promise<void> {
-    return this.afAuth.createUserWithEmailAndPassword(user.email, userPassword)
-      .then((result: UserCredential) => {
-        return [result.user?.uid, result.user?.sendEmailVerification()]
-      })
-      .then((param: (string | Promise<void> | undefined)[]) => {
-        let id = param[0];
-        user.uid = id as string;
-        user.role = ROLES.PATIENT;
-        user.created_at = new Date();
-        user.imageURL = 'assets/unknown-profile-picture.jpg';
-        return this.fireStore.doc('/profiles/' + user.uid).set(user)
-      })
-  }
-
-  // createNewUser with async await method
-  async createNewUser2(user: User, userPassword: string): Promise<void> {
+  async createNewUser(user: User, userPassword: string): Promise<void> {
     const signup = await this.afAuth.createUserWithEmailAndPassword(user.email, userPassword);
     await signup.user?.sendEmailVerification();
     user.uid = signup.user?.uid;
@@ -102,3 +85,21 @@ export class AuthService {
 }
 
 // THE END.
+
+
+
+// // signUp (old method)
+  // createNewUser(user: User, userPassword: string): Promise<void> {
+  //   return this.afAuth.createUserWithEmailAndPassword(user.email, userPassword)
+  //     .then((result: UserCredential) => {
+  //       return [result.user?.uid, result.user?.sendEmailVerification()]
+  //     })
+  //     .then((param: (string | Promise<void> | undefined)[]) => {
+  //       let id = param[0];
+  //       user.uid = id as string;
+  //       user.role = ROLES.PATIENT;
+  //       user.created_at = new Date();
+  //       user.imageURL = 'assets/unknown-profile-picture.jpg';
+  //       return this.fireStore.doc('/profiles/' + user.uid).set(user)
+  //     })
+  // }

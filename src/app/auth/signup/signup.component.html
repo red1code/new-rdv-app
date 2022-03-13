@@ -53,8 +53,6 @@
     <div *ngIf="errorMessage" class="error-message"><span>{{ errorMessage }}</span></div>
     <!-- submit button -->
     <button class="btn btn-success" type="submit" [disabled]="signupForm.invalid">Submit</button>
-    <!-- submit button 2 (for async await mothod) -->
-    <button class="btn btn-warning" (click)="onSubmitForm2" [disabled]="signupForm.invalid">Submit with async await</button>
     <hr class="hr">
     <!-- navigate to login link -->
     <div class="link" style="margin-top: 25px; text-align: center;">
