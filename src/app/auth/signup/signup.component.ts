@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { isFirebaseError } from 'src/app/utils/utilities';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -30,24 +31,32 @@ export class SignupComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  onSubmitForm() {
+  async onSubmitForm() {
     if (this.signupForm.invalid) return;
     let password = this.signupForm.controls['password'].value;
     let formValues = this.signupForm.value;
     delete formValues.password;
-    this.authService.createNewUser(formValues, password)
-      .then(() => this.router.navigate(['/home']))
-      .catch((error) => this.errorMessage = error.message)
-  }
-
-  onSubmitForm2() {
-    if (this.signupForm.invalid) return;
-    let password = this.signupForm.controls['password'].value;
-    let formValues = this.signupForm.value;
-    delete formValues.password;
-    this.authService.createNewUser2(formValues, password)
-      .then(() => this.router.navigate(['/home']))
-      .catch(error => this.errorMessage = error)
+    try {
+      await this.authService.createNewUser(formValues, password);
+      this.router.navigate(['/home'])
+    }
+    catch (error) {
+      if (isFirebaseError(error)) this.errorMessage = error.message;
+      else this.errorMessage = error as string
+    }
   }
 
 }
+
+
+
+// // signUp (old method)
+  // onSubmitForm() {
+  //   if (this.signupForm.invalid) return;
+  //   let password = this.signupForm.controls['password'].value;
+  //   let formValues = this.signupForm.value;
+  //   delete formValues.password;
+  //   this.authService.createNewUser(formValues, password)
+  //     .then(() => this.router.navigate(['/home']))
+  //     .catch((error) => this.errorMessage = error.message)
+  // }
