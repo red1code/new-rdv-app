@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/auth/services/auth.service';
-import { TablesCols } from 'src/app/models/tablesCols';
 import { User } from 'src/app/models/user';
+import { TranslatingService } from 'src/app/services/translating.service';
 import { UsersService } from 'src/app/services/users.service';
-import { Months } from 'src/app/utils/utilities';
 
 @Component({
   selector: 'app-users-part',
@@ -14,36 +14,38 @@ export class UsersPartComponent implements OnInit {
 
   user!: User;
   users!: User[]
-  usrsCols: TablesCols[] = [
-    { title: 'First Name', data: 'firstName' },
-    { title: 'Last Name', data: 'lastName' },
-    { title: 'Phone Number', data: 'phoneNumber' },
-    { title: 'Email', data: 'email' },
-    { title: 'Created At', data: 'created_at' },
-    { title: 'Role', data: 'role' }
-  ];
+  usrsCols = this.translatingService.getUsersCols();
+
   editProfilePopup = false;
   updateErrMsg = '';
   updateUser!: User | null;
   updateUID!: string | null;
 
-  months = Months;
+  months = this.translatingService.getMonths();
   usrsPerMonth!: number[];
 
   constructor(
     private authService: AuthService,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private translate: TranslateService,
+    private translatingService: TranslatingService
   ) { }
 
   ngOnInit(): void {
     this.authService.getUser().subscribe(usr => this.user = usr as User);
     this.usersService.getAllUsers().subscribe(values => {
-      this.users = values;
       // getting chart data:
-      const usrsInEveryMonth = this.users.map(
-        usr => new Date(usr.created_at).toLocaleString('en', { month: 'short' }));
-      this.usrsPerMonth = this.months.map(
-        month => usrsInEveryMonth.filter(val => val == month).length)
+      const usrsInEveryMonth = values.map(
+        usr => new Date(usr.created_at).toLocaleString('en', { month: 'short' })
+      );
+      this.usrsPerMonth = this.translatingService.getEngMonths().map(
+        month => usrsInEveryMonth.filter(val => val == month).length
+      );
+      // translating "created_at" and assigning data to users
+      values.map(user => {
+        user.created_at = this.translatingService.getTranslatedDate(user.created_at)
+      });
+      this.users = values;
     })
   }
 

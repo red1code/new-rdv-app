@@ -2,34 +2,34 @@
   <form [formGroup]="loginForm" class="signup-form" (ngSubmit)="onSubmitForm()" autocomplete="off">
     <!-- email -->
     <div class="form-section email">
-      <label for="email">Email</label>
+      <label for="email">{{'Email' | translate}}</label>
       <input class="form-control" type="email" formControlName="email" [ngClass]="{'warning':
             loginForm.controls['email'].invalid && loginForm.controls['email'].touched}">
 
       <p *ngIf="loginForm.controls['email'].invalid && loginForm.controls['email'].touched"
-          class="warning-message">Email is invalid</p>
+          class="warning-message">{{'Email is invalid' | translate}}</p>
     </div>
     <!-- password -->
     <div class="form-section password">
-      <label for="password">Password</label>
+      <label for="password">{{'Password' | translate}}</label>
       <input class="form-control" type="password" formControlName="password" [ngClass]="{'warning':
             loginForm.controls['password'].invalid && loginForm.controls['password'].touched}">
 
       <p *ngIf="loginForm.controls['password'].invalid && loginForm.controls['password'].touched"
-          class="warning-message">Password must contain at least 6 characters</p>
+          class="warning-message">{{'Password must contain at least 6 characters' | translate}}</p>
     </div>
     <!-- error message -->
     <div *ngIf="errorMessage" class="error-message"><span>{{ errorMessage }}</span></div>
     <!-- submit button -->
-    <button class="btn btn-success" type="submit" [disabled]="loginForm.invalid">Log In</button>
+    <button class="btn btn-success" type="submit" [disabled]="loginForm.invalid">{{'Log In' | translate}}</button>
     <!-- navigate to forgot-password link -->
     <div style="text-align: center;">
-      <a class="link" routerLink="/auth/forgot-password">Forgot Password?</a>
+      <a class="link" routerLink="/auth/forgot-password">{{'Forgot Password' | translate}}?</a>
     </div>
     <hr class="hr">
     <!-- navigate to login link -->
     <div style="margin-top: 25px; text-align: center;">
-      You don't have an account? <a class="link" routerLink="/auth/signup">Sign Un</a>
+      {{'You don not have an account' | translate}} <a class="link" routerLink="/auth/signup">{{'Sign Up' | translate}}</a>
     </div>
   </form>
 </div>

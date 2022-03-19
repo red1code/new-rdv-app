@@ -1,11 +1,11 @@
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { Rendezvous, RendezvousStates } from 'src/app/models/rendezvous';
-import { TablesCols } from 'src/app/models/tablesCols';
 import { User } from 'src/app/models/user';
 import { RendezvousService } from 'src/app/services/rendezvous.service';
-import { Months } from 'src/app/utils/utilities';
+import { TranslatingService } from 'src/app/services/translating.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-rendezvous',
@@ -17,22 +17,9 @@ export class RendezvousComponent implements OnInit {
   user!: User;
   // table variables
   pendingRendezvous!: Observable<Rendezvous[]>;
-  pendingRDVsCols: TablesCols[] = [
-    { title: 'Order', data: 'order' },
-    { title: 'Display Name', data: 'displayName' },
-    { title: 'Phone Number', data: 'phoneNumber' },
-    { title: 'Created At', data: 'createdAt' },
-    { title: 'Last Update', data: 'lastUpdate' }
-  ];
+  pendingRDVsCols = this.translatingService.getPendingRDVsCols();
   approvedRendezvous!: Observable<Rendezvous[]>;
-  approvedRDVsCols: TablesCols[] = [
-    { title: 'Order', data: 'order' },
-    { title: 'Display Name', data: 'displayName' },
-    { title: 'Phone Number', data: 'phoneNumber' },
-    { title: 'Created At', data: 'createdAt' },
-    { title: 'Last Update', data: 'lastUpdate' },
-    { title: 'Rendezvous Date', data: 'rdvDate' }
-  ];
+  approvedRDVsCols = this.translatingService.getApprovedRDVsCols();
   // popup variables
   halfwayPopup = false;
   updateRDVpopup = false;
@@ -40,27 +27,49 @@ export class RendezvousComponent implements OnInit {
   rdv: Rendezvous | null = null;
   errorMsg = '';
   // chart variables
-  months = Months;
+  months = this.translatingService.getMonths();
   rdvsPerMonth!: number[];
 
   constructor(
     private authService: AuthService,
-    private rdvService: RendezvousService
+    private rdvService: RendezvousService,
+    private translate: TranslateService,
+    private translatingService: TranslatingService
   ) { }
 
   ngOnInit(): void {
     this.authService.getUser().subscribe(value => this.user = value as User);
-    // tables data
-    this.approvedRendezvous = this.rdvService.getApprovedRendezvous();
-    this.pendingRendezvous = this.rdvService.getPendingRendezvous();
-    // chart data
+    // getting approved Rendezvous and translating data
+    this.approvedRendezvous = this.rdvService.getApprovedRendezvous()
+      .pipe(map(rdvs => {
+        return rdvs.map(rdv => {
+          return {
+            ...rdv,
+            createdAt: this.translatingService.getTranslatedDate(rdv.createdAt as string),
+            lastUpdate: (rdv.lastUpdate === 'Not Updated') ? this.translate.instant('Not Updated') :
+              this.translatingService.getTranslatedDate(rdv.lastUpdate as string),
+            rdvDate: this.translatingService.getTranslatedDate(rdv.rdvDate as string)
+          }
+        })
+      }));
+    // getting pending Rendezvous and translating data
+    this.pendingRendezvous = this.rdvService.getPendingRendezvous()
+      .pipe(map(rdvs => {
+        return rdvs.map(rdv => {
+          return {
+            ...rdv,
+            createdAt: this.translatingService.getTranslatedDate(rdv.createdAt as string),
+            lastUpdate: (rdv.lastUpdate === 'Not Updated') ? this.translate.instant('Not Updated') :
+              this.translatingService.getTranslatedDate(rdv.lastUpdate as string)
+          }
+        })
+      }));
+    // getting chart data of all rendezvous
     this.rdvService.getAllRendezvous().subscribe(values => {
-      const rdvsInEveryMonth = values.map(
-        rdv => new Date(rdv.createdAt).toLocaleString('en', { month: 'short' })
-      );
-      this.rdvsPerMonth = this.months.map(
-        month => rdvsInEveryMonth.filter(val => val == month).length
-      )
+      const rdvsInEveryMonth = values
+        .map(rdv => new Date(rdv.createdAt).toLocaleString('en', { month: 'short' }));
+      this.rdvsPerMonth = this.translatingService.getEngMonths()
+        .map(month => rdvsInEveryMonth.filter(val => val == month).length)
     })
   }
 
@@ -124,10 +133,7 @@ export class RendezvousComponent implements OnInit {
 
   async deleteRendezvous() {
     if (!this.rdv?.rdvID) return this.errorMsg = 'Rendezvous ID not found';
-    if (confirm(`Are you sure You want to delete this Rendezvous? \n
-      - Name: ${this.rdv?.displayName} \n
-      - Created At: ${this.rdv?.createdAt}`
-    )) {
+    if (confirm(this.translatingService.getDeleteConfirmMsg(this.rdv))) {
       try {
         await this.rdvService.deleteRendezvous(this.rdv.rdvID, this.rdv, this.user);
         return this.hidePopup()
@@ -139,10 +145,7 @@ export class RendezvousComponent implements OnInit {
 
   async cancelRendezvous() {
     if (!this.rdv?.rdvID) return this.errorMsg = 'Rendezvous ID not found';
-    if (confirm(`Are you sure You want to Call Off this Rendezvous? \n
-      - Name: ${this.rdv?.displayName} \n
-      - Created At: ${this.rdv?.createdAt}`
-    )) {
+    if (confirm(this.translatingService.getCancelConfirmMsg(this.rdv))) {
       try {
         await this.rdvService.cancelRendezvous(this.rdv.rdvID, this.rdv, this.user);
         return this.hidePopup()

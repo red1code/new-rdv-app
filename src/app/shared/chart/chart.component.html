@@ -2,10 +2,10 @@
   <!-- header -->
   <div class="hdr-container">
     <div style="display: flex; align-items: center;">
-      <span style="margin-right: 7px;">Change Background Color </span>
+      <span style="margin-right: 7px;">{{'Change Background Color ' | translate}}</span>
       <input type="color" class="bg-color form-control" [(ngModel)]="bgColor">
     </div>
-    <button class="btn btn-outline-success" (click)="exportChart()">Export To Image</button>
+    <button class="btn btn-outline-success" (click)="exportChart()">{{'Export To Image' | translate}}</button>
   </div>
 
   <!-- canvas -->

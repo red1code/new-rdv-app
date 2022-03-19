@@ -2,6 +2,9 @@ import { AuthService } from './../../auth/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/models/user';
 import { Router } from '@angular/router';
+import { LANGUAGES } from 'src/app/models/languages';
+import { TranslatingService } from 'src/app/services/translating.service';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-header',
@@ -12,19 +15,24 @@ export class HeaderComponent implements OnInit {
 
   showMenu: boolean = false;
   user!: User;
+  language = this.translatingService.deviceLanguage;
+  langs = LANGUAGES;
 
   constructor(
     private router: Router,
-    public authService: AuthService
+    public authService: AuthService,
+    private usersService: UsersService,
+    private translatingService: TranslatingService
   ) { }
 
   ngOnInit(): void {
-    this.getCurrentUser()
+    this.getCurrentUser();
   }
 
   getCurrentUser() {
     this.authService.getUser().subscribe(value => {
       this.user = value as User;
+      this.user.language ? this.language = this.user.language : null
     })
   }
 
@@ -34,7 +42,8 @@ export class HeaderComponent implements OnInit {
 
   logOut() {
     this.authService.logOut().then(() => {
-      this.router.navigate(['/auth/login'])
+      this.router.navigate(['/auth/login']);
+      this.language = this.translatingService.deviceLanguage
     })
   }
 
@@ -44,8 +53,16 @@ export class HeaderComponent implements OnInit {
 
   toggleMenu = () => (!this.showMenu) ? this.showMenu = true : this.showMenu = false;
 
+  async changeLanguage(event: Event) {
+    const language = (event.target as HTMLTextAreaElement).value as LANGUAGES;
+    this.user.language = language;
+    try {
+      await this.usersService.updateProfile(this.user.uid as string, this.user)
+    }
+    catch (error) {
+      window.alert(error)
+    }
+    window.location.reload()
+  }
+
 }
-
-
-
-// THE END.
