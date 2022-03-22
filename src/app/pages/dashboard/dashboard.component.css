@@ -1,13 +1,16 @@
 .dashboard-container {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: 225px auto;
-  position: relative;
+  grid-template-columns: max-content auto;
 }
 
 .sidebar {
   background: rgb(27, 27, 27);
   color: #fff;
+}
+
+.main-content {
+  overflow: hidden;
 }
 
 .sidebar>div {
@@ -23,6 +26,6 @@
   background-color: #707019;
 }
 
-.users-container, .rdvs-container, .approved-rdvs-container {
+.users-container, .rdvs-container {
   padding: 15px;
 }

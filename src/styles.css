@@ -15,12 +15,15 @@ body {
   box-shadow: 0 0 11px 0 rgba(0, 0, 0, 0.4);
 }
 
-.table-editable-row {
-  background-color: #707019;
-  color: #fff;
-  cursor: pointer;
+.row-btn-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
 }
 
-.table-editable-row:hover {
-  color: #191970;
+#tableBtn {
+  height: fit-content;
+  padding: .25rem .5rem;
+  margin-left: 5px;
+  align-self: center;
 }
