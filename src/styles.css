@@ -1,5 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 
+* {
+  font-size: 1rem;
+}
+
+:root {
+  --main-color: #191970;
+  --accent-color: #ecf39e;
+  --danger-color: #a82a00
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -23,4 +33,13 @@ body {
 
 .table-editable-row:hover {
   color: #191970;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
