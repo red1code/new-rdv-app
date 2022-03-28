@@ -1,5 +1,5 @@
 footer {
-  background-color: #191970;
+  background-color: var(--main-color);
   color: #ffffff;
   text-align: center;
   font-size: 1em;
@@ -7,7 +7,7 @@ footer {
 }
 
 .footer-text {
-  width: fit-content;
+  width: max-content;
   margin: 0 auto;
   font-size: 0.9rem;
   font-weight: 500;
@@ -19,6 +19,6 @@ footer {
 }
 
 .footer-text a:hover {
-  color: #707019;
+  color: var(--accent-color);
   transition: 0.2s;
 }
