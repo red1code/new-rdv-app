@@ -1,6 +1,22 @@
 .rdv-container {
-  min-height: 100vh;
   position: relative;
+  padding: 15px;
+}
+
+.newRDV-btn-container {
+  margin: auto;
+  min-width: 300px;
+  width: fit-content;
+  max-width: 100%;
+  margin-bottom: 15px;
+}
+
+.table-container {
+  margin: auto;
+  padding: 15px;
+  min-width: 300px;
+  width: fit-content;
+  max-width: 100%;
 }
 
 .table-title {
@@ -39,23 +55,6 @@
 
 .error-msg-div {
   color: #ff093a;
-}
-
-.newRDV-btn-container {
-  max-width: 75%;
-  min-width: 500px;
-  margin: 15px auto;
-}
-
-.newRDV-btn-container button {
-  width: fit-content;
-}
-
-.table-container {
-  max-width: 75%;
-  min-width: 500px;
-  margin: 15px auto;
-  padding: 15px;
 }
 
 .black-bg {

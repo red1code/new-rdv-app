@@ -38,7 +38,8 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
   }
 
   ngOnInit(): void {
-    this.dtOptions = this.tableOptions(this.infos, this.tableCols, this.currentUser?.email, this.showBtns)
+    this.dtOptions = this.tableOptions(this.infos, this.tableCols, this.currentUser?.email, this.showBtns);
+    window.onresize = () => this.rerenderTable()
   }
 
   ngAfterViewInit(): void {
@@ -66,16 +67,19 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
         // (see https://github.com/l-lin/angular-datatables/issues/87)
         // Note: In newer jQuery v3 versions, `unbind` and `bind` are
         // deprecated in favor of `off` and `on`
+        $(row).css({"white-space": "nowrap"})
         let dt = data as any;
-        if (dt.created_by === usrMail || this.canCRUD) { // only the owner or moderator or admin, can edit table
-          $(row).attr('class', () => 'table-editable-row');
-          $(row).attr('title', () => this.translate.instant('Click To Edit'));
+        if (dt.createdBy === usrMail || this.canCRUD) { // only the owner or moderator or admin, can edit row
+          const btn = document.createElement('button');
+          btn.textContent = this.translate.instant('Edit');
+          btn.setAttribute('id', 'tableBtn');
+          btn.classList.add('btn', 'btn-dark')
+          btn.onclick = () => self.updateInfosEvent.emit(dt);
+          const last = $(row.lastChild as any);
+          last.addClass('row-btn-container');
+          last.children('button').remove();
+          last.append(btn)
         }
-        $(row).on('click', () => {
-          if (dt.created_by === usrMail || this.canCRUD) { // only the owner or moderator or admin, can edit table
-            self.updateInfosEvent.emit(dt);
-          }
-        });
         return row
       },
       language: {

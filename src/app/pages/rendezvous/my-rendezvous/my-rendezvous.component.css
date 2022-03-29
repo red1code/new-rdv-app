@@ -9,7 +9,10 @@
   padding: 15px;
   margin: 0 auto;
   margin-bottom: 15px;
-  width: clamp(750px, 85%, 1500px);
+  min-width: 300px;
+  width: fit-content;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .table-title {
