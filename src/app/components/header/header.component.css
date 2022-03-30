@@ -14,7 +14,7 @@
   align-items: center;
 }
 
-.select-lang-mobile, .toggle-menu {
+.toggle-menu {
   display: none;
 }
 
@@ -203,7 +203,7 @@ a {
     display: none;
   }
 
-  .select-lang-mobile, .toggle-menu {
+  .toggle-menu {
     all: unset;
   }
 
@@ -217,10 +217,23 @@ a {
     margin: 0;
   }
 
+  .lang-container:hover .select-lang-mobile {
+    color: var(--accent-color);
+    background-color: var(--main-color);
+    cursor: pointer;
+  }
+
   .select-lang-mobile {
-    padding: 3px 5px;
-    border-radius: 3px;
-    width: max-content;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: var(--main-color);
+  }
+
+  .select-lang-mobile:hover {
+    color: var(--accent-color);
+    background-color: var(--main-color);
   }
 
   .toggle-menu {
