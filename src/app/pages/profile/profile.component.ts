@@ -105,4 +105,11 @@ export class ProfileComponent implements OnInit {
     ).subscribe();
   }
 
+  hideAllPopups() {
+    this.hideEditProfilePopUp();
+    if (!this.uploading) {
+      this.hideEditPicPopup()
+    }
+  }
+
 }

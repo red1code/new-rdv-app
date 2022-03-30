@@ -1,20 +1,8 @@
 .form-section {
-  margin: 9px 0;
+  margin-bottom: 15px;
   text-align: left;
 }
 
 .btn-success {
   width: 100%;
-  margin-top: 15px;
-}
-
-.warning {
-  border: 1px solid rgb(253, 51, 91);
-}
-
-.warning-message {
-  color: rgb(253, 51, 91);
-  font-size: smaller;
-  padding: 0 5px;
-  border-radius: 3px;
 }
