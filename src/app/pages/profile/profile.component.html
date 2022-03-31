@@ -1,40 +1,58 @@
 <div class="global-container">
   <div class="profile-container facebook-style" *ngIf="user">
     <!-- profile picture -->
-    <div class="img-container profile-section" (click)="editPicInput.click()">
-      <img [src]="user.imageURL" class="edit-pic" alt="User's profile picture">
-      <i class="fas fa-upload" title="{{'Click To Upload New Photo' | translate}}"></i>
+    <div class="img-container" (click)="editPicInput.click()">
+      <img [src]="user.imageURL" class="profile-photo" alt="User's profile picture">
+      <div class="upload-icon-container">
+        <i class="fas fa-upload" title="{{'Click To Upload New Photo' | translate}}"></i>
+      </div>
       <input #editPicInput (change)="fileChangeEvent($event)" style="display: none;" type="file" accept="image/*">
     </div>
-    <!-- display name -->
-    <div class="profile-section"><strong>{{ user.firstName }} {{ user.lastName }}</strong></div>
-    <div class="profile-section" style="font-size: smaller;"><em>{{ user.role }}</em></div><br>
-    <div class="profile-section" style="text-align: left;">
-      <!-- email -->
-      <div><i class="fas fa-envelope"></i> {{ user.email }}</div>
-      <!-- mobile -->
-      <div><i class="fas fa-phone-square-alt"></i> {{ user.phoneNumber }}</div>
-      <!-- joining date -->
-      <div>{{'Joined:' | translate}} <em>{{ user.created_at.toDate() | date: 'MMMM dd, yyyy' }}</em></div>
-    </div>
-    <br>
-    <!-- button(Edit Profile) -->
-    <div class="profile-section">
-      <button class="btn1 btn-dark" (click)="showEditProfilePopUp()">{{'Edit Profile' | translate}}</button>
+    <div class="profile-info-container">
+      <!-- display name -->
+      <div class="profile-section">
+        <strong>{{ user.firstName }} {{ user.lastName }}</strong>
+        <div class="profile-section" style="text-align: center;">
+          <em style="font-size: small;">{{ user.role }}</em>
+        </div>
+      </div>
+      <div class="profile-section" style="text-align: left; margin: 15px 0;">
+        <!-- email -->
+        <div class="user-infos">
+          <i class="fas fa-envelope"></i>
+          <span class="span-info">{{ user.email }}</span>
+        </div>
+        <!-- mobile -->
+        <div class="user-infos">
+          <i class="fas fa-phone-square-alt"></i>
+          <span class="span-info">{{ user.phoneNumber }}</span>
+        </div>
+        <!-- joining date -->
+        <div class="user-infos">
+          {{'Joined:' | translate}} <em>{{ user.created_at.toDate() | date: 'MMMM dd, yyyy' }}</em>
+        </div>
+      </div>
+      <!-- button(Edit Profile) -->
+      <div class="profile-section">
+        <button mat-raised-button class="edit-btn" (click)="showEditProfilePopUp()">
+          {{'Edit Profile' | translate}}
+        </button>
+      </div>
     </div>
   </div> <!-- /profile-container -->
 
-  <!-- crop picture popup -->
-  <div class="crop-popup facebook-style" *ngIf="editPicPopup">
-    <div class="crop-inside">
-      <!-- crop header container -->
-      <div class="crop-hdr-container">
-        <h5 class="form-title">{{'Crop Image' | translate}}</h5>
-        <i *ngIf="!uploading" class="fas fa-times-circle" (click)="hideEditPicPopup()" title="{{'Cancel' | translate}}"></i>
+  <!-- crop img -->
+  <div class="popup-modal facebook-style" *ngIf="editPicPopup">
+    <div class="popup-modal-header">
+      <div class="title">
+        {{'Crop Image' | translate}}
       </div>
-      <hr style="color: black; margin: 9px 0;">
-      <!-- crop image -->
-      <div *ngIf="imageFile" class="img-crop-container">
+      <div *ngIf="!uploading" class="close-btn" (click)="hideEditPicPopup()" title="{{'Cancel' | translate}}">
+        &times;
+      </div>
+    </div>
+    <div class="popup-modal-body">
+      <div *ngIf="imageFile" class="img-cropper-container">
         <image-cropper
           [imageChangedEvent]="imageFile"
           [maintainAspectRatio]="true"
@@ -45,7 +63,9 @@
           (loadImageFailed)="loadImageFailed()">
         </image-cropper>
       </div>
-      <button class="btn btn-success" *ngIf="croppedImage" (click)="saveImg()">{{'Save Image' | translate}}</button>
+      <button class="btn btn-success" *ngIf="croppedImage" (click)="saveImg()">
+        {{'Save Image' | translate}}
+      </button>
       <!-- progress field -->
       <div *ngIf="uploading" class="progress-container">
         <p class="text-warning">{{'Uploading Picture...' | translate}}</p>
@@ -56,23 +76,27 @@
       </div> <!-- /progress-container -->
       <!-- err msg -->
       <p *ngIf="errorMsg" class="alert alert-danger">{{ errorMsg }}</p>
-    </div> <!-- /crop-inside -->
-  </div> <!-- /crop-popup -->
+    </div> <!-- /popup-modal-body -->
+  </div> <!-- /popup-modal -->
 
-  <!-- edit profile infos popup -->
-  <button *ngIf="editProfilePopup" class="popup-container facebook-style">
-    <div class="close-btn-container">
-      <h5 class="form-title">{{'Edit Profile' | translate}}</h5>
-      <i class="fas fa-times-circle" (click)="hideEditProfilePopUp()" title="{{'Cancel' | translate}}"></i>
+  <!-- edit profile -->
+  <div *ngIf="editProfilePopup" class="popup-modal facebook-style">
+    <div class="popup-modal-header">
+      <div class="title">
+        {{'Edit Profile' | translate}}
+      </div>
+      <div class="close-btn" (click)="hideEditProfilePopUp()" title="{{'Cancel' | translate}}">
+        &times;
+      </div>
     </div>
-    <hr style="margin: 15px;">
-    <!-- calling EditProfileComponent -->
-    <app-edit-profile
-      [profileInfos]="user"
-      (updatedValues)="updateProfile($event)">
-    </app-edit-profile>
-    <p *ngIf="errorMsg" class="text-danger">{{ errorMsg }}</p>
-  </button>
+    <div class="popup-modal-body">
+      <app-edit-profile
+        [profileInfos]="user"
+        (updatedValues)="updateProfile($event)">
+      </app-edit-profile>
+      <p *ngIf="errorMsg" class="text-danger">{{ errorMsg }}</p>
+    </div>
+  </div> <!-- /popup-modal -->
 
-  <div class="dark-bg" *ngIf="editProfilePopup || editPicPopup"></div>
+  <div class="overlay" *ngIf="editProfilePopup || editPicPopup" (click)="hideAllPopups()"></div>
 </div>

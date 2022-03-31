@@ -1,38 +1,45 @@
-<div class="container" style="padding: 15px;">
+<div class="edit-profile-container">
   <form [formGroup]="editProfileForm" class="signup-form">
     <!-- first name -->
     <div class="form-section first-name">
       <label for="firstName">{{'First Name' | translate}}</label>
-      <input class="form-control" type="text" formControlName="firstName" [ngClass]="{'warning':
-      editProfileForm.controls['firstName'].invalid && editProfileForm.controls['firstName'].touched}">
+      <input class="input-form" type="text" formControlName="firstName"
+            [ngClass]="{'danger-input':  editProfileForm.controls['firstName'].invalid &&
+            editProfileForm.controls['firstName'].touched}">
 
       <p *ngIf="editProfileForm.controls['firstName'].invalid && editProfileForm.controls['firstName'].touched"
-        class="warning-message">{{'First Name is invalid' | translate}}</p>
-    </div>
+          class="danger-msg">{{'First Name is invalid' | translate}}</p>
+    </div> <!-- /first name -->
+
     <!-- last name -->
     <div class="form-section last-name">
       <label for="lastName">{{'Last Name' | translate}}</label>
-      <input class="form-control" type="text" formControlName="lastName" [ngClass]="{'warning':
-            editProfileForm.controls['lastName'].invalid && editProfileForm.controls['lastName'].touched}">
+      <input class="input-form" type="text" formControlName="lastName"
+            [ngClass]="{'danger-input': editProfileForm.controls['lastName'].invalid &&
+            editProfileForm.controls['lastName'].touched}">
 
       <p *ngIf="editProfileForm.controls['lastName'].invalid && editProfileForm.controls['lastName'].touched"
-        class="warning-message">{{'Last Name is invalid' | translate}}</p>
-    </div>
+          class="danger-msg">{{'Last Name is invalid' | translate}}</p>
+    </div> <!-- /last name -->
+
     <!-- phone number -->
     <div class="form-section phone-number">
       <label for="phoneNumber">{{'Phone Number' | translate}}</label>
-      <input class="form-control" type="tel" formControlName="phoneNumber" [ngClass]="{'warning':
-            editProfileForm.controls['phoneNumber'].invalid && editProfileForm.controls['phoneNumber'].touched}">
+      <input class="input-form" type="tel" formControlName="phoneNumber"
+            [ngClass]="{'danger-input': editProfileForm.controls['phoneNumber'].invalid &&
+            editProfileForm.controls['phoneNumber'].touched}">
 
       <p *ngIf="editProfileForm.controls['phoneNumber'].invalid && editProfileForm.controls['phoneNumber'].touched"
-        class="warning-message">{{'Phone Number must contain 10 digit numbers' | translate}}</p>
-    </div>
+          class="danger-msg">{{'Phone Number must contain 10 digit numbers' | translate}}</p>
+    </div> <!-- /phone number -->
+
     <div *ngIf="isAdmin" class="form-section role">
       <label for="role">{{'Role' | translate}}</label>
       <select class="form-select" formControlName="role">
         <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
       </select>
     </div>
+
     <!-- submit button -->
     <button class="btn btn-success" [disabled]="editProfileForm.invalid" (click)="submitForm()">
       {{'Save' | translate}}
