@@ -14,24 +14,3 @@
 .newRDV-btn-container .btn {
   box-shadow: 0 0 11px 0 rgba(0, 0, 0, 0.4);
 }
-
-.table-container {
-  padding: 15px;
-}
-
-.table-container .title-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto 5px auto;
-  width: 100%;
-}
-
-.t-title {
-  font-size: 1.25rem;
-  white-space: nowrap;
-  padding: 7px 15px;
-  color: var(--accent-color);
-  background-color: var(--main-color);
-  border-radius: 3px;
-}
