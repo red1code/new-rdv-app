@@ -72,8 +72,8 @@
 
   <!-- mobile elements -->
 
-  <button *ngIf="user" class="toggle-menu" (click)="toggleMobileNav()" (blur)="hideMenu($event)">
-    <div class="menu-icon-container">
+  <div *ngIf="user" class="toggle-menu">
+    <div class="menu-icon-container" (click)="toggleMobileNav()">
       <mat-icon *ngIf="!showMobileLinks">menu</mat-icon>
       <mat-icon *ngIf="showMobileLinks">close</mat-icon>
     </div>
@@ -108,7 +108,8 @@
         </select>
       </a>
     </div> <!-- /popup menu -->
-  </button>
+  </div>
+  <div *ngIf="showMobileLinks" class="overlay-menu" (click)="showMobileLinks=false"></div>
   <!-- signup -->
   <button *ngIf="!user" routerLink="auth/signup" class="signup-btn">{{'Sign Up' | translate}}</button>
 
