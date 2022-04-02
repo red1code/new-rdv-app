@@ -3,7 +3,6 @@
 @import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
 
 * {
-  font-size: 1rem;
   font-family: sans-serif;
 }
 
@@ -30,7 +29,7 @@ body {
 /* tables styles */
 
 .table-container {
-  max-width: max-content;
+  max-width: 90%;
   padding: 15px;
   margin-inline: auto;
   margin-bottom: 15px;
@@ -47,7 +46,7 @@ body {
 
 .t-title {
   font-size: 1.25rem;
-  white-space: nowrap;
+  /* white-space: nowrap; */
   padding: 7px 15px;
   color: var(--accent-color);
   background-color: var(--main-color);
@@ -146,4 +145,16 @@ body {
 
 .danger-input {
   border: 1px solid var(--danger-color);
+}
+
+@media screen and (max-width: 950px) {
+  .table-container {
+    max-width: 100%;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .t-title {
+    font-size: 0.9rem;
+  }
 }

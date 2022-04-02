@@ -1,5 +1,5 @@
 <div class="usrs-part-container">
-  <div *ngIf="adminAccess && users" class="table_container facebook-style" style="padding: 9px;">
+  <div *ngIf="adminAccess && users" class="table-container facebook-style">
     <app-table
       [tableCols]="usrsCols"
       [infos]="users"
@@ -10,22 +10,27 @@
   </div>
 
   <!-- popup (edit profile) -->
-  <div *ngIf="editProfilePopup" class="popup-container facebook-style">
-    <div class="close-btn-container">
-      <h5 class="form-title">{{'Edit Profile' | translate}}</h5>
-      <i class="fas fa-times-circle" (click)="hideEditProfilePopUp()" title="{{'Cancel' | translate}}"></i>
+  <div *ngIf="editProfilePopup" class="popup-modal facebook-style">
+    <div class="popup-modal-header">
+      <div class="title">
+        {{'Edit Profile' | translate}}
+      </div>
+      <div class="close-btn" (click)="hideEditProfilePopUp()" title="{{'Cancel' | translate}}">
+        &times;
+      </div>
     </div>
-    <hr style="margin: 11px 0;">
-    <!-- calling EditProfileComponent -->
-    <app-edit-profile
-      [profileInfos]="updateUser"
-      [currentUser]="user"
-      (updatedValues)="updateProfile($event)">
-    </app-edit-profile>
-    <p *ngIf="updateErrMsg" class="text-danger">{{ updateErrMsg }}</p>
-  </div>
+    <div class="popup-modal-body">
+      <app-edit-profile
+        [profileInfos]="updateUser"
+        [currentUser]="user"
+        (updatedValues)="updateProfile($event)">
+      </app-edit-profile>
+      <p *ngIf="updateErrMsg" class="text-danger">{{ updateErrMsg }}</p>
+    </div>
+  </div> <!-- /popup-modal(edit profile) -->
+
   <!-- chart here -->
-  <div *ngIf="users && usrsPerMonth" class="chart-comp-container facebook-style" style="padding: 9px;margin-top: 15px;">
+  <div *ngIf="users && usrsPerMonth" class="chart-container facebook-style">
     <app-chart
       [chartX]="months"
       [chartY]="usrsPerMonth"
@@ -35,4 +40,4 @@
     </app-chart>
   </div>
 </div>
-<div *ngIf="editProfilePopup" class="black-bg" (click)="hideEditProfilePopUp()"></div>
+<div *ngIf="editProfilePopup" class="overlay" (click)="hideEditProfilePopUp()"></div>

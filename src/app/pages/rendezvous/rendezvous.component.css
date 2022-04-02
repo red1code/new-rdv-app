@@ -3,8 +3,7 @@
   padding: 15px;
   margin: 0 auto;
   min-width: 300px;
-  width: max-content;
-  max-width: 100%;
+  max-width: 90%;
 }
 
 .newRDV-btn-container {
@@ -13,4 +12,14 @@
 
 .newRDV-btn-container .btn {
   box-shadow: 0 0 11px 0 rgba(0, 0, 0, 0.4);
+}
+
+.rdv-table {
+  max-width: 100% !important;
+}
+
+@media screen and (max-width: 950px) {
+  .rdv-container {
+    max-width: 100%;
+  }
 }

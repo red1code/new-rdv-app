@@ -1,12 +1,19 @@
 <div class="dashboard-container">
   <!-- sidebar -->
   <div class="sidebar">
-    <div class="users-title-container" (click)="showUsers()" [ngClass]="{'active': usersON}">
-      {{'Users' | translate}}
-    </div>
-    <hr style="color: #fff; margin: 0;">
-    <div class="rdvs-title-container" (click)="showRDVs()" [ngClass]="{'active': RDVsON}">
-      {{'Rendezvous' | translate}}
+    <div class="fixed">
+      <div class="toggle-sidebar">
+        <span (click)="toggleSidebar()">
+          <mat-icon *ngIf="!showSidebar" title="{{'Show Sidebar' | translate}}">menu</mat-icon>
+          <span *ngIf="showSidebar" class="close-btn" title="{{'Cancel' | translate}}">&times;</span>
+        </span>
+      </div>
+      <div *ngIf="showSidebar" class="users-title-container side-link" (click)="showUsers()" [ngClass]="{'active': usersON}">
+        {{'Users' | translate}}
+      </div>
+      <div *ngIf="showSidebar" class="rdvs-title-container side-link" (click)="showRDVs()" [ngClass]="{'active': RDVsON}">
+        {{'Rendezvous' | translate}}
+      </div>
     </div>
   </div> <!-- /sidebar -->
 

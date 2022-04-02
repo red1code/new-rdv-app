@@ -1,9 +1,16 @@
+.chart-container {
+  overflow: scroll;
+  overflow-y: hidden;
+  padding: 5px;
+}
+
 .hdr-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 11px;
   border-bottom: 1px dotted #000;
+  min-width: 500px;
 }
 
 .bg-color {
@@ -15,9 +22,28 @@
 
 .btn-outline-success {
   height: 40px;
+  min-width: max-content;
+}
+
+.canva-container {
+  position: relative;
+  height: 70vh;
+  min-width: 500px;
 }
 
 .chart {
   padding: 15px;
   border-radius: 7px;
+}
+
+@media screen and (max-width: 650px) {
+  .hdr-container {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .btn-outline-success {
+    margin-bottom: 15px;
+  }
+
 }

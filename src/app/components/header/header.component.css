@@ -1,7 +1,7 @@
 .header-container {
   min-width: fit-content;
   width: 100%;
-  padding: 7px 15px;
+  padding: 0 15px;
   position: -webkit-sticky;
   position: sticky;
   top: 0;
@@ -12,6 +12,7 @@
   grid-template-areas:
     'logo nav right-block';
   align-items: center;
+  height: 55px;
 }
 
 .toggle-menu {
@@ -182,6 +183,8 @@ a {
     grid-template-areas:
       'logo logo'
       'nav right-block';
+    height: 100px;
+    top: -50px
   }
 
   .logo-container {
@@ -211,6 +214,8 @@ a {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 55px;
+    top: 0;
   }
 
   .logo-container {

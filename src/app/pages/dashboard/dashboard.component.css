@@ -5,20 +5,43 @@
 }
 
 .sidebar {
-  background: rgb(27, 27, 27);
+  width: max-content;
   color: #fff;
+  background-color: #111;
 }
 
-.main-content {
-  overflow: hidden;
+.fixed {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 55px;
+  height: max-content;
 }
 
-.sidebar>div {
+.toggle-sidebar {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.toggle-sidebar>span {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.close-btn {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.side-link {
   padding: 15px 20px;
   cursor: pointer;
 }
 
-.sidebar>div:hover {
+.side-link:hover {
   filter: brightness(75%)
 }
 
@@ -26,6 +49,23 @@
   background-color: #707019;
 }
 
-.users-container, .rdvs-container {
+.side-link {
   padding: 15px;
 }
+
+.main-content {
+  overflow: hidden;
+  padding: 15px;
+}
+
+
+
+
+
+/*
+
+position: -webkit-sticky;
+position: sticky;
+top: 0;
+
+*/
