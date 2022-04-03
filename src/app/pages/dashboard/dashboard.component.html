@@ -8,14 +8,24 @@
           <span *ngIf="showSidebar" class="close-btn" title="{{'Cancel' | translate}}">&times;</span>
         </span>
       </div>
-      <div *ngIf="showSidebar" class="users-title-container side-link" (click)="showUsers()" [ngClass]="{'active': usersON}">
+
+      <!-- mobile view side links -->
+      <div class="mobile-side-links" (click)="showUsers()" [ngClass]="{'active': usersON}" [style.display]="showSidebar ? 'block' : 'none'">
         {{'Users' | translate}}
       </div>
-      <div *ngIf="showSidebar" class="rdvs-title-container side-link" (click)="showRDVs()" [ngClass]="{'active': RDVsON}">
+      <div class="mobile-side-links" (click)="showRDVs()" [ngClass]="{'active': RDVsON}" [style.display]="showSidebar ? 'block' : 'none'">
+        {{'Rendezvous' | translate}}
+      </div>
+
+      <!-- web view side links -->
+      <div class="web-side-links" (click)="showUsers()" [ngClass]="{'active': usersON}">
+        {{'Users' | translate}}
+      </div>
+      <div class="web-side-links" (click)="showRDVs()" [ngClass]="{'active': RDVsON}">
         {{'Rendezvous' | translate}}
       </div>
     </div>
-  </div> <!-- /sidebar -->
+  </div> <!-- /sidebar *ngIf="showSidebar" -->
 
   <!-- main content -->
   <div class="main-content">
