@@ -94,8 +94,10 @@ export class ChartComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   updateChart(value: number[]) {
-    this.chart.data.datasets.map(val => val.data = value);
-    this.chart.update()
+    if (this.chart) {
+      this.chart.data.datasets.map(val => val.data = value);
+      this.chart.update()
+    }
   }
 
   exportChart() {
