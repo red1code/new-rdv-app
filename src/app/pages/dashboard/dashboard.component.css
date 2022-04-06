@@ -5,6 +5,7 @@
 }
 
 .sidebar {
+  position: relative;
   width: max-content;
   color: #fff;
   background-color: #111;
@@ -44,13 +45,19 @@
     display: none;
   }
 
-  .mobile-side-links {
-    padding: 15px;
-    cursor: pointer;
+  .hide-sidemenu {
+    display: none;
   }
 
-  .mobile-side-links:hover {
-    filter: brightness(75%);
+  .show-sidemenu {
+    position: fixed;
+    top: 55px;
+    left: 0;
+    width: max-content;
+    height: 100%;
+    background-color: #000;
+    z-index: 11;
+    /* overflow: ; */
   }
 
   .toggle-sidebar {
@@ -70,6 +77,11 @@
   .close-btn {
     font-size: 2rem;
     font-weight: bold;
+  }
+
+  .mobile-side-link {
+    padding: 15px;
+    cursor: pointer;
   }
 }
 

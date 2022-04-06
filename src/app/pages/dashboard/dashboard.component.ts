@@ -22,13 +22,13 @@ export class DashboardComponent implements OnInit {
   showUsers() {
     this.RDVsON = false;
     this.usersON = true;
-    this.toggleSidebar()
+    this.showSidebar = false
   }
 
   showRDVs() {
     this.usersON = false;
     this.RDVsON = true;
-    this.toggleSidebar()
+    this.showSidebar = false
   }
 
 }
