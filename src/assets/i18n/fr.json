@@ -7,6 +7,7 @@
   "Dashboard": "Tableau de bord",
   "Rendezvous": "Rendez-vous",
   "Home": "Accueil",
+  "Profile": "Profil",
 
   "Copyrights to": "Droits d'auteur à",
 
@@ -60,11 +61,13 @@
   "Call Off Rendezvous": "Annuler Rendez-vous",
   "Updating Rendezvous": "Réviser le Rendez-vous",
 
-  "Add New Rendezvous": "Ajouter Un Nouveau Rendez-vous",
+  "Add New Rendezvous": "Nouveau Rendez-vous",
   "Approved Rendezvous": "Rendez-vous Approuvé",
+  "Create New Rendezvous": "Créer un Nouveau Rendez-vous",
 
   "not-found works!": "introuvable fonctionne !",
 
+  "Show Sidebar": "Afficher Sidebar",
   "Users": "Utilisateurs",
   "Pending Rendezvous": "Rendez-vous En Attente",
   "Approve, Update or Delete this Rendezvous": "Approuver, Mettre à Jour ou Supprimer ce Rendez-vous",

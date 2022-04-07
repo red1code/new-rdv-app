@@ -1,7 +1,9 @@
 <div class="rdvs-container">
   <!-- Pending Rendezvous -->
-  <div *ngIf="pendingRendezvous | async" class="table_container facebook-style" style="padding: 15px;">
-    <h5 class="table-title">{{'Pending Rendezvous' | translate}}</h5>
+  <div *ngIf="pendingRendezvous | async" class="table-container facebook-style">
+    <div class="t-title-container">
+      <span class="t-title">{{'Pending Rendezvous' | translate}}</span>
+    </div>
     <app-table
       [tableCols]="pendingRDVsCols"
       [infos]="pendingRendezvous | async"
@@ -11,8 +13,10 @@
     </app-table>
   </div>
   <!-- Approved Rendezvous -->
-  <div *ngIf="approvedRendezvous | async" class="table_container facebook-style" style="padding: 15px; margin-top: 15px;">
-    <h5 class="table-title">{{'Approved Rendezvous' | translate}}</h5>
+  <div *ngIf="approvedRendezvous | async" class="table-container facebook-style">
+    <div class="t-title-container">
+      <span class="t-title">{{'Pending Rendezvous' | translate}}</span>
+    </div>
     <app-table
       [tableCols]="approvedRDVsCols"
       [infos]="approvedRendezvous | async"
@@ -23,80 +27,92 @@
   </div>
 
   <!-- halfway popup -->
-  <div class="popup-container facebook-style" *ngIf="halfwayPopup">
-    <div class="close-btn-container">
-      <h6 *ngIf="isPending">{{'Approve, Update or Delete this Rendezvous' | translate}}</h6>
-      <h6 *ngIf="isApproved">{{'Update, Finish or Cancel this Rendezvous' | translate}}</h6>
-      <i class="fas fa-times-circle" (click)="hidePopup()" title="{{'Cancel' | translate}}"></i>
+  <div *ngIf="halfwayPopup" class="popup-modal facebook-style">
+    <div class="popup-modal-header">
+      <div class="title">
+        <span *ngIf="isPending">{{'Approve, Update or Delete this Rendezvous' | translate}}</span>
+        <span *ngIf="isApproved">{{'Update, Finish or Cancel this Rendezvous' | translate}}</span>
+      </div>
+      <div class="close-btn" (click)="hidePopup()" title="{{'Cancel' | translate}}">
+        &times;
+      </div>
     </div>
-    <hr style="margin: 7px 0;">
-    <!-- rdv infos -->
-    <p style="margin: 15px 0 30px 0;">
-      - {{'Name:' | translate}} <strong>{{ rdv?.displayName }}</strong><br>
-      - {{'Created in:' | translate}} <strong>{{ rdv?.createdAt }}</strong>.
-    </p>
-    <!-- err msg -->
-    <p class="alert alert-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
-    <!-- buttons -->
-    <div class="halfway-btns-container" [ngClass]="{'cols-3': isPending, 'cols-2': isApproved}">
-      <button *ngIf="isPending" class="btn btn-success" (click)="proceedToApproveRDV()">
-        {{'Approve' | translate}}
-      </button>
-      <button class="btn btn-info" (click)="proceedToUpdateRDV()">
-        {{'Update' | translate}}
-      </button>
-      <button *ngIf="isPending" class="btn btn-danger" (click)="deleteRendezvous()">
-        {{'Delete' | translate}}
-      </button>
-      <button *ngIf="isApproved" class="btn btn-danger" (click)="cancelRendezvous()">
-        {{'Cancel' | translate}}
-      </button>
+    <div class="popup-modal-body">
+      <!-- rdv infos -->
+      <p style="margin: 15px 0 30px 0;">
+        - {{'Name:' | translate}} <strong>{{ rdv?.displayName }}</strong><br>
+        - {{'Created in:' | translate}} <strong>{{ rdv?.createdAt }}</strong>.
+      </p>
+      <!-- err msg -->
+      <p class="alert alert-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
+      <!-- buttons -->
+      <div class="halfway-btns-container" [ngClass]="{'cols-3': isPending, 'cols-2': isApproved}">
+        <button *ngIf="isPending" class="btn btn-success" (click)="proceedToApproveRDV()">
+          {{'Approve' | translate}}
+        </button>
+        <button class="btn btn-info" (click)="proceedToUpdateRDV()">
+          {{'Update' | translate}}
+        </button>
+        <button *ngIf="isPending" class="btn btn-danger" (click)="deleteRendezvous()">
+          {{'Delete' | translate}}
+        </button>
+        <button *ngIf="isApproved" class="btn btn-danger" (click)="cancelRendezvous()">
+          {{'Cancel' | translate}}
+        </button>
+      </div>
     </div>
   </div> <!-- /halfway popup -->
 
   <!-- approve rdv popup -->
-  <div class="popup-container facebook-style" *ngIf="approveRDVpopup">
-    <div class="close-btn-container">
-      <h4>{{'Approve Rendezvous' | translate}}</h4>
-      <i class="fas fa-times-circle" (click)="hidePopup()" title="{{'Cancel' | translate}}"></i>
+  <div *ngIf="approveRDVpopup" class="popup-modal facebook-style">
+    <div class="popup-modal-header">
+      <div class="title">
+        {{'Approve Rendezvous' | translate}}
+      </div>
+      <div class="close-btn" (click)="hidePopup()" title="{{'Cancel' | translate}}">
+        &times;
+      </div>
     </div>
-    <hr style="margin: 7px 0;">
-    <p *ngIf="rdv" style="margin: 15px 0 30px 0;">
-      {{'Do you want to approve this Rendezvous?' | translate}}<br>
-      - {{'Name:' | translate}} <strong>{{ rdv?.displayName }}</strong><br>
-      - {{'Created in:' | translate}} <strong>{{ rdv?.createdAt }}</strong>.
-    </p>
-    <label for="rdv-date" style="font-size: small;">{{'Please add a Date:' | translate}}</label><br>
-    <input class="form-control" type="datetime-local" name="rdv-date" #rdvDateInput
-           [ngClass]="{'input-alert': errorMsg}">
-    <p class="alert alert-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
-    <div class="btns-container">
-      <button class="btn btn-success" (click)="approveRDV(rdv, rdvDateInput.value)">
-        {{'Approve' | translate}}
-      </button>
+    <div class="popup-modal-body">
+      <p *ngIf="rdv" style="margin: 15px 0 30px 0;">
+        {{'Do you want to approve this Rendezvous?' | translate}}<br>
+        - {{'Name:' | translate}} <strong>{{ rdv?.displayName }}</strong><br>
+        - {{'Created in:' | translate}} <strong>{{ rdv?.createdAt }}</strong>.
+      </p>
+      <label for="rdv-date" style="font-size: small;">{{'Please add a Date:' | translate}}</label><br>
+      <input class="form-control" type="datetime-local" name="rdv-date" [ngClass]="{'input-alert': errorMsg}" #rdvDateInput>
+      <p class="alert alert-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
+      <div class="btns-container">
+        <button class="btn btn-success" (click)="approveRDV(rdv, rdvDateInput.value)">
+          {{'Approve' | translate}}
+        </button>
+      </div>
     </div>
   </div> <!-- /approve-rdv-popup -->
 
   <!-- update rdv popup -->
-  <div class="popup-container facebook-style" *ngIf="updateRDVpopup">
-    <div class="close-btn-container">
-      <h4>{{'Update Rendezvous' | translate}}</h4>
-      <i class="fas fa-times-circle" (click)="hidePopup()" title="{{'Cancel' | translate}}"></i>
+  <div *ngIf="updateRDVpopup" class="popup-modal facebook-style">
+    <div class="popup-modal-header">
+      <div class="title">
+        {{'Update Rendezvous' | translate}}
+      </div>
+      <div class="close-btn" (click)="hidePopup()" title="{{'Cancel' | translate}}">
+        &times;
+      </div>
     </div>
-    <hr style="margin: 7px 0;">
-    <div style="margin: -15px;">
+    <div class="popup-modal-body">
       <app-rdv-form
         [rdv]="rdv"
         [showDeleteBtn]="false"
         (rdvFormValue)="updateRendezvous($event)">
       </app-rdv-form>
+      <!-- err msg -->
+      <p class="alert alert-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
     </div>
-    <!-- err msg -->
-    <p class="alert alert-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
   </div> <!-- /update rdv popup -->
 
   <!-- chart -->
-  <div *ngIf="rdvsPerMonth" class="chart-comp-container facebook-style" style="padding: 15px;margin-top: 15px;">
+  <div *ngIf="rdvsPerMonth" class="chart-container facebook-style">
     <app-chart
       [chartX]="months"
       [chartY]="rdvsPerMonth"
@@ -107,4 +123,4 @@
   </div>
 </div>
 
-<div *ngIf="halfwayPopup || approveRDVpopup || updateRDVpopup" class="black-bg" (click)="hidePopup()"></div>
+<div *ngIf="halfwayPopup || approveRDVpopup || updateRDVpopup" class="overlay" (click)="hidePopup()"></div>

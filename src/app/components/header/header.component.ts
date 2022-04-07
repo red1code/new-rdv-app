@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit {
   user!: User;
   language = this.translatingService.deviceLanguage;
   langs = LANGUAGES;
+  showMobileLinks = false;
 
   constructor(
     private router: Router,
@@ -53,6 +54,8 @@ export class HeaderComponent implements OnInit {
 
   toggleMenu = () => (!this.showMenu) ? this.showMenu = true : this.showMenu = false;
 
+  toggleMobileNav = () => (!this.showMobileLinks ? this.showMobileLinks = true : this.showMobileLinks = false);
+
   async changeLanguage(event: Event) {
     const language = (event.target as HTMLTextAreaElement).value as LANGUAGES;
     this.user.language = language;
@@ -65,4 +68,25 @@ export class HeaderComponent implements OnInit {
     window.location.reload()
   }
 
+  hideMenu(event: any) {
+    if (!event.currentTarget.contains(event.relatedTarget)) {
+      this.showMobileLinks = false
+    }
+  }
+
 }
+
+
+
+
+
+
+/*
+
+hideMenu(event: any) {
+  if (!event.currentTarget.contains(event.relatedTarget)) {
+    this.showMobileLinks = false
+  }
+}
+
+*/

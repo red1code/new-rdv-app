@@ -1,22 +1,39 @@
 .global-container {
   position: relative;
-  min-height: 100vh;
-  padding: 15px;
+  min-height: 90vh;
 }
 
 .profile-container {
-  margin: 0 auto;
+  margin: 15px auto;
   padding: 15px;
-  width: clamp(50%, 50%, 90%);
-  height: fit-content;
+  width: max-content;
+  min-width: max-content;
+  height: max-content;
   background-color: #fff;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(max-content, 1fr));
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
 }
 
 .img-container {
   position: relative;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
+  margin: 15px;
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-inline: auto;
+}
+
+.profile-info-container {
+  margin: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
 }
 
 .img-container:hover {
@@ -28,95 +45,63 @@
   display: inherit;
 }
 
-.edit-pic {
-  height: 150px;
-  width: 150px;
+.profile-photo {
+  width: 100%;
+  height: 100%;
+  margin-inline: auto;
   border-radius: 50%;
+  cursor: pointer;
+}
+
+.upload-icon-container {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .fa-upload {
-  position: absolute;
-  font-size: 50px;
+  font-size: 4rem;
   color: #fff;
-  top: 40px;
-  left: 50px;
   display: none;
   cursor: pointer;
-  padding: 5px;
 }
 
-.profile-section {
-  width: fit-content;
-  margin: 5px auto;
+.user-infos {
+  margin-block: 5px;
 }
 
-.crop-popup {
-  position: absolute;
-  top: clamp(15px, 10vh, 25vh);
-  left: clamp(10%, 30%, 50%);
-  width: 500px;
-  min-height: fit-content;
-  max-height: 90vh;
-  z-index: 11;
+.span-info {
+  margin-left: 7px;
 }
 
-.crop-inside {
-  position: relative;
-  width: 500px;
-  min-height: fit-content;
-  max-height: 90vh;
-  padding: 11px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+.edit-btn {
+  color: var(--main-color);
+  background-color: var(--accent-color);
 }
 
-.crop-hdr-container {
-  display: flex;
-  justify-content: space-between;
-}
-
-.img-crop-container {
+.img-cropper-container {
   width: 100%;
   height: 300px;
   text-align: center;
 }
 
-.popup-container {
-  border: none;
-  display: block;
-  position: absolute;
-  top: 15px;
-  left: 25%;
-  width: 50%;
-  z-index: 11;
-  cursor: zoom-in;
-}
-
-.close-btn-container {
-  margin: 15px;
-  margin-bottom: 0;
-  display: flex;
-  justify-content: space-between;
-}
-
-.fa-times-circle {
-  font-size: x-large;
-  padding: 3px;
-  cursor: pointer;
-}
-
-.fa-times-circle:hover {
-  color: #b6b61a;
-}
-
-.dark-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: black;
-  opacity: 0.5;
+.popup-modal-body .btn {
   width: 100%;
-  min-height: 100%;
-  z-index: 10;
+}
+
+.progress-container {
+  margin-top: 15px;
+}
+
+@media screen and (max-width: 650px) {
+  .profile-container {
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+    height: 100%;
+  }
 }
