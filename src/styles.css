@@ -4,8 +4,15 @@
 
 :root {
   --main-color: #191970;
-  --accent-color: #ecf39e;
-  --danger-color: #a82a00
+  --side-color: #ecf39e;
+  --danger-color: #dc3545;
+  --font-color: #121212; /* rgba(100%, 100%, 100%, 87%) */
+  --header-font: #ffffff; /* rgba(100%, 100%, 100%, 87%) */
+  --template-bg-color: #ffffff; /* #121212 */
+  --popup-bg-color: #ffffff; /* #000000 */
+  --body-bg-color: #ebebeb; /* #000000 */
+  --mainToSide-color: #191970; /* #ecf39e */
+  --overlay-color: #000000; /* #ffffff */
 }
 
 * {
