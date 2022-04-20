@@ -1,5 +1,7 @@
-<p *ngIf="!(emailVerified | async)" class="alert alert-warning" style="text-align: center;">
-  {{'Please verify your email address. (Check your inbox)' | translate}}
-</p>
+<div class="home-container">
+  <p *ngIf="!(emailVerified | async)" class="alert alert-warning" style="text-align: center;">
+    {{'Please verify your email address. (Check your inbox)' | translate}}
+  </p>
 
-<h5 style=" text-align: center; padding: 25px;">{{'Welcome Home!' | translate}}</h5>
+  <h3>{{'Welcome Home!' | translate}}</h3>
+</div>
