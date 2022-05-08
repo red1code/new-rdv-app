@@ -68,6 +68,12 @@ export class HeaderComponent implements OnInit {
     window.location.reload()
   }
 
+  hideMenu(event: any) {
+    if (!event.currentTarget.contains(event.relatedTarget)) {
+      this.showMobileLinks = false
+    }
+  }
+
 }
 
 
