@@ -75,3 +75,18 @@ export class HeaderComponent implements OnInit {
   }
 
 }
+
+
+
+
+
+
+/*
+
+hideMenu(event: any) {
+  if (!event.currentTarget.contains(event.relatedTarget)) {
+    this.showMobileLinks = false
+  }
+}
+
+*/
