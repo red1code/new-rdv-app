@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
+  showSidebar = false;
   usersON = true;
   RDVsON = false;
 
@@ -14,14 +15,20 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void { }
 
+  toggleSidebar() {
+    this.showSidebar ? this.showSidebar = false : this.showSidebar = true;
+  }
+
   showUsers() {
     this.RDVsON = false;
-    this.usersON = true
+    this.usersON = true;
+    this.showSidebar = false
   }
 
   showRDVs() {
     this.usersON = false;
-    this.RDVsON = true
+    this.RDVsON = true;
+    this.showSidebar = false
   }
 
 }

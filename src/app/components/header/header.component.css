@@ -1,17 +1,24 @@
 .header-container {
   min-width: fit-content;
   width: 100%;
-  padding: 7px 15px;
-  position: -webkit-sticky;
-  position: sticky;
+  padding: 0 15px;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
   color: #ffffff;
   background-color: var(--main-color);
   display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-template-areas:
     'logo nav right-block';
   align-items: center;
+  height: 55px;
+}
+
+.sub-hdr {
+  height: 55px;
 }
 
 .toggle-menu {
@@ -20,25 +27,33 @@
 
 .logo-container {
   grid-area: logo;
-  height: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  color: #fff;
+}
+
+.logo-word {
+  font-size: 25px;
+  margin-left: 7px;
 }
 
 .web-nav-container {
   grid-area: nav;
-  justify-self: center;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
 }
 
 .web-right-block {
   grid-area: right-block;
-  justify-self: end;
-}
-
-#logo {
   display: flex;
   flex-wrap: nowrap;
+  justify-content: flex-end;
   align-items: center;
-  width: max-content;
-  color: #ffffff;
 }
 
 a {
@@ -46,10 +61,13 @@ a {
 }
 
 .web-nav-link {
-  margin: 0 5px;
-  padding: 7px 9px;
+  padding: 5px 7px;
   border-radius: 3px;
   color: #ffffff;
+}
+
+.mdl-link {
+  margin: 0 5px;
 }
 
 .web-nav-link:hover {
@@ -68,6 +86,10 @@ a {
 }
 
 .menu-header {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
   padding: 5px;
   border-radius: 40px;
 }
@@ -177,22 +199,18 @@ a {
 
 /* tablet view styles */
 
-@media screen and (max-width: 950px) {
+@media screen and (max-width: 850px) {
   .header-container {
     grid-template-areas:
-      'logo logo'
-      'nav right-block';
+      'nav logo right-block';
   }
 
   .logo-container {
-    grid-area: logo;
-    justify-self: center;
-    margin-bottom: 11px;
+    justify-content: center;
   }
 
-  .web-nav-container {
-    grid-area: nav;
-    justify-self: start;
+  .logo-word {
+    display: none;
   }
 }
 
@@ -207,10 +225,16 @@ a {
     all: unset;
   }
 
+  .logo-word {
+    display: inherit;
+  }
+
   .header-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 55px;
+    top: 0;
   }
 
   .logo-container {
@@ -311,6 +335,7 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 50px;
 }
 
 .logout-logo {

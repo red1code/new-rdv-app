@@ -2,14 +2,16 @@
   <!-- header -->
   <div class="hdr-container">
     <div style="display: flex; align-items: center;">
-      <span style="margin-right: 7px;">{{'Change Background Color ' | translate}}</span>
+      <span style="margin-right: 7px; white-space: nowrap;">{{'Change Background Color ' | translate}}</span>
       <input type="color" class="bg-color form-control" [(ngModel)]="bgColor">
     </div>
-    <button class="btn btn-outline-success" (click)="exportChart()">{{'Export To Image' | translate}}</button>
+    <button class="btn btn-outline-success" (click)="exportChart()">
+      {{'Export To Image' | translate}}
+    </button>
   </div>
 
   <!-- canvas -->
-  <div class="canva-container" style="position: relative; height:75vh; width:100%">
+  <div class="canva-container">
     <canvas [id]="chartID" class="chart" [style.background-color]="bgColor"></canvas>
   </div>
 </div>

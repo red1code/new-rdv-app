@@ -1,8 +1,8 @@
 <div class="header-container" [ngClass]="{'header-logout': !user}">
   <!-- webesite logo -->
   <a class="logo-container" routerLink="" id="logo" [ngClass]="{'logout-logo': !user}">
-    <img src="../../../assets/rendezvous-icon.svg" style="height: 30px;" alt="Logo Icon">
-    <span style="font-size: 21px; margin-left: 7px;">RENDEZVOUS</span>
+    <img src="../../../assets/rendezvous-icon.svg" style="height: 40px;" alt="Logo Icon">
+    <span class="logo-word">RENDEZVOUS</span>
   </a>
 
   <!-- web navigation links -->
@@ -10,7 +10,7 @@
     <a class="web-nav-link" routerLink="/home" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
       {{'Home' | translate}}
     </a>
-    <a class="web-nav-link" routerLink="/rendezvous" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+    <a class="web-nav-link mdl-link" routerLink="/rendezvous" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
       {{'Rendezvous' | translate}}
     </a>
     <a *ngIf="dashboardAuth" class="web-nav-link" routerLink="/dashboard" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
@@ -112,5 +112,6 @@
   <div *ngIf="showMobileLinks" class="overlay-menu" (click)="showMobileLinks=false"></div>
   <!-- signup -->
   <button *ngIf="!user" routerLink="auth/signup" class="signup-btn">{{'Sign Up' | translate}}</button>
-
 </div>
+
+<div class="sub-hdr"></div>
