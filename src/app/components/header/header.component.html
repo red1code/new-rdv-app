@@ -1,76 +1,116 @@
-<div class="header-container">
-  <div class="nav-container">
-    <!-- webesite logo -->
-    <div class="logo-container">
-      <a class="logo-link" routerLink="">
-        <img src="../../../assets/rendezvous-icon.svg" style="width: 30px;" alt="">
-        <span style="font-size: 25px; margin-left: 7px;">RENDEZVOUS</span>
-      </a>
+<div class="header-container" [ngClass]="{'header-logout': !user}">
+  <!-- webesite logo -->
+  <a class="logo-container" routerLink="" id="logo" [ngClass]="{'logout-logo': !user}">
+    <img src="../../../assets/rendezvous-icon.svg" style="height: 30px;" alt="Logo Icon">
+    <span style="font-size: 21px; margin-left: 7px;">RENDEZVOUS</span>
+  </a>
+
+  <!-- web navigation links -->
+  <div *ngIf="user" class="web-nav-container">
+    <a class="web-nav-link" routerLink="/home" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+      {{'Home' | translate}}
+    </a>
+    <a class="web-nav-link" routerLink="/rendezvous" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+      {{'Rendezvous' | translate}}
+    </a>
+    <a *ngIf="dashboardAuth" class="web-nav-link" routerLink="/dashboard" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
+      {{'Dashboard' | translate}}
+    </a>
+  </div>
+
+  <!-- right block -->
+  <div class="web-right-block">
+    <!-- select-language -->
+    <select *ngIf="user" class="select-lang" (change)="changeLanguage($event)" title="{{'Change Language' | translate}}">
+      <option [value]="langs.ENG" [selected]="language == langs.ENG">Eng</option>
+      <option [value]="langs.FR" [selected]="language == langs.FR">Fr</option>
+      <option [value]="langs.AR" [selected]="language == langs.AR">عر</option>
+    </select>
+    <!-- toggle menu -->
+    <button *ngIf="user" (click)="toggleMenu()" (blur)="showMenu=false" class="web-toggle-menu">
+      <div class="menu-header">
+        <img *ngIf="user.imageURL" [src]="user.imageURL" class="userIMG"  onerror="this.src='../../../assets/unknown-profile-picture.jpg'">
+        <span class="userName">{{ user.firstName }}</span>
+        <i class="fas fa-caret-down"></i>
+      </div>
+      <!-- the menu -->
+      <div *ngIf="showMenu" class="menu">
+        <hr style="margin: 0 0 7px 0; opacity: 0;">
+        <!-- go to profile -->
+        <div (click)="goToProfile()" class="profile-sec">
+          <div>
+            <img [src]="user.imageURL" class="rounded-circle" style="width: 50px; height: 50px;"  onerror="this.src='../../../assets/unknown-profile-picture.jpg'">
+          </div>
+          <div style="text-align: left; margin-left: 11px;">
+            <div style="font-size: medium;">
+              <strong>{{ user.firstName }} {{ user.lastName }}</strong>
+            </div>
+            <div style="font-size: smaller;">{{ user.email }}</div>
+            <div style="font-size: smaller;"><em>{{ user.role }}</em></div>
+          </div>
+        </div>
+        <hr style="margin: 7px 0;">
+        <!-- go to my-RDVs -->
+        <div (click)="goToMyRDVs()" class="profile-sec">
+          <div><i class="fas fa-calendar-check"></i></div>
+          <div style="text-align: left; margin-left: 11px;">
+            <a style="color: inherit;">{{'My Rendezvous' | translate}}</a>
+          </div>
+        </div>
+        <hr style="margin: 7px 0;">
+        <!-- logout -->
+        <div (click)="logOut()" class="log-out-sec">
+          <div class="inside" style="font-size: 1rem;">
+            <i class="fas fa-power-off"></i>
+          </div>
+          <div style="margin-left: 15px; font-size: 1rem;">{{'Sign out' | translate}}</div>
+        </div>
+        <hr style="margin: 7px 0 0 0; opacity: 0;">
+      </div>
+    </button>
+  </div> <!-- /toggle menu -->
+
+  <!-- mobile elements -->
+
+  <div *ngIf="user" class="toggle-menu">
+    <div class="menu-icon-container" (click)="toggleMobileNav()">
+      <mat-icon *ngIf="!showMobileLinks">menu</mat-icon>
+      <mat-icon *ngIf="showMobileLinks">close</mat-icon>
     </div>
-    <!-- navigation links -->
-    <nav class="nav-links-container">
-      <a *ngIf="user" class="nav-links" routerLink="/home" routerLinkActive="active-link"
-          [routerLinkActiveOptions]="{exact:true}">{{'Home' | translate}}</a>
-      <a *ngIf="user" class="nav-links" routerLink="/rendezvous" routerLinkActive="active-link"
-          [routerLinkActiveOptions]="{exact:true}">{{'Rendezvous' | translate}}</a>
-      <a *ngIf="dashboardAuth" class="nav-links" routerLink="/dashboard" routerLinkActive="active-link"
-          [routerLinkActiveOptions]="{exact:true}">{{'Dashboard' | translate}}</a>
-    </nav>
-    <!-- popup menu at the far right of the header -->
-    <div>
-      <button *ngIf="user" (click)="toggleMenu()" (blur)="showMenu=false" class="right-menu-container">
-        <div class="menu-header">
-          <img *ngIf="user.imageURL" [src]="user.imageURL" class="userIMG"  onerror="this.src='../../../assets/unknown-profile-picture.jpg'">
-          <span class="userName">{{ user.firstName }}</span>
-          <i class="fas fa-caret-down"></i>
-        </div>
-        <!-- the menu -->
-        <div *ngIf="showMenu" class="menu">
-          <hr style="margin: 0 0 7px 0; opacity: 0;">
-          <!-- go to profile -->
-          <div (click)="goToProfile()" class="profile-sec">
-            <div>
-              <img [src]="user.imageURL" class="rounded-circle" style="width: 50px; height: 50px;"  onerror="this.src='../../../assets/unknown-profile-picture.jpg'">
-            </div>
-            <div style="text-align: left; margin-left: 11px;">
-              <div style="font-size: medium;">
-                <strong>{{ user.firstName }} {{ user.lastName }}</strong>
-              </div>
-              <div style="font-size: smaller;">{{ user.email }}</div>
-              <div style="font-size: smaller;"><em>{{ user.role }}</em></div>
-            </div>
-          </div>
-          <hr style="margin: 7px 0;">
-          <!-- go to my-RDVs -->
-          <div (click)="goToMyRDVs()" class="profile-sec">
-            <div><i class="fas fa-calendar-check"></i></div>
-            <div style="text-align: left; margin-left: 11px;">
-              <a style="color: inherit;">{{'My Rendezvous' | translate}}</a>
-            </div>
-          </div>
-          <hr style="margin: 7px 0;">
-          <!-- logout -->
-          <div (click)="logOut()" class="log-out-sec">
-            <div class="inside" style="font-size: 1rem;">
-              <i class="fas fa-power-off"></i>
-            </div>
-            <div style="margin-left: 15px; font-size: 1rem;">{{'Sign out' | translate}}</div>
-          </div>
-          <hr style="margin: 7px 0 0 0; opacity: 0;">
-        </div>
-      </button>
-
-      <!-- signup -->
-      <button *ngIf="!user" routerLink="auth/signup" class="signup-btn">{{'Sign Up' | translate}}</button>
-
-      <!-- select-language -->
-      <span *ngIf="user" class="select-container" title="{{'Change Language' | translate}}">
-        <select class="language-select" (change)="changeLanguage($event)">
+    <!-- popup menu -->
+    <div *ngIf="showMobileLinks" class="mobile-nav">
+      <a class="mobile-nav-link" routerLink="/profile/{{user.uid}}" routerLinkActive="active-link-mobile" [routerLinkActiveOptions]="{exact:true}">
+        <img [src]="user.imageURL" class="rounded-circle" style="width: 25px; height: 25px;"  onerror="this.src='../../../assets/unknown-profile-picture.jpg'">
+        <span style="margin-left: 7px;">{{'Profile' | translate}}</span>
+      </a>
+      <a class="mobile-nav-link" routerLink="/home" routerLinkActive="active-link-mobile" [routerLinkActiveOptions]="{exact:true}">
+        {{'Home' | translate}}
+      </a>
+      <a class="mobile-nav-link" routerLink="/rendezvous" routerLinkActive="active-link-mobile" [routerLinkActiveOptions]="{exact:true}">
+        {{'Rendezvous' | translate}}
+      </a>
+      <a class="mobile-nav-link" routerLink="/rendezvous/my-rendezvous" routerLinkActive="active-link-mobile" [routerLinkActiveOptions]="{exact:true}">
+        {{'My Rendezvous' | translate}}
+      </a>
+      <a *ngIf="dashboardAuth" class="mobile-nav-link" routerLink="/dashboard" routerLinkActive="active-link-mobile" [routerLinkActiveOptions]="{exact:true}">
+        {{'Dashboard' | translate}}
+      </a>
+      <a class="logout-link" (click)="logOut()">
+        <i class="fas fa-power-off"></i>
+        <span style="margin-left: 7px;">{{'Sign out' | translate}}</span>
+      </a>
+      <a class="mobile-nav-link lang-container" id="lang">
+        <!-- select-language -->
+        <select *ngIf="user" class="select-lang-mobile" (change)="changeLanguage($event)">
           <option [value]="langs.ENG" [selected]="language == langs.ENG">Eng</option>
           <option [value]="langs.FR" [selected]="language == langs.FR">Fr</option>
           <option [value]="langs.AR" [selected]="language == langs.AR">عر</option>
         </select>
-      </span>
-    </div>
+      </a>
+    </div> <!-- /popup menu -->
   </div>
+  <div *ngIf="showMobileLinks" class="overlay-menu" (click)="showMobileLinks=false"></div>
+  <!-- signup -->
+  <button *ngIf="!user" routerLink="auth/signup" class="signup-btn">{{'Sign Up' | translate}}</button>
+
 </div>
