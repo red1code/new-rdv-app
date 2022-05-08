@@ -8,6 +8,8 @@
   "Rendezvous": "المواعيد",
   "Home": "الاستقبال",
   "Profile": "الملف الشخصي",
+  "Switch to Dark Mode": "التبديل إلى الوضع الداكن",
+  "Switch to Light Mode": "التبديل إلى وضع الإضاءة",
 
   "Copyrights to": "جميع الحقوق إلى",
 
@@ -61,7 +63,7 @@
   "Call Off Rendezvous": "إلغاء الموعد",
   "Updating Rendezvous": "تعديل الموعد",
 
-  "Add New Rendezvous": "موعد جديد",
+  "New Rendezvous": "موعد جديد",
   "Approved Rendezvous": "المواعيد المؤكدة",
   "Create New Rendezvous": "إنشاء موعد جديد",
 

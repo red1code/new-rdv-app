@@ -11,6 +11,7 @@ export interface User {
   phoneNumber: number;
   role: ROLES;
   language?: LANGUAGES;
+  darkTheme?: boolean;
 }
 
 export enum ROLES {
@@ -18,4 +19,9 @@ export enum ROLES {
   MODERATOR = 'MODERATOR',
   PATIENT = 'PATIENT',
   MEDECIN = 'MEDECIN'
+}
+
+export enum THEMES {
+  DARK = 'dark',
+  LIGHT = 'light;'
 }

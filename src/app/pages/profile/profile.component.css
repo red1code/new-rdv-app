@@ -9,7 +9,6 @@
   width: max-content;
   min-width: max-content;
   height: max-content;
-  background-color: #fff;
   display: grid;
   grid-template-columns: repeat(2, minmax(max-content, 1fr));
   gap: 15px;
@@ -79,8 +78,18 @@
 }
 
 .edit-btn {
-  color: var(--main-color);
-  background-color: var(--accent-color);
+  height: fit-content;
+  padding: .25rem .5rem;
+  margin-left: 5px;
+  align-self: center;
+  background-color: var(--mainToSide-color);
+  color: var(--popup-bg-color);
+  border: none;
+  border-radius: 3px;
+}
+
+.edit-btn:hover {
+  filter: brightness(.9);
 }
 
 .img-cropper-container {

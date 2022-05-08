@@ -59,6 +59,11 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
       pageLength: 5,
       lengthMenu: [3, 5, 10, 25, 50, 100],
       dom: 'Bfrtip',
+      initComplete: function (settings: any, json: any) {
+        $('button').removeClass('dt-button');
+        $('button').removeClass('buttons-excel');
+        $('button').removeClass('buttons-html5 ');
+      },
       // Configure buttons (I disabled them coz the user doesn't need them)
       buttons: this.tableBTNs(showBTNs),
       rowCallback: (row: Node, data: any[] | Object, index: number) => {
@@ -67,6 +72,7 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
         // (see https://github.com/l-lin/angular-datatables/issues/87)
         // Note: In newer jQuery v3 versions, `unbind` and `bind` are
         // deprecated in favor of `off` and `on`
+        $(row).addClass('t-row');
         $(row).css({ "white-space": "nowrap" })
         let dt = data as any;
         if (dt.createdBy === usrMail || this.canCRUD) { // only the owner or moderator or admin, can edit row
@@ -121,7 +127,14 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
   }
 
   // we need table buttons in dashboard, but we don't need them in rendezvous, so i made this method:
-  private tableBTNs = (showBTNs: boolean): any[] => showBTNs ? ['colvis', 'csv', 'excel'] : [];
+  private tableBTNs = (showBTNs: boolean): any[] => {
+    return !showBTNs ? [] :
+      [
+        { extend: 'colvis', className: "export-btns" },
+        { extend: 'csv', className: "export-btns" },
+        { extend: 'excel', className: "export-btns" }
+      ]
+  }
 
   get canCRUD() {
     return this.authService.canCRUDrendezvous(this.currentUser as User)

@@ -1,10 +1,11 @@
 import { AuthService } from './../../auth/services/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { User } from 'src/app/models/user';
+import { THEMES, User } from 'src/app/models/user';
 import { Router } from '@angular/router';
 import { LANGUAGES } from 'src/app/models/languages';
 import { TranslatingService } from 'src/app/services/translating.service';
 import { UsersService } from 'src/app/services/users.service';
+import { setTheme } from 'src/app/utils/utilities';
 
 @Component({
   selector: 'app-header',
@@ -18,6 +19,7 @@ export class HeaderComponent implements OnInit {
   language = this.translatingService.deviceLanguage;
   langs = LANGUAGES;
   showMobileLinks = false;
+  darkMode!: boolean;
 
   constructor(
     private router: Router,
@@ -33,7 +35,8 @@ export class HeaderComponent implements OnInit {
   getCurrentUser() {
     this.authService.getUser().subscribe(value => {
       this.user = value as User;
-      this.user.language ? this.language = this.user.language : null
+      this.user.language ? this.language = this.user.language : null;
+      (value?.darkTheme ? this.darkMode = true : this.darkMode = false);
     })
   }
 
@@ -41,11 +44,10 @@ export class HeaderComponent implements OnInit {
     return this.authService.canAccessDashboard(this.user)
   }
 
-  logOut() {
-    this.authService.logOut().then(() => {
-      this.router.navigate(['/auth/login']);
-      this.language = this.translatingService.deviceLanguage
-    })
+  async logOut() {
+    await this.authService.logOut();
+    await this.router.navigate(['/auth/login']);
+    window.location.reload()
   }
 
   goToMyRDVs = () => this.router.navigate(['/rendezvous/my-rendezvous']);
@@ -68,9 +70,27 @@ export class HeaderComponent implements OnInit {
     window.location.reload()
   }
 
-  hideMenu(event: any) {
-    if (!event.currentTarget.contains(event.relatedTarget)) {
-      this.showMobileLinks = false
+  async changeTheme() {
+    if (!this.darkMode) {
+      this.user.darkTheme = true;
+      try {
+        await this.usersService.updateProfile(this.user.uid as string, this.user);
+        setTheme(THEMES.DARK);
+        this.darkMode = true;
+      }
+      catch (error) {
+        window.alert(error)
+      }
+    } else {
+      this.user.darkTheme = false;
+      try {
+        await this.usersService.updateProfile(this.user.uid as string, this.user);
+        setTheme(THEMES.LIGHT);
+        this.darkMode = false;
+      }
+      catch (error) {
+        window.alert(error)
+      }
     }
   }
 
