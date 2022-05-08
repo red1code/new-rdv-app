@@ -1,44 +1,11 @@
-.table_container, .chart-comp-container {
-  width: 100%;
-  min-width: 300px;
+.chart-container {
   padding: 15px;
+  max-width: 90%;
+  margin-inline: auto;
 }
 
-.popup-container {
-  border: none;
-  display: block;
-  position: absolute;
-  top: 15px;
-  left: 25%;
-  width: 50%;
-  z-index: 10;
-  cursor: zoom-in;
-}
-
-.close-btn-container {
-  margin: 11px 15px;
-  margin-bottom: 0;
-  display: flex;
-  justify-content: space-between;
-}
-
-.fa-times-circle {
-  font-size: x-large;
-  padding: 3px;
-  cursor: pointer;
-}
-
-.fa-times-circle:hover {
-  color: #b6b61a;
-}
-
-.black-bg {
-  position: absolute;
-  opacity: 0.5;
-  width: 100%;
-  min-height: 100%;
-  top: 0;
-  left: 0;
-  background-color: black;
-  z-index: 9;
+@media screen and (max-width: 950px) {
+  .chart-container {
+    max-width: 100%;
+  }
 }

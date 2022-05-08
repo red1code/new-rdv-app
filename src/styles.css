@@ -2,15 +2,18 @@
 
 @import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
 
-* {
-  font-size: 1rem;
-  font-family: sans-serif;
-}
-
 :root {
   --main-color: #191970;
   --accent-color: #ecf39e;
   --danger-color: #a82a00
+}
+
+* {
+  font-family: sans-serif;
+}
+
+html, body {
+  height: 100%;
 }
 
 body {
@@ -25,6 +28,32 @@ body {
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 0 11px 0 rgba(0, 0, 0, 0.4);
+}
+
+/* tables styles */
+
+.table-container {
+  max-width: 90%;
+  padding: 15px;
+  margin-inline: auto;
+  margin-bottom: 15px;
+
+}
+
+.t-title-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 15px auto;
+  width: 100%;
+}
+
+.t-title {
+  font-size: 1.25rem;
+  padding: 7px 15px;
+  color: var(--accent-color);
+  background-color: var(--main-color);
+  border-radius: 3px;
 }
 
 .row-btn-container {
@@ -119,4 +148,18 @@ body {
 
 .danger-input {
   border: 1px solid var(--danger-color);
+}
+
+/* media queries */
+
+@media screen and (max-width: 950px) {
+  .table-container {
+    max-width: 100%;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .t-title {
+    font-size: 0.9rem;
+  }
 }

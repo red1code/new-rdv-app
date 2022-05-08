@@ -3,13 +3,13 @@
   <div class="name-div">
     <input type="text" formControlName="displayName" class="form-control" placeholder="{{'Enter a name' | translate}}">
     <p *ngIf="rdvform.controls['displayName'].touched && rdvform.controls['displayName'].invalid"
-        class="warning-message">{{'invalid name' | translate}}</p>
+        class="danger-msg">{{'invalid name' | translate}}</p>
   </div>
   <!-- mobile input -->
   <div class="mobile-div">
     <input type="tel" formControlName="phoneNumber" class="form-control" placeholder="{{'Phone Number' | translate}}">
     <p *ngIf="rdvform.controls['phoneNumber'].touched && rdvform.controls['phoneNumber'].invalid"
-        class="warning-message">{{'Phone Number must contain 10 digit numbers' | translate}}</p>
+        class="danger-msg">{{'Phone Number must contain 10 digit numbers' | translate}}</p>
   </div>
   <!-- buttons -->
   <div class="btns-container">

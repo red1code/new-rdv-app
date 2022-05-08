@@ -1,13 +1,37 @@
 <div class="dashboard-container">
   <!-- sidebar -->
   <div class="sidebar">
-    <div class="users-title-container" (click)="showUsers()" [ngClass]="{'active': usersON}">
-      {{'Users' | translate}}
+    <div class="fixed">
+      <!-- web-sidemenu-container -->
+      <div class="web-sidemenu-container">
+        <div class="toggle-sidebar">
+          <span (click)="toggleSidebar()">
+            <mat-icon *ngIf="!showSidebar" title="{{'Show Sidebar' | translate}}">menu</mat-icon>
+          </span>
+        </div>
+        <div class="web-side-links" (click)="showUsers()" [ngClass]="{'active': usersON}">
+          {{'Users' | translate}}
+        </div>
+        <div class="web-side-links" (click)="showRDVs()" [ngClass]="{'active': RDVsON}">
+          {{'Rendezvous' | translate}}
+        </div>
+      </div>
     </div>
-    <hr style="color: #fff; margin: 0;">
-    <div class="rdvs-title-container" (click)="showRDVs()" [ngClass]="{'active': RDVsON}">
-      {{'Rendezvous' | translate}}
+
+    <!-- mobile-sidemenu-container -->
+    <div *ngIf="showSidebar" class="mobile-sidemenu-container" [ngClass]="{'show-sidemenu': showSidebar, 'hide-sidemenu': !showSidebar}">
+      <div class="toggle-sidebar">
+        <span *ngIf="showSidebar" class="close-btn" title="{{'Cancel' | translate}}" (click)="toggleSidebar()">&times;</span>
+      </div>
+      <div class="mobile-side-link" (click)="showUsers()" [ngClass]="{'active': usersON}">
+        {{'Users' | translate}}
+      </div>
+      <div class="mobile-side-link" (click)="showRDVs()" [ngClass]="{'active': RDVsON}">
+        {{'Rendezvous' | translate}}
+      </div>
     </div>
+
+    <div *ngIf="showSidebar" class="overlay" (click)="toggleSidebar()"></div>
   </div> <!-- /sidebar -->
 
   <!-- main content -->

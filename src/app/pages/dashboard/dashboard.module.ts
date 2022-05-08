@@ -6,6 +6,7 @@ import { DashboardComponent } from './dashboard.component';
 import { UsersPartComponent } from './users-part/users-part.component';
 import { RendezvousComponent } from './rendezvous/rendezvous.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     CommonModule,
     DashboardRoutingModule,
     SharedModule,
-    FormsModule
+    FormsModule,
+    MatIconModule
   ]
 })
 export class DashboardModule { }
