@@ -1,3 +1,4 @@
+import { SwUpdate } from '@angular/service-worker';
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from './auth/services/auth.service';
@@ -16,7 +17,8 @@ export class AppComponent {
   constructor(
     public authService: AuthService,
     private translateService: TranslateService,
-    private translatingService: TranslatingService
+    private translatingService: TranslatingService,
+    private swUpdate: SwUpdate
   ) {
     this.translateService.setDefaultLang(LANGUAGES.ENG);
     this.authService.getUser().subscribe(usr => {
@@ -26,6 +28,19 @@ export class AppComponent {
       // check for dark mode
       (usr?.darkTheme ? setTheme(THEMES.DARK) : setTheme(THEMES.LIGHT));
     });
+
+    // check for app updates
+    swUpdate.versionUpdates.subscribe(v => {
+      if (v.type === 'VERSION_DETECTED') {
+        this.updateApp();
+      }
+    })
+  }
+
+  updateApp() {
+    if (confirm('A new version is available. wanna install it?')) {
+      window.location.reload()
+    }
   }
 
 }
