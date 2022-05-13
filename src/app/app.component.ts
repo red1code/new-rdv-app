@@ -1,11 +1,13 @@
 import { SwUpdate } from '@angular/service-worker';
-import { Component } from '@angular/core';
+import { ApplicationRef, Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from './auth/services/auth.service';
 import { LANGUAGES } from './models/languages';
 import { THEMES } from './models/user';
 import { TranslatingService } from './services/translating.service';
 import { setTheme } from './utils/utilities';
+import { first } from 'rxjs/operators';
+import { concat, interval } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +20,7 @@ export class AppComponent {
     public authService: AuthService,
     private translateService: TranslateService,
     private translatingService: TranslatingService,
+    private appRef: ApplicationRef,
     private swUpdate: SwUpdate
   ) {
     this.translateService.setDefaultLang(LANGUAGES.ENG);
@@ -30,16 +33,21 @@ export class AppComponent {
     });
 
     // check for app updates
-    swUpdate.versionUpdates.subscribe(v => {
-      if (v.type === 'VERSION_DETECTED') {
-        this.updateApp();
-      }
+    const appIsStable$ = appRef.isStable.pipe(first(isStable => isStable === true));
+    const everyMin$ = interval(60 * 1000);
+    const everyMinOnceAppIsStable$ = concat(appIsStable$, everyMin$);
+    everyMinOnceAppIsStable$.subscribe(() => {
+      swUpdate.checkForUpdate().then(evt => {
+        if (evt === true) {
+          this.updateApp();
+        }
+      })
     })
   }
 
   updateApp() {
     if (confirm('A new version is available. wanna install it?')) {
-      window.location.reload()
+      this.swUpdate.activateUpdate().then(() => window.location.reload())
     }
   }
 
