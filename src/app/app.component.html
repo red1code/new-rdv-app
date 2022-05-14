@@ -1,5 +1,12 @@
 <app-header></app-header>
 
-<router-outlet></router-outlet>
+<div style="position: relative;">
+  <router-outlet></router-outlet>
+
+  <p *ngIf="!(isConnected | async) && showNotification" class="alert alert-danger">
+    <span>You're offline</span>
+    <span class="close" (click)="closeNotification()">&times;</span>
+  </p>
+</div>
 
 <app-footer></app-footer>
