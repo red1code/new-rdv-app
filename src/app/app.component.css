@@ -1,1 +1,13 @@
+.alert {
+  position: sticky;
+  bottom: 0;
+  text-align: center;
+  padding-block: 7px;
+}
 
+.close {
+  font-size: 1.7rem;
+  float: right;
+  padding: 3px;
+  cursor: pointer;
+}

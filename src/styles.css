@@ -207,3 +207,16 @@ tr.t-row {
     font-size: 0.9rem;
   }
 }
+
+.globlal-btn {
+  height: fit-content;
+  padding: .25rem .5rem;
+  background-color: var(--main-color);
+  color: var(--popup-bg-color);
+  border: none;
+  border-radius: 3px;
+}
+
+.globlal-btn:hover {
+  filter: brightness(90%);
+}
