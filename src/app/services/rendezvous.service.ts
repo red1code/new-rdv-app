@@ -1,4 +1,4 @@
-import { AngularFirestore, DocumentReference } from '@angular/fire/compat/firestore';
+import { AngularFirestore, AngularFirestoreDocument, DocumentReference } from '@angular/fire/compat/firestore';
 import { Rendezvous, RendezvousStates } from './../models/rendezvous';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
@@ -91,10 +91,25 @@ export class RendezvousService {
       }))
   }
 
-  getApprovedRendezvous(): Observable<Rendezvous[]> {
+  // to get the latest AngularFirestoreDocument by its ID
+  getDocByID(id: string | undefined) {
+    return (id ? this.fireStore.collection<Rendezvous>('Rendezvous').doc(id) : 0)
+  }
+
+  // lastDoc parametre here in getApprovedRendezvous() method, is optional because in the initial it won't be declared.
+  // but after pressing next button in the table, it will call this method with the lastDoc param, passed from RendezvousComponent.
+  getApprovedRendezvous(lastDoc?: Rendezvous): Observable<Rendezvous[]> {
+    // to get the last AngularFirestoreDocument<Rendezvous>
+    let latestDoc = this.getDocByID(lastDoc?.rdvID);
+
     return this.fireStore
-      .collection<Rendezvous>('Rendezvous',
-        ref => ref.where('rdvState', '==', RendezvousStates.APPROVED).orderBy('rdvDate')
+      .collection<Rendezvous>('Rendezvous', ref => ref
+        .where('rdvState', '==', RendezvousStates.APPROVED)
+        .orderBy('rdvDate')
+        // I tried to pass latestDoc or lastDoc to startAfter() query, but both don't work
+        .startAfter(lastDoc || 0)
+        // limit(3) here is just an example, you can set any limit you want
+        .limit(3)
       )
       .snapshotChanges()
       .pipe(map(values => {

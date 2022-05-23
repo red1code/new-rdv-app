@@ -17,8 +17,16 @@
       [infos]="RDVs"
       [showBtns]="false"
       [currentUser]="user"
+      (loadMoreData)="onTableNext()"
       (updateInfosEvent)="proceedToUpdate($event)">
     </app-table>
+  </div>
+
+  <div>
+    <h2>testing</h2>
+    <p *ngFor="let rdv of (approvedRDVs | async)">
+      {{ rdv.displayName }}
+    </p>
   </div>
 
   <!-- popup -->

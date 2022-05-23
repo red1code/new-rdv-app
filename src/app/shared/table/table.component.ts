@@ -23,6 +23,7 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
   @Input() showBtns!: boolean;
 
   @Output() updateInfosEvent = new EventEmitter();
+  @Output() loadMoreData = new EventEmitter();
 
   @ViewChild(DataTableDirective, { static: false })
   dtElement!: DataTableDirective;
@@ -66,6 +67,11 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
       },
       // Configure buttons (I disabled them coz the user doesn't need them)
       buttons: this.tableBTNs(showBTNs),
+
+      drawCallback: () => {
+        $('#DataTables_Table_0_next').on('click', () => this.loadMoreData.emit())
+      },
+
       rowCallback: (row: Node, data: any[] | Object, index: number) => {
         const self = this;
         // Unbind first in order to avoid any duplicate handler

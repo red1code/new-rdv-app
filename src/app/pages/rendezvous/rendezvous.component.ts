@@ -21,6 +21,8 @@ export class RendezvousComponent implements OnInit {
   formErrorMsg = '';
   rdv: Rendezvous | null = null;
 
+  lastDoc!: Rendezvous;
+
   constructor(
     private authService: AuthService,
     private rdvService: RendezvousService,
@@ -44,7 +46,31 @@ export class RendezvousComponent implements OnInit {
 
     this.authService.getUser().subscribe(value => {
       this.user = value as User
-    })
+    });
+
+    // to get the last rdv
+    this.approvedRDVs.subscribe(rdvs => {
+      this.lastDoc = rdvs[rdvs.length - 1];
+
+      console.warn('lastDoc: ', this.lastDoc);
+    });
+  }
+
+  onTableNext() {
+    console.warn('getDocByID: ', this.rdvService.getDocByID(this.lastDoc.rdvID))
+
+    this.approvedRDVs = this.rdvService.getApprovedRendezvous(this.lastDoc)
+      .pipe(map(rdvs => {
+        return rdvs.map(rdv => {
+          return {
+            ...rdv,
+            createdAt: this.translatingService.getTranslatedDate(rdv.createdAt as string),
+            lastUpdate: (rdv.lastUpdate === 'Not Updated') ? this.translate.instant('Not Updated') :
+              this.translatingService.getTranslatedDate(rdv.lastUpdate as string),
+            rdvDate: this.translatingService.getTranslatedDate(rdv.rdvDate as string)
+          }
+        })
+      }));
   }
 
   proceedToUpdate(data: Rendezvous) {
