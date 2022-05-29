@@ -74,11 +74,13 @@ export class TranslatingService {
       .toLocaleString('en', { month: 'short' }));
   }
 
-  getTranslatedDate(stringDate: string): string {
-    return new Date(stringDate).toLocaleString(
-      this.translate.instant('en'),
-      { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }
-    )
+  convertToDateString(param: any): string {
+    return param
+      .toDate()
+      .toLocaleString(
+        this.translate.instant('en'),
+        { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }
+      )
   }
 
 }

@@ -35,17 +35,6 @@ export class RendezvousComponent implements OnInit {
   ngOnInit(): void {
     this.approvedRDVs = this.rdvService
       .getRDVsByState(RendezvousStates.APPROVED, 'rdvDate')
-      .pipe(map(rdvs => {
-        return rdvs.map(rdv => {
-          return {
-            ...rdv,
-            createdAt: this.translatingService.getTranslatedDate(rdv.createdAt as string),
-            lastUpdate: (rdv.lastUpdate === 'Not Updated') ? this.translate.instant('Not Updated') :
-              this.translatingService.getTranslatedDate(rdv.lastUpdate as string),
-            rdvDate: this.translatingService.getTranslatedDate(rdv.rdvDate as string)
-          }
-        })
-      }));
 
     this.authService.getUser().subscribe(value => {
       this.user = value as User

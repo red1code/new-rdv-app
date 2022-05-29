@@ -5,13 +5,17 @@ import { Rendezvous, RendezvousStates } from './../models/rendezvous';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { User } from '../models/user';
+import { TranslatingService } from './translating.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RendezvousService {
 
-  constructor(private fireStore: AngularFirestore) { }
+  constructor(
+    private fireStore: AngularFirestore,
+    private translatingService: TranslatingService
+  ) { }
 
   // =============== CREATE ===============
 
@@ -86,13 +90,13 @@ export class RendezvousService {
           return {
             ...load,
             rdvID: rdv.payload.doc.id,
-            createdAt: this.convertToDateString(load.createdAt),
+            createdAt: this.translatingService.convertToDateString(load.createdAt),
             lastUpdate: this.getLastUpdate(load.lastUpdate),
-            rdvDate: load.rdvDate ? this.convertToDateString(load.rdvDate) : undefined,
-            approvedAt: load.approvedAt ? this.convertToDateString(load.approvedAt) : undefined,
-            finishedAt: load.finishedAt ? this.convertToDateString(load.finishedAt) : undefined,
-            canceledAt: load.canceledAt ? this.convertToDateString(load.canceledAt) : undefined,
-            deletedAt: load.deletedAt ? this.convertToDateString(load.deletedAt) : undefined,
+            rdvDate: load.rdvDate ? this.translatingService.convertToDateString(load.rdvDate) : undefined,
+            approvedAt: load.approvedAt ? this.translatingService.convertToDateString(load.approvedAt) : undefined,
+            finishedAt: load.finishedAt ? this.translatingService.convertToDateString(load.finishedAt) : undefined,
+            canceledAt: load.canceledAt ? this.translatingService.convertToDateString(load.canceledAt) : undefined,
+            deletedAt: load.deletedAt ? this.translatingService.convertToDateString(load.deletedAt) : undefined,
             order: i++
           }
         })
@@ -114,13 +118,13 @@ export class RendezvousService {
           return {
             ...load,
             rdvID: rdv.payload.doc.id,
-            createdAt: this.convertToDateString(load.createdAt),
+            createdAt: this.translatingService.convertToDateString(load.createdAt),
             lastUpdate: this.getLastUpdate(load.lastUpdate),
-            rdvDate: load.rdvDate ? this.convertToDateString(load.rdvDate) : undefined,
-            approvedAt: load.approvedAt ? this.convertToDateString(load.approvedAt) : undefined,
-            finishedAt: load.finishedAt ? this.convertToDateString(load.finishedAt) : undefined,
-            canceledAt: load.canceledAt ? this.convertToDateString(load.canceledAt) : undefined,
-            deletedAt: load.deletedAt ? this.convertToDateString(load.deletedAt) : undefined,
+            rdvDate: load.rdvDate ? this.translatingService.convertToDateString(load.rdvDate) : undefined,
+            approvedAt: load.approvedAt ? this.translatingService.convertToDateString(load.approvedAt) : undefined,
+            finishedAt: load.finishedAt ? this.translatingService.convertToDateString(load.finishedAt) : undefined,
+            canceledAt: load.canceledAt ? this.translatingService.convertToDateString(load.canceledAt) : undefined,
+            deletedAt: load.deletedAt ? this.translatingService.convertToDateString(load.deletedAt) : undefined,
             order: i++
           }
         })
@@ -138,13 +142,13 @@ export class RendezvousService {
           return {
             ...load,
             rdvID: rdv.payload.doc.id,
-            createdAt: this.convertToDateString(load.createdAt),
+            createdAt: this.translatingService.convertToDateString(load.createdAt),
             lastUpdate: this.getLastUpdate(load.lastUpdate),
-            rdvDate: load.rdvDate ? this.convertToDateString(load.rdvDate) : undefined,
-            approvedAt: load.approvedAt ? this.convertToDateString(load.approvedAt) : undefined,
-            finishedAt: load.finishedAt ? this.convertToDateString(load.finishedAt) : undefined,
-            canceledAt: load.canceledAt ? this.convertToDateString(load.canceledAt) : undefined,
-            deletedAt: load.deletedAt ? this.convertToDateString(load.deletedAt) : undefined,
+            rdvDate: load.rdvDate ? this.translatingService.convertToDateString(load.rdvDate) : undefined,
+            approvedAt: load.approvedAt ? this.translatingService.convertToDateString(load.approvedAt) : undefined,
+            finishedAt: load.finishedAt ? this.translatingService.convertToDateString(load.finishedAt) : undefined,
+            canceledAt: load.canceledAt ? this.translatingService.convertToDateString(load.canceledAt) : undefined,
+            deletedAt: load.deletedAt ? this.translatingService.convertToDateString(load.deletedAt) : undefined,
             order: i++
           }
         })
@@ -156,18 +160,7 @@ export class RendezvousService {
   getDocByID = (docID: string) => this.fireStore.collection<Rendezvous>('Rendezvous').doc(docID)
 
   private getLastUpdate(param: any): string {
-    return (!param || (param === 'Not Updated')) ? 'Not Updated' : this.convertToDateString(param)
-  }
-
-  private convertToDateString(param: any): string {
-    return param.toDate().toLocaleString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      // hour12: false
-    })
+    return (!param || (param === 'Not Updated')) ? 'Not Updated' : this.translatingService.convertToDateString(param)
   }
 
 }

@@ -42,30 +42,11 @@ export class RendezvousComponent implements OnInit {
     // getting approved Rendezvous and translating data
     this.approvedRendezvous = this.rdvService
       .getRDVsByState(RendezvousStates.APPROVED, 'rdvDate')
-      .pipe(map(rdvs => {
-        return rdvs.map(rdv => {
-          return {
-            ...rdv,
-            createdAt: this.translatingService.getTranslatedDate(rdv.createdAt as string),
-            lastUpdate: (rdv.lastUpdate === 'Not Updated') ? this.translate.instant('Not Updated') :
-              this.translatingService.getTranslatedDate(rdv.lastUpdate as string),
-            rdvDate: this.translatingService.getTranslatedDate(rdv.rdvDate as string)
-          }
-        })
-      }));
+
     // getting pending Rendezvous and translating data
     this.pendingRendezvous = this.rdvService
       .getRDVsByState(RendezvousStates.PENDING, 'createdAt')
-      .pipe(map(rdvs => {
-        return rdvs.map(rdv => {
-          return {
-            ...rdv,
-            createdAt: this.translatingService.getTranslatedDate(rdv.createdAt as string),
-            lastUpdate: (rdv.lastUpdate === 'Not Updated') ? this.translate.instant('Not Updated') :
-              this.translatingService.getTranslatedDate(rdv.lastUpdate as string)
-          }
-        })
-      }));
+
     // getting chart data of all rendezvous
     this.rdvService.getAllRendezvous().subscribe(values => {
       const rdvsInEveryMonth = values

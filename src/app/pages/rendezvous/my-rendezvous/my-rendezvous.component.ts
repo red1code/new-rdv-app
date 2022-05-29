@@ -37,30 +37,9 @@ export class MyRendezvousComponent implements OnInit {
 
       this.myApprovedRDVs = this.rdvService
         .getRDVsByEmailAndState(this.user.email, RendezvousStates.APPROVED, 'rdvDate')
-        .pipe(map(rdvs => {
-          return rdvs.map(rdv => {
-            return {
-              ...rdv,
-              createdAt: this.translatingService.getTranslatedDate(rdv.createdAt as string),
-              lastUpdate: (rdv.lastUpdate === 'Not Updated') ? this.translate.instant('Not Updated') :
-                this.translatingService.getTranslatedDate(rdv.lastUpdate as string),
-              rdvDate: this.translatingService.getTranslatedDate(rdv.rdvDate as string)
-            }
-          })
-        }));
 
       this.myPendingRDVs = this.rdvService
         .getRDVsByEmailAndState(this.user.email, RendezvousStates.PENDING, 'createdAt')
-        .pipe(map(rdvs => {
-          return rdvs.map(rdv => {
-            return {
-              ...rdv,
-              createdAt: this.translatingService.getTranslatedDate(rdv.createdAt as string),
-              lastUpdate: (rdv.lastUpdate === 'Not Updated') ? this.translate.instant('Not Updated') :
-                this.translatingService.getTranslatedDate(rdv.lastUpdate as string)
-            }
-          })
-        }))
     })
   }
 
