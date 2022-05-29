@@ -1,5 +1,6 @@
+import { AngularFirestore, DocumentSnapshot } from '@angular/fire/compat/firestore';
 import { TranslatingService } from 'src/app/services/translating.service';
-import { Rendezvous } from './../../models/rendezvous';
+import { Rendezvous, RendezvousStates } from './../../models/rendezvous';
 import { map, Observable } from 'rxjs';
 import { User } from './../../models/user';
 import { RendezvousService } from './../../services/rendezvous.service';
@@ -27,11 +28,13 @@ export class RendezvousComponent implements OnInit {
     private authService: AuthService,
     private rdvService: RendezvousService,
     private translate: TranslateService,
-    private translatingService: TranslatingService
+    private translatingService: TranslatingService,
+    private afs: AngularFirestore
   ) { }
 
   ngOnInit(): void {
-    this.approvedRDVs = this.rdvService.getApprovedRendezvous()
+    this.approvedRDVs = this.rdvService
+      .getRDVsByState(RendezvousStates.APPROVED, 'rdvDate')
       .pipe(map(rdvs => {
         return rdvs.map(rdv => {
           return {
@@ -57,20 +60,24 @@ export class RendezvousComponent implements OnInit {
   }
 
   onTableNext() {
-    console.warn('getDocByID: ', this.rdvService.getDocByID(this.lastDoc.rdvID))
-
-    this.approvedRDVs = this.rdvService.getApprovedRendezvous(this.lastDoc)
-      .pipe(map(rdvs => {
-        return rdvs.map(rdv => {
-          return {
-            ...rdv,
-            createdAt: this.translatingService.getTranslatedDate(rdv.createdAt as string),
-            lastUpdate: (rdv.lastUpdate === 'Not Updated') ? this.translate.instant('Not Updated') :
-              this.translatingService.getTranslatedDate(rdv.lastUpdate as string),
-            rdvDate: this.translatingService.getTranslatedDate(rdv.rdvDate as string)
-          }
-        })
-      }));
+    // this.rdvService
+    //   .getDocByID(this.lastDoc.rdvID as string)
+    //   .snapshotChanges()
+    //   .subscribe(doc => {
+    //     this.approvedRDVs = this.rdvService
+    //       .getApprovedRendezvous(doc.payload)
+    //       .pipe(map(rdvs => {
+    //         return rdvs.map(rdv => {
+    //           return {
+    //             ...rdv,
+    //             createdAt: this.translatingService.getTranslatedDate(rdv.createdAt as string),
+    //             lastUpdate: (rdv.lastUpdate === 'Not Updated') ? this.translate.instant('Not Updated') :
+    //               this.translatingService.getTranslatedDate(rdv.lastUpdate as string),
+    //             rdvDate: this.translatingService.getTranslatedDate(rdv.rdvDate as string)
+    //           }
+    //         })
+    //       }));
+    //   })
   }
 
   proceedToUpdate(data: Rendezvous) {

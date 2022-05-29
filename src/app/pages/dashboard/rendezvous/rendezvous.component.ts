@@ -40,7 +40,8 @@ export class RendezvousComponent implements OnInit {
   ngOnInit(): void {
     this.authService.getUser().subscribe(value => this.user = value as User);
     // getting approved Rendezvous and translating data
-    this.approvedRendezvous = this.rdvService.getApprovedRendezvous()
+    this.approvedRendezvous = this.rdvService
+      .getRDVsByState(RendezvousStates.APPROVED, 'rdvDate')
       .pipe(map(rdvs => {
         return rdvs.map(rdv => {
           return {
@@ -53,7 +54,8 @@ export class RendezvousComponent implements OnInit {
         })
       }));
     // getting pending Rendezvous and translating data
-    this.pendingRendezvous = this.rdvService.getPendingRendezvous()
+    this.pendingRendezvous = this.rdvService
+      .getRDVsByState(RendezvousStates.PENDING, 'createdAt')
       .pipe(map(rdvs => {
         return rdvs.map(rdv => {
           return {

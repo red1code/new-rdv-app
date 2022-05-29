@@ -1,4 +1,6 @@
 import { AngularFirestore, AngularFirestoreDocument, DocumentReference } from '@angular/fire/compat/firestore';
+// import { getDoc } from '@angular/fire/compat/firestore/'
+import { getDoc } from 'firebase/firestore/lite';
 import { Rendezvous, RendezvousStates } from './../models/rendezvous';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
@@ -70,10 +72,11 @@ export class RendezvousService {
 
   // =============== READ ===============
 
-  getPendingRendezvous(): Observable<Rendezvous[]> {
-    return this.fireStore
-      .collection<Rendezvous>('Rendezvous',
-        ref => ref.where('rdvState', '==', RendezvousStates.PENDING).orderBy('createdAt')
+  getRDVsByState(stateOfRDV: RendezvousStates, orderBy: string): Observable<Rendezvous[]> {
+    return this.fireStore.
+      collection<Rendezvous>('Rendezvous', ref => ref
+        .where('rdvState', '==', stateOfRDV)
+        .orderBy(orderBy)
       )
       .snapshotChanges()
       .pipe(map(values => {
@@ -85,31 +88,23 @@ export class RendezvousService {
             rdvID: rdv.payload.doc.id,
             createdAt: this.convertToDateString(load.createdAt),
             lastUpdate: this.getLastUpdate(load.lastUpdate),
+            rdvDate: load.rdvDate ? this.convertToDateString(load.rdvDate) : undefined,
+            approvedAt: load.approvedAt ? this.convertToDateString(load.approvedAt) : undefined,
+            finishedAt: load.finishedAt ? this.convertToDateString(load.finishedAt) : undefined,
+            canceledAt: load.canceledAt ? this.convertToDateString(load.canceledAt) : undefined,
+            deletedAt: load.deletedAt ? this.convertToDateString(load.deletedAt) : undefined,
             order: i++
           }
         })
       }))
   }
 
-  // to get the latest AngularFirestoreDocument by its ID
-  getDocByID(id: string | undefined) {
-    return (id ? this.fireStore.collection<Rendezvous>('Rendezvous').doc(id) : 0)
-  }
-
-  // lastDoc parametre here in getApprovedRendezvous() method, is optional because in the initial it won't be declared.
-  // but after pressing next button in the table, it will call this method with the lastDoc param, passed from RendezvousComponent.
-  getApprovedRendezvous(lastDoc?: Rendezvous): Observable<Rendezvous[]> {
-    // to get the last AngularFirestoreDocument<Rendezvous>
-    let latestDoc = this.getDocByID(lastDoc?.rdvID);
-
-    return this.fireStore
-      .collection<Rendezvous>('Rendezvous', ref => ref
-        .where('rdvState', '==', RendezvousStates.APPROVED)
-        .orderBy('rdvDate')
-        // I tried to pass latestDoc or lastDoc to startAfter() query, but both don't work
-        .startAfter(lastDoc || 0)
-        // limit(3) here is just an example, you can set any limit you want
-        .limit(3)
+  getRDVsByEmailAndState(usrMail: string, stateOfRDV: RendezvousStates, orderBy: string): Observable<Rendezvous[]> {
+    return this.fireStore.
+      collection<Rendezvous>('Rendezvous', ref => ref
+        .where('createdBy', '==', usrMail)
+        .where('rdvState', '==', stateOfRDV)
+        .orderBy(orderBy)
       )
       .snapshotChanges()
       .pipe(map(values => {
@@ -121,124 +116,11 @@ export class RendezvousService {
             rdvID: rdv.payload.doc.id,
             createdAt: this.convertToDateString(load.createdAt),
             lastUpdate: this.getLastUpdate(load.lastUpdate),
-            approvedAt: this.convertToDateString(load.approvedAt),
-            rdvDate: this.convertToDateString(load.rdvDate),
-            order: i++
-          }
-        })
-      }))
-  }
-
-  getFinishedRendezvous(): Observable<Rendezvous[]> {
-    return this.fireStore
-      .collection<Rendezvous>('Rendezvous',
-        ref => ref.where('rdvState', '==', RendezvousStates.FINISHED).orderBy('finishedAt')
-      )
-      .snapshotChanges()
-      .pipe(map(values => {
-        let i = 1;
-        return values.map(rdv => {
-          const load = rdv.payload.doc.data();
-          return {
-            ...load,
-            rdvID: rdv.payload.doc.id,
-            createdAt: this.convertToDateString(load.createdAt),
-            lastUpdate: this.getLastUpdate(load.lastUpdate),
-            approvedAt: this.convertToDateString(load.approvedAt),
-            rdvDate: this.convertToDateString(load.rdvDate),
-            finishedAt: this.convertToDateString(load.finishedAt),
-            order: i++
-          }
-        })
-      }))
-  }
-
-  getCanceledRendezvous(): Observable<Rendezvous[]> {
-    return this.fireStore
-      .collection<Rendezvous>('Rendezvous',
-        ref => ref.where('rdvState', '==', RendezvousStates.CANCELED).orderBy('createdAt')
-      )
-      .snapshotChanges()
-      .pipe(map(values => {
-        let i = 1;
-        return values.map(rdv => {
-          const load = rdv.payload.doc.data();
-          return {
-            ...load,
-            rdvID: rdv.payload.doc.id,
-            createdAt: this.convertToDateString(load.createdAt),
-            lastUpdate: this.getLastUpdate(load.lastUpdate),
-            approvedAt: this.convertToDateString(load.approvedAt),
-            rdvDate: this.convertToDateString(load.rdvDate),
-            canceledAt: this.convertToDateString(load.canceledAt),
-            order: i++
-          }
-        })
-      }))
-  }
-
-  getDeletedRendezvous(): Observable<Rendezvous[]> {
-    return this.fireStore
-      .collection<Rendezvous>('Rendezvous',
-        ref => ref.where('rdvState', '==', RendezvousStates.DELETED).orderBy('createdAt')
-      )
-      .snapshotChanges()
-      .pipe(map(values => {
-        let i = 1;
-        return values.map(rdv => {
-          const load = rdv.payload.doc.data();
-          return {
-            ...load,
-            rdvID: rdv.payload.doc.id,
-            createdAt: this.convertToDateString(load.createdAt),
-            lastUpdate: this.getLastUpdate(load.lastUpdate),
-            deletedAt: this.convertToDateString(load.deletedAt),
-            order: i++
-          }
-        })
-      }))
-  }
-
-  getPendingRendezvousByEmail(usrEmail: string): Observable<Rendezvous[]> {
-    return this.fireStore
-      .collection<Rendezvous>('Rendezvous',
-        ref => ref.where('createdBy', '==', usrEmail)
-          .where('rdvState', '==', RendezvousStates.PENDING)
-          .orderBy('createdAt')
-      )
-      .snapshotChanges().pipe(map(values => {
-        let i = 1;
-        return values.map(rdv => {
-          const load = rdv.payload.doc.data();
-          return {
-            ...load,
-            rdvID: rdv.payload.doc.id,
-            createdAt: this.convertToDateString(load.createdAt),
-            lastUpdate: this.getLastUpdate(load.lastUpdate),
-            order: i++
-          }
-        })
-      }))
-  }
-
-  getApprovedRendezvousByEmail(usrEmail: string): Observable<Rendezvous[]> {
-    return this.fireStore
-      .collection<Rendezvous>('Rendezvous',
-        ref => ref.where('createdBy', '==', usrEmail)
-          .where('rdvState', '==', RendezvousStates.APPROVED)
-          .orderBy('rdvDate')
-      )
-      .snapshotChanges().pipe(map(values => {
-        let i = 1;
-        return values.map(rdv => {
-          const load = rdv.payload.doc.data();
-          return {
-            ...load,
-            rdvID: rdv.payload.doc.id,
-            createdAt: this.convertToDateString(load.createdAt),
-            lastUpdate: this.getLastUpdate(load.lastUpdate),
-            approvedAt: this.convertToDateString(load.approvedAt),
-            rdvDate: this.convertToDateString(load.rdvDate),
+            rdvDate: load.rdvDate ? this.convertToDateString(load.rdvDate) : undefined,
+            approvedAt: load.approvedAt ? this.convertToDateString(load.approvedAt) : undefined,
+            finishedAt: load.finishedAt ? this.convertToDateString(load.finishedAt) : undefined,
+            canceledAt: load.canceledAt ? this.convertToDateString(load.canceledAt) : undefined,
+            deletedAt: load.deletedAt ? this.convertToDateString(load.deletedAt) : undefined,
             order: i++
           }
         })
@@ -258,11 +140,11 @@ export class RendezvousService {
             rdvID: rdv.payload.doc.id,
             createdAt: this.convertToDateString(load.createdAt),
             lastUpdate: this.getLastUpdate(load.lastUpdate),
-            approvedAt: load.approvedAt ? this.convertToDateString(load.approvedAt) : 'Not Approved',
-            rdvDate: load.rdvDate ? this.convertToDateString(load.rdvDate) : 'No Date',
-            finishedAt: load.finishedAt ? this.convertToDateString(load.finishedAt) : 'Not Finished',
-            canceledAt: load.canceledAt ? this.convertToDateString(load.canceledAt) : 'Not Canceled',
-            deletedAt: load.deletedAt ? this.convertToDateString(load.deletedAt) : 'Not Deleted',
+            rdvDate: load.rdvDate ? this.convertToDateString(load.rdvDate) : undefined,
+            approvedAt: load.approvedAt ? this.convertToDateString(load.approvedAt) : undefined,
+            finishedAt: load.finishedAt ? this.convertToDateString(load.finishedAt) : undefined,
+            canceledAt: load.canceledAt ? this.convertToDateString(load.canceledAt) : undefined,
+            deletedAt: load.deletedAt ? this.convertToDateString(load.deletedAt) : undefined,
             order: i++
           }
         })
@@ -270,6 +152,8 @@ export class RendezvousService {
   }
 
   // =============== end of CRUD ===============
+
+  getDocByID = (docID: string) => this.fireStore.collection<Rendezvous>('Rendezvous').doc(docID)
 
   private getLastUpdate(param: any): string {
     return (!param || (param === 'Not Updated')) ? 'Not Updated' : this.convertToDateString(param)

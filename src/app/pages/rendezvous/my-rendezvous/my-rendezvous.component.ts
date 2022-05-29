@@ -35,7 +35,8 @@ export class MyRendezvousComponent implements OnInit {
     this.authService.getUser().subscribe(usr => {
       this.user = usr as User;
 
-      this.myApprovedRDVs = this.rdvService.getApprovedRendezvousByEmail(this.user.email)
+      this.myApprovedRDVs = this.rdvService
+        .getRDVsByEmailAndState(this.user.email, RendezvousStates.APPROVED, 'rdvDate')
         .pipe(map(rdvs => {
           return rdvs.map(rdv => {
             return {
@@ -48,7 +49,8 @@ export class MyRendezvousComponent implements OnInit {
           })
         }));
 
-      this.myPendingRDVs = this.rdvService.getPendingRendezvousByEmail(this.user.email)
+      this.myPendingRDVs = this.rdvService
+        .getRDVsByEmailAndState(this.user.email, RendezvousStates.PENDING, 'createdAt')
         .pipe(map(rdvs => {
           return rdvs.map(rdv => {
             return {
