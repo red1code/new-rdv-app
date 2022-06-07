@@ -1,9 +1,9 @@
 <div class="rdv-container">
   <!-- button   -->
   <div class="newRDV-btn-container">
-    <button class="btn btn-success" (click)="showPopup()">
+    <button class="btn btn-primary" (click)="onTableNext()">
       <i class="far fa-calendar-plus"></i>
-      <span style="margin-left: 7px;">{{'New Rendezvous' | translate}}</span>
+      <span style="margin-left: 7px;">{{'NEXT PAGE' | translate}}</span>
     </button>
   </div>
 
@@ -27,6 +27,9 @@
     <p *ngFor="let rdv of (approvedRDVs | async)">
       {{ rdv.displayName }}
     </p>
+    <pre>
+      {{lastDoc|json}}
+    </pre>
   </div>
 
   <!-- popup -->

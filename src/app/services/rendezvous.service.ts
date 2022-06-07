@@ -76,11 +76,12 @@ export class RendezvousService {
 
   // =============== READ ===============
 
-  getRDVsByState(stateOfRDV: RendezvousStates, orderBy: string): Observable<Rendezvous[]> {
+  getRDVsByState(stateOfRDV: RendezvousStates, orderBy: string, previousDoc?: any): Observable<Rendezvous[]> {
     return this.fireStore.
-      collection<Rendezvous>('Rendezvous', ref => ref
-        .where('rdvState', '==', stateOfRDV)
-        .orderBy(orderBy)
+      collection<Rendezvous>('Rendezvous', ref => {
+        const r = ref.where('rdvState', '==', stateOfRDV).orderBy(orderBy).limit(2);
+        return previousDoc ? r.startAfter(previousDoc) : r
+      }
       )
       .snapshotChanges()
       .pipe(map(values => {

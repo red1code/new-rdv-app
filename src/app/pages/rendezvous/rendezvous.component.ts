@@ -41,6 +41,10 @@ export class RendezvousComponent implements OnInit {
     });
 
     // to get the last rdv
+    this.setlastdoc();
+  }
+
+  private setlastdoc() {
     this.approvedRDVs.subscribe(rdvs => {
       this.lastDoc = rdvs[rdvs.length - 1];
 
@@ -49,20 +53,28 @@ export class RendezvousComponent implements OnInit {
   }
 
   onTableNext() {
+    this.afs.collection<Rendezvous>('Rendezvous').doc(this.lastDoc.rdvID).get()
+    .subscribe(
+      ds => {
+        this.approvedRDVs = this.rdvService.getRDVsByState(RendezvousStates.APPROVED, 'rdvDate', ds);
+        this.setlastdoc()
+      }
+    )
+
     // this.rdvService
     //   .getDocByID(this.lastDoc.rdvID as string)
     //   .snapshotChanges()
     //   .subscribe(doc => {
     //     this.approvedRDVs = this.rdvService
-    //       .getApprovedRendezvous(doc.payload)
+    //     .getRDVsByState(RendezvousStates.APPROVED, 'rdvDate', doc.payload)
     //       .pipe(map(rdvs => {
     //         return rdvs.map(rdv => {
     //           return {
     //             ...rdv,
-    //             createdAt: this.translatingService.getTranslatedDate(rdv.createdAt as string),
+    //             createdAt: rdv.createdAt,
     //             lastUpdate: (rdv.lastUpdate === 'Not Updated') ? this.translate.instant('Not Updated') :
-    //               this.translatingService.getTranslatedDate(rdv.lastUpdate as string),
-    //             rdvDate: this.translatingService.getTranslatedDate(rdv.rdvDate as string)
+    //               rdv.lastUpdate,
+    //             rdvDate: rdv.rdvDate as string
     //           }
     //         })
     //       }));
