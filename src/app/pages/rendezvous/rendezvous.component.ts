@@ -1,12 +1,11 @@
-import { AngularFirestore, DocumentSnapshot } from '@angular/fire/compat/firestore';
 import { TranslatingService } from 'src/app/services/translating.service';
 import { Rendezvous, RendezvousStates } from './../../models/rendezvous';
-import { map, Observable } from 'rxjs';
+import { Observable, merge, concat, of, map } from 'rxjs';
 import { User } from './../../models/user';
 import { RendezvousService } from './../../services/rendezvous.service';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/auth/services/auth.service';
-import { TranslateService } from '@ngx-translate/core';
+import { DocumentSnapshot } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-rendezvous',
@@ -22,51 +21,56 @@ export class RendezvousComponent implements OnInit {
   formErrorMsg = '';
   rdv: Rendezvous | null = null;
 
-  lastDoc!: Rendezvous;
+  lastDoc!: DocumentSnapshot<Rendezvous>;
+  combindRDVs$!: any //Observable<Rendezvous[]>;
 
   constructor(
     private authService: AuthService,
     private rdvService: RendezvousService,
-    private translate: TranslateService,
     private translatingService: TranslatingService,
-    private afs: AngularFirestore
   ) { }
 
   ngOnInit(): void {
-    this.approvedRDVs = this.rdvService
-      .getRDVsByState(RendezvousStates.APPROVED, 'rdvDate')
+    this.approvedRDVs = this.rdvService.getRDVsByState(RendezvousStates.APPROVED, 'rdvDate');
 
     this.authService.getUser().subscribe(value => {
       this.user = value as User
     });
 
-    // to get the last rdv
+    // getting the last rdvDoc
     this.approvedRDVs.subscribe(rdvs => {
-      this.lastDoc = rdvs[rdvs.length - 1];
+      let lastRDV = rdvs[rdvs.length - 1];
+      this.rdvService
+        .getDocByID(lastRDV.rdvID as string)
+        .snapshotChanges()
+        .subscribe(doc => this.lastDoc = doc.payload)
 
       console.warn('lastDoc: ', this.lastDoc);
     });
   }
 
   onTableNext() {
+    // 1st method
+    // this.combindRDVs$ = this.rdvService
+    //   .getRDVsByState(RendezvousStates.APPROVED, 'rdvDate', this.lastDoc)
+    //   .pipe(map(
+    //     newVals => this.approvedRDVs.pipe(map(rdvs => rdvs.concat(newVals)))
+    //   ));
+
+    // 2nd method
     // this.rdvService
-    //   .getDocByID(this.lastDoc.rdvID as string)
-    //   .snapshotChanges()
-    //   .subscribe(doc => {
-    //     this.approvedRDVs = this.rdvService
-    //       .getApprovedRendezvous(doc.payload)
-    //       .pipe(map(rdvs => {
-    //         return rdvs.map(rdv => {
-    //           return {
-    //             ...rdv,
-    //             createdAt: this.translatingService.getTranslatedDate(rdv.createdAt as string),
-    //             lastUpdate: (rdv.lastUpdate === 'Not Updated') ? this.translate.instant('Not Updated') :
-    //               this.translatingService.getTranslatedDate(rdv.lastUpdate as string),
-    //             rdvDate: this.translatingService.getTranslatedDate(rdv.rdvDate as string)
-    //           }
-    //         })
-    //       }));
-    //   })
+    //   .getRDVsByState(RendezvousStates.APPROVED, 'rdvDate', this.lastDoc)
+    //   .subscribe(newVals => {
+    //     this.approvedRDVs = this.approvedRDVs.pipe(map(rdvs => rdvs.concat(newVals)));
+    //     this.combindRDVs$ = this.approvedRDVs;
+    //   });
+
+    // 3nd method
+    let newVs = this.rdvService.getRDVsByState(RendezvousStates.APPROVED, 'rdvDate', this.lastDoc);
+    let r = concat(this.approvedRDVs, newVs)
+    r.subscribe(vals => {
+      this.combindRDVs$ = vals
+    })
   }
 
   proceedToUpdate(data: Rendezvous) {

@@ -1,6 +1,4 @@
-import { AngularFirestore, AngularFirestoreDocument, DocumentReference } from '@angular/fire/compat/firestore';
-// import { getDoc } from '@angular/fire/compat/firestore/'
-import { getDoc } from 'firebase/firestore/lite';
+import { AngularFirestore, DocumentReference, DocumentSnapshot } from '@angular/fire/compat/firestore';
 import { Rendezvous, RendezvousStates } from './../models/rendezvous';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
@@ -76,11 +74,13 @@ export class RendezvousService {
 
   // =============== READ ===============
 
-  getRDVsByState(stateOfRDV: RendezvousStates, orderBy: string): Observable<Rendezvous[]> {
+  getRDVsByState(stateOfRDV: RendezvousStates, orderBy: string, lastDoc?: DocumentSnapshot<Rendezvous>): Observable<Rendezvous[]> {
     return this.fireStore.
       collection<Rendezvous>('Rendezvous', ref => ref
         .where('rdvState', '==', stateOfRDV)
         .orderBy(orderBy)
+        .startAfter(lastDoc || 0)
+        .limit(2)
       )
       .snapshotChanges()
       .pipe(map(values => {

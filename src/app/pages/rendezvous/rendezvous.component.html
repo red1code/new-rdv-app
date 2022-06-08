@@ -24,7 +24,7 @@
 
   <div>
     <h2>testing</h2>
-    <p *ngFor="let rdv of (approvedRDVs | async)">
+    <p *ngFor="let rdv of combindRDVs$">
       {{ rdv.displayName }}
     </p>
   </div>
