@@ -1,11 +1,11 @@
 import { TranslatingService } from 'src/app/services/translating.service';
 import { Rendezvous, RendezvousStates } from './../../models/rendezvous';
-import { Observable, merge, concat, of, map } from 'rxjs';
+import { Observable } from 'rxjs';
 import { User } from './../../models/user';
 import { RendezvousService } from './../../services/rendezvous.service';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/auth/services/auth.service';
-import { DocumentSnapshot, AngularFirestore } from '@angular/fire/compat/firestore';
+import { DocumentSnapshot } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-rendezvous',
@@ -28,7 +28,6 @@ export class RendezvousComponent implements OnInit {
     private authService: AuthService,
     private rdvService: RendezvousService,
     private translatingService: TranslatingService,
-    private afs: AngularFirestore
   ) { }
 
   ngOnInit(): void {
