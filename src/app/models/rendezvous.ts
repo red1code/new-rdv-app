@@ -28,3 +28,5 @@ export enum RendezvousStates {
   CANCELED = 'CANCELED',
   DELETED = 'DELETED'
 }
+
+export type DataType = 'NEXT' | 'PREVIOUS' | 'BEGINNING';

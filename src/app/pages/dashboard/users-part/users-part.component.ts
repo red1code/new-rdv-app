@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { User } from 'src/app/models/user';
 import { TranslatingService } from 'src/app/services/translating.service';
@@ -27,7 +26,6 @@ export class UsersPartComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private usersService: UsersService,
-    private translate: TranslateService,
     private translatingService: TranslatingService
   ) { }
 
@@ -41,10 +39,8 @@ export class UsersPartComponent implements OnInit {
       this.usrsPerMonth = this.translatingService.getEngMonths().map(
         month => usrsInEveryMonth.filter(val => val == month).length
       );
-      // translating "created_at" and assigning data to users
-      values.map(user => {
-        user.created_at = this.translatingService.getTranslatedDate(user.created_at)
-      });
+
+      // assigning data to users:
       this.users = values;
     })
   }

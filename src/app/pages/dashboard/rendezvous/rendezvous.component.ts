@@ -40,30 +40,13 @@ export class RendezvousComponent implements OnInit {
   ngOnInit(): void {
     this.authService.getUser().subscribe(value => this.user = value as User);
     // getting approved Rendezvous and translating data
-    this.approvedRendezvous = this.rdvService.getApprovedRendezvous()
-      .pipe(map(rdvs => {
-        return rdvs.map(rdv => {
-          return {
-            ...rdv,
-            createdAt: this.translatingService.getTranslatedDate(rdv.createdAt as string),
-            lastUpdate: (rdv.lastUpdate === 'Not Updated') ? this.translate.instant('Not Updated') :
-              this.translatingService.getTranslatedDate(rdv.lastUpdate as string),
-            rdvDate: this.translatingService.getTranslatedDate(rdv.rdvDate as string)
-          }
-        })
-      }));
+    this.approvedRendezvous = this.rdvService
+      .getRDVsByState(RendezvousStates.APPROVED, 'rdvDate', 'BEGINNING')
+
     // getting pending Rendezvous and translating data
-    this.pendingRendezvous = this.rdvService.getPendingRendezvous()
-      .pipe(map(rdvs => {
-        return rdvs.map(rdv => {
-          return {
-            ...rdv,
-            createdAt: this.translatingService.getTranslatedDate(rdv.createdAt as string),
-            lastUpdate: (rdv.lastUpdate === 'Not Updated') ? this.translate.instant('Not Updated') :
-              this.translatingService.getTranslatedDate(rdv.lastUpdate as string)
-          }
-        })
-      }));
+    this.pendingRendezvous = this.rdvService
+      .getRDVsByState(RendezvousStates.PENDING, 'createdAt', 'BEGINNING')
+
     // getting chart data of all rendezvous
     this.rdvService.getAllRendezvous().subscribe(values => {
       const rdvsInEveryMonth = values
