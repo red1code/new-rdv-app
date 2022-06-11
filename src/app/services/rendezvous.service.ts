@@ -1,5 +1,5 @@
-import { AngularFirestore, DocumentReference, DocumentSnapshot } from '@angular/fire/compat/firestore';
-import { Rendezvous, RendezvousStates } from './../models/rendezvous';
+import { AngularFirestore, AngularFirestoreDocument, DocumentReference, DocumentSnapshot } from '@angular/fire/compat/firestore';
+import { DataType, Rendezvous, RendezvousStates } from './../models/rendezvous';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { User } from '../models/user';
@@ -74,14 +74,14 @@ export class RendezvousService {
 
   // =============== READ ===============
 
-  getRDVsByState(stateOfRDV: RendezvousStates, orderBy: string, lastDoc?: DocumentSnapshot<Rendezvous>): Observable<Rendezvous[]> {
+  getRDVsByState(stateOfRDV: RendezvousStates, orderBy: string, type: DataType, paginationDoc?: any): Observable<Rendezvous[]> {
     return this.fireStore.
-      collection<Rendezvous>('Rendezvous', ref => ref
-        .where('rdvState', '==', stateOfRDV)
-        .orderBy(orderBy)
-        .startAfter(lastDoc || 0)
-        .limit(2)
-      )
+      collection<Rendezvous>('Rendezvous', ref => {
+        const queries = ref.where('rdvState', '==', stateOfRDV).orderBy(orderBy).limit(5);
+        if (type === 'NEXT') return queries.startAfter(paginationDoc);
+        if (type === 'PREVIOUS') return queries.endBefore(paginationDoc);
+        return queries
+      })
       .snapshotChanges()
       .pipe(map(values => {
         let i = 1;
@@ -157,7 +157,9 @@ export class RendezvousService {
 
   // =============== end of CRUD ===============
 
-  getDocByID = (docID: string) => this.fireStore.collection<Rendezvous>('Rendezvous').doc(docID)
+  getDocByID(docID: string): AngularFirestoreDocument<Rendezvous> {
+    return this.fireStore.collection<Rendezvous>('Rendezvous').doc(docID)
+  }
 
   private getLastUpdate(param: any): string {
     return (!param || (param === 'Not Updated')) ? 'Not Updated' : this.translatingService.convertToDateString(param)

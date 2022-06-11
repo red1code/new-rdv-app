@@ -41,11 +41,11 @@ export class RendezvousComponent implements OnInit {
     this.authService.getUser().subscribe(value => this.user = value as User);
     // getting approved Rendezvous and translating data
     this.approvedRendezvous = this.rdvService
-      .getRDVsByState(RendezvousStates.APPROVED, 'rdvDate')
+      .getRDVsByState(RendezvousStates.APPROVED, 'rdvDate', 'BEGINNING')
 
     // getting pending Rendezvous and translating data
     this.pendingRendezvous = this.rdvService
-      .getRDVsByState(RendezvousStates.PENDING, 'createdAt')
+      .getRDVsByState(RendezvousStates.PENDING, 'createdAt', 'BEGINNING')
 
     // getting chart data of all rendezvous
     this.rdvService.getAllRendezvous().subscribe(values => {

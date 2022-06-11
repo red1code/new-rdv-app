@@ -60,17 +60,18 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
       pageLength: 5,
       lengthMenu: [3, 5, 10, 25, 50, 100],
       dom: 'Bfrtip',
-      initComplete: function (settings: any, json: any) {
+      initComplete: (settings: any, json: any) => {
         $('button').removeClass('dt-button');
         $('button').removeClass('buttons-excel');
         $('button').removeClass('buttons-html5 ');
+        $('#DataTables_Table_0_next').on('click', () => this.loadMoreData.emit())
       },
       // Configure buttons (I disabled them coz the user doesn't need them)
       buttons: this.tableBTNs(showBTNs),
 
-      drawCallback: () => {
-        $('#DataTables_Table_0_next').on('click', () => this.loadMoreData.emit())
-      },
+      // drawCallback: () => {
+      //   $('#DataTables_Table_0_next').on('click', () => this.loadMoreData.emit())
+      // },
 
       rowCallback: (row: Node, data: any[] | Object, index: number) => {
         const self = this;

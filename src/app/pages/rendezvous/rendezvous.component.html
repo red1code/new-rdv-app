@@ -17,16 +17,13 @@
       [infos]="RDVs"
       [showBtns]="false"
       [currentUser]="user"
-      (loadMoreData)="onTableNext()"
       (updateInfosEvent)="proceedToUpdate($event)">
     </app-table>
-  </div>
 
-  <div>
-    <h2>testing</h2>
-    <p *ngFor="let rdv of combindRDVs$">
-      {{ rdv.displayName }}
-    </p>
+    <div style="margin: 5px; text-align: center">
+      <button class="btn btn-info" (click)="onPreviousBtn()">Previous Page</button>
+      <button class="btn btn-info" style="margin-left: 5px" (click)="onNextBtn()">Next Page</button>
+    </div>
   </div>
 
   <!-- popup -->
