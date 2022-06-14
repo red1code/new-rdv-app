@@ -1,10 +1,12 @@
 import { User, ROLES } from './../../models/user';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+// import { GoogleAuthProvider } from '@angular/fire/auth';
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { UserCredential } from '@firebase/auth-types';
 import { FirebaseError } from 'firebase/app';
 import { Observable, of, switchMap } from 'rxjs';
+import firebase from 'firebase/compat/app';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +30,27 @@ export class AuthService {
 
   get isEmailVerified(): Observable<boolean> {
     return this.afAuth.authState.pipe(switchMap(auth => auth?.emailVerified ? of(true) : of(false)))
+  }
+
+  async signinWithGoogle() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    const credential = await this.afAuth.signInWithPopup(provider);
+    return credential?.additionalUserInfo?.isNewUser ??
+      this.updateUserData(credential.user as firebase.User);
+  }
+
+  private updateUserData(user: firebase.User) {
+    const data: User = {
+      uid: user.uid,
+      email: user.email as string,
+      imageURL: user.photoURL ? user.photoURL : 'assets/unknown-profile-picture.jpg',
+      created_at: new Date(),
+      firstName: user.displayName as string,
+      role: ROLES.PATIENT,
+    }
+    // Sets user data to firestore on login
+    const userRef: AngularFirestoreDocument<User> = this.fireStore.doc(`profiles/${user.uid}`);
+    return userRef.set(data, { merge: true })
   }
 
   async createNewUser(user: User, userPassword: string): Promise<void> {

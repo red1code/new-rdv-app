@@ -6,9 +6,9 @@ export interface User {
   email: string;
   imageURL: string;
   created_at: any;
-  firstName: string;
-  lastName: string;
-  phoneNumber: number;
+  firstName?: string;
+  lastName?: string;
+  phoneNumber?: number;
   role: ROLES;
   language?: LANGUAGES;
   darkTheme?: boolean;

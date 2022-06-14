@@ -26,6 +26,9 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.authService.getUser().subscribe(usr => {
+      if (usr) this.router.navigate(['home'])
+    })
   }
 
   async onSubmitForm() {
@@ -37,6 +40,16 @@ export class LoginComponent implements OnInit {
     } catch (error) {
       if (isFirebaseError(error)) this.errorMessage = error.message
     }
+  }
+
+  loginWithGoogle() {
+    try {
+      this.authService.signinWithGoogle()
+    } catch (error) {
+      this.errorMessage = error as string
+      console.warn(error)
+    }
+
   }
 
 }
