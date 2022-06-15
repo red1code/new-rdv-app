@@ -1,0 +1,77 @@
+<section  class="sec-container facebook-style">
+  <div *ngIf="!codeSent" style="margin-bottom: 15px;">
+    <button class="btn btn-info" routerLink="/auth/login">Go back to Login</button>
+  </div>
+  <!-- <div class="wrapper">
+    <label>&nbsp;Separate Dial Code?</label>
+    <input type="checkbox" [(ngModel)]="separateDialCode" />
+  </div> -->
+
+  <form *ngIf="!codeSent" #f="ngForm" [formGroup]="phoneForm">
+    <div class="wrapper">
+      <ngx-intl-tel-input
+        name="phone"
+        formControlName="phone"
+        [cssClass]="'form-control'"
+        [enableAutoCountrySelect]="true"
+        [enablePlaceholder]="true"
+        [customPlaceholder]="'Enter Your Number'"
+        [searchCountryFlag]="true"
+        [searchCountryField]="[searchCountryField.Iso2, searchCountryField.Name]"
+        [selectFirstCountry]="false"
+        [selectedCountryISO]="countryISO.Algeria"
+        [maxLength]="10"
+        [phoneValidation]="true"
+        [separateDialCode]="true"
+        [numberFormat]="phoneNumberFormat.National">
+      </ngx-intl-tel-input>
+
+      <div style="margin-top:20px; margin-bottom:10px;">
+        <small class="alert alert-danger" *ngIf="!phoneForm.controls['phone'].valid && phoneForm.controls['phone'].touched">
+          <span *ngIf="phoneForm.controls['phone'].errors?.['required']">
+            Phone number is required.
+          </span>
+          <span *ngIf="phoneForm.controls['phone'].errors">
+            Phone number must be 10 numbers
+          </span>
+        </small>
+      </div>
+    </div>
+    <!-- reCaptcha -->
+    <div id="reCaptcha-container"></div>
+    <div>
+      <button class="btn btn-success" (click)="sendVerificationCode()" [disabled]="sendingCode">
+        Send Verification Code
+      </button>
+    </div>
+
+    <!-- <div class="wrapper">
+      <button class="btn btn-success" (click)="f.reset()">Reset</button>
+    </div> -->
+
+    <!-- <div>
+    <strong>Form value:</strong>
+    <pre>{{ phoneForm.value | json }}</pre>
+    </div> -->
+    <!-- <div>
+      <strong>Form validation errors:</strong>
+      <pre>{{ f.form.controls['phone'].errors | json }}</pre>
+    </div> -->
+  </form>
+
+  <div *ngIf="codeSent">
+    <div *ngIf="codeSent" class="alert alert-success" style="margin-bottom: 15px;">
+      Verification Code sent successfully
+    </div>
+    <label for="code">Enter your verification code here</label>
+    <input type="text" name="code" [(ngModel)]="verificationCode" class="form-control">
+
+    <div style="display: flex; justify-content: space-around; margin-top: 15px;">
+      <button class="btn btn-success" (click)="vefifyLoginCode()">Vefify Code</button>
+      <button class="btn btn-primary" (click)="codeSent=false; phoneForm.reset()">Reset</button>
+    </div>
+  </div>
+
+  <div *ngIf="errMsg" class="alert alert-danger">{{ errMsg }}</div>
+
+</section>

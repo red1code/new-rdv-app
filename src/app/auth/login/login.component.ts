@@ -14,6 +14,8 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   errorMessage!: string;
 
+  showPhoneTemplate = false;
+
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -49,7 +51,11 @@ export class LoginComponent implements OnInit {
       this.errorMessage = error as string
       console.warn(error)
     }
+  }
 
+  togglePhoneTemplate() {
+    if (this.showPhoneTemplate === true) this.showPhoneTemplate = false;
+    if (this.showPhoneTemplate === false) this.showPhoneTemplate = true
   }
 
 }

@@ -1,7 +1,6 @@
 import { User, ROLES } from './../../models/user';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-// import { GoogleAuthProvider } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { UserCredential } from '@firebase/auth-types';
 import { FirebaseError } from 'firebase/app';
@@ -18,6 +17,8 @@ export class AuthService {
     private fireStore: AngularFirestore
   ) { }
 
+  // |=============== get infos ===============|
+
   getUser() {
     return this.afAuth.authState
       .pipe(
@@ -32,29 +33,26 @@ export class AuthService {
     return this.afAuth.authState.pipe(switchMap(auth => auth?.emailVerified ? of(true) : of(false)))
   }
 
+  // |=============== auth methods ===============|
+
+  async vefifyPhoneNumberAndSignin(verificationCode: string) {
+    const verificationId: string = JSON.parse(localStorage.getItem('verificationId') as string);
+    const credentials = firebase.auth.PhoneAuthProvider.credential(verificationId, verificationCode);
+    const userCredential = await this.afAuth.signInWithCredential(credentials);
+    // return userCredential?.additionalUserInfo?.isNewUser ??
+    return await this.createProfileInFirestore(userCredential.user as firebase.User)
+    //   await this.createProfileInFirestore(userCredential.user as firebase.User)
+  }
+
   async signinWithGoogle() {
     const provider = new firebase.auth.GoogleAuthProvider();
     const credential = await this.afAuth.signInWithPopup(provider);
     return credential?.additionalUserInfo?.isNewUser ??
-      this.updateUserData(credential.user as firebase.User);
-  }
-
-  private updateUserData(user: firebase.User) {
-    const data: User = {
-      uid: user.uid,
-      email: user.email as string,
-      imageURL: user.photoURL ? user.photoURL : 'assets/unknown-profile-picture.jpg',
-      created_at: new Date(),
-      firstName: user.displayName as string,
-      role: ROLES.PATIENT,
-    }
-    // Sets user data to firestore on login
-    const userRef: AngularFirestoreDocument<User> = this.fireStore.doc(`profiles/${user.uid}`);
-    return userRef.set(data, { merge: true })
+      await this.createProfileInFirestore(credential.user as firebase.User)
   }
 
   async createNewUser(user: User, userPassword: string): Promise<void> {
-    const signup = await this.afAuth.createUserWithEmailAndPassword(user.email, userPassword);
+    const signup = await this.afAuth.createUserWithEmailAndPassword(user.email as string, userPassword);
     await signup.user?.sendEmailVerification();
     user.uid = signup.user?.uid;
     user.role = ROLES.PATIENT;
@@ -63,7 +61,7 @@ export class AuthService {
     await this.fireStore.doc('/profiles/' + user.uid).set(user)
   }
 
-  // logIn
+  // logIn with email & password
   async logIn(email: string, passord: string): Promise<UserCredential | FirebaseError> {
     return await this.afAuth.signInWithEmailAndPassword(email, passord)
   }
@@ -76,7 +74,23 @@ export class AuthService {
     return await this.afAuth.sendPasswordResetEmail(email)
   }
 
-  // authorizations access based on users roles
+  private createProfileInFirestore(user: firebase.User) {
+    const data: User = {
+      uid: user.uid,
+      email: user.email,
+      imageURL: user.photoURL || 'assets/unknown-profile-picture.jpg',
+      created_at: new Date(),
+      firstName: user.displayName || 'User',
+      phoneNumber: user.phoneNumber ? parseInt(user.phoneNumber) : null,
+      role: ROLES.PATIENT,
+    }
+    // Sets user data to firestore on login
+    const userRef: AngularFirestoreDocument<User> = this.fireStore.doc(`profiles/${user.uid}`);
+    return userRef.set(data, { merge: true })
+  }
+
+  // |=============== authorizations access based on users roles ===============|
+
   private checkAuthorization(user: User, allowedRoles: ROLES[]): boolean {
     if (!user) return false;
     for (let role of allowedRoles) {
@@ -107,22 +121,3 @@ export class AuthService {
 
 }
 
-// THE END.
-
-
-
-// // signUp (old method)
-  // createNewUser(user: User, userPassword: string): Promise<void> {
-  //   return this.afAuth.createUserWithEmailAndPassword(user.email, userPassword)
-  //     .then((result: UserCredential) => {
-  //       return [result.user?.uid, result.user?.sendEmailVerification()]
-  //     })
-  //     .then((param: (string | Promise<void> | undefined)[]) => {
-  //       let id = param[0];
-  //       user.uid = id as string;
-  //       user.role = ROLES.PATIENT;
-  //       user.created_at = new Date();
-  //       user.imageURL = 'assets/unknown-profile-picture.jpg';
-  //       return this.fireStore.doc('/profiles/' + user.uid).set(user)
-  //     })
-  // }

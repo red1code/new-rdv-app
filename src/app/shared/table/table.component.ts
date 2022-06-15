@@ -39,7 +39,7 @@ export class TableComponent implements OnInit, OnDestroy, AfterViewInit, OnChang
   }
 
   ngOnInit(): void {
-    this.dtOptions = this.tableOptions(this.infos, this.tableCols, this.currentUser?.email, this.showBtns);
+    this.dtOptions = this.tableOptions(this.infos, this.tableCols, this.currentUser?.email as string, this.showBtns);
     window.onresize = () => this.rerenderTable()
   }
 

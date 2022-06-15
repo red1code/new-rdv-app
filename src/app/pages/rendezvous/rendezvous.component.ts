@@ -97,6 +97,10 @@ export class RendezvousComponent implements OnInit {
   }
 
   async submitRDVform(data: Rendezvous) {
+    if (!this.user.email) {
+      this.formErrorMsg = 'You need Email to create new Rendezvous!';
+      return;
+    }
     // no ID = new RDV
     if (!this.rdv?.rdvID) {
       try {
