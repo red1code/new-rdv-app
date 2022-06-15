@@ -30,9 +30,9 @@ export class SignupComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.authService.getUser()) {
-      this.router.navigate(['home'])
-    }
+    this.authService.getUser().subscribe(usr => {
+      if (usr) this.router.navigate(['home'])
+    })
   }
 
   async onSubmitForm() {

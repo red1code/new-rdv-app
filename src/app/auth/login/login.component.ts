@@ -44,18 +44,13 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  loginWithGoogle() {
+  async loginWithGoogle() {
     try {
-      this.authService.signinWithGoogle()
-    } catch (error) {
-      this.errorMessage = error as string
-      console.warn(error)
+      await this.authService.signinWithGoogle()
     }
-  }
-
-  togglePhoneTemplate() {
-    if (this.showPhoneTemplate === true) this.showPhoneTemplate = false;
-    if (this.showPhoneTemplate === false) this.showPhoneTemplate = true
+    catch (error) {
+      this.errorMessage = error as string
+    }
   }
 
 }
