@@ -39,9 +39,8 @@ export class AuthService {
     const verificationId: string = JSON.parse(localStorage.getItem('verificationId') as string);
     const credentials = firebase.auth.PhoneAuthProvider.credential(verificationId, verificationCode);
     const userCredential = await this.afAuth.signInWithCredential(credentials);
-    // return userCredential?.additionalUserInfo?.isNewUser ??
-    return await this.createProfileInFirestore(userCredential.user as firebase.User)
-    //   await this.createProfileInFirestore(userCredential.user as firebase.User)
+    return userCredential?.additionalUserInfo?.isNewUser ??
+      await this.createProfileInFirestore(userCredential.user as firebase.User)
   }
 
   async signinWithGoogle() {
