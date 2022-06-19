@@ -29,7 +29,11 @@ export class SignupComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.authService.getUser().subscribe(usr => {
+      if (usr) this.router.navigate(['home'])
+    })
+  }
 
   async onSubmitForm() {
     if (this.signupForm.invalid) return;

@@ -1,4 +1,15 @@
 <div class="form-container facebook-style">
+  <div (click)="loginWithGoogle()"
+      style="margin: 15px; text-align: center; cursor: pointer; color: chocolate;
+             border: 1px solid chocolate; padding: 11px">
+    Continue with Google
+  </div>
+
+  <div style="margin: 0 15px 15px 15px; text-align: center; cursor: pointer; color: teal; border: 1px solid teal; padding: 5px"
+       routerLink="/auth/phone-auth">
+    continue with Phone Number
+  </div>
+
   <form [formGroup]="loginForm" class="signup-form" (ngSubmit)="onSubmitForm()" autocomplete="off">
     <!-- email -->
     <div class="form-section email">

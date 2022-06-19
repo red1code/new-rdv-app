@@ -19,6 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { CommonModule } from '@angular/common';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -39,6 +40,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     HttpClientModule,
     MatButtonToggleModule,
     MatIconModule,
+    CommonModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

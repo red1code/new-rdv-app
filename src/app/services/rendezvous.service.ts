@@ -18,6 +18,7 @@ export class RendezvousService {
   // =============== CREATE ===============
 
   async createRendezvous(rdv: Rendezvous, currentUser: User): Promise<DocumentReference<Rendezvous>> {
+    if (!currentUser.email) throw ('You need Email to create new Rendezvous!');
     rdv.createdAt = new Date();
     rdv.createdBy = currentUser.email;
     rdv.rdvState = RendezvousStates.PENDING;
@@ -31,7 +32,7 @@ export class RendezvousService {
     (rdv.lastUpdate && rdv.lastUpdate !== 'Not Updated') ? rdv.lastUpdate = new Date(rdv.lastUpdate) : null;
     rdv.rdvState = RendezvousStates.DELETED;
     rdv.deletedAt = new Date();
-    rdv.deletedBy = user.email;
+    rdv.deletedBy = user.email as string;
     return await this.fireStore.collection<Rendezvous>('Rendezvous').doc(id).update(rdv)
   }
 
@@ -47,7 +48,7 @@ export class RendezvousService {
     (rdv.lastUpdate && rdv.lastUpdate !== 'Not Updated') ? rdv.lastUpdate = new Date(rdv.lastUpdate) : null;
     rdv.rdvState = RendezvousStates.APPROVED;
     rdv.approvedAt = new Date();
-    rdv.approvedBy = user.email;
+    rdv.approvedBy = user.email as string;
     return await this.fireStore.collection<Rendezvous>('Rendezvous').doc(id).update(rdv)
   }
 
@@ -68,7 +69,7 @@ export class RendezvousService {
     rdv.rdvDate ? rdv.rdvDate = new Date(rdv.rdvDate) : null;
     rdv.rdvState = RendezvousStates.CANCELED;
     rdv.canceledAt = new Date();
-    rdv.canceledBy = user.email;
+    rdv.canceledBy = user.email as string;
     return await this.fireStore.collection<Rendezvous>('Rendezvous').doc(id).update(rdv)
   }
 

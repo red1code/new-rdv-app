@@ -14,6 +14,8 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   errorMessage!: string;
 
+  showPhoneTemplate = false;
+
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
@@ -26,6 +28,9 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.authService.getUser().subscribe(usr => {
+      if (usr) this.router.navigate(['home'])
+    })
   }
 
   async onSubmitForm() {
@@ -36,6 +41,15 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['home'])
     } catch (error) {
       if (isFirebaseError(error)) this.errorMessage = error.message
+    }
+  }
+
+  async loginWithGoogle() {
+    try {
+      await this.authService.signinWithGoogle()
+    }
+    catch (error) {
+      this.errorMessage = error as string
     }
   }
 

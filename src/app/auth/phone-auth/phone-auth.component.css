@@ -1,0 +1,12 @@
+.sec-container {
+  max-width: 500px;
+  min-width: 300px;
+  margin: 25px auto;
+  padding: 25px 15px;
+}
+
+@media only screen and (max-width: 530px) {
+  .sec-container {
+    margin-inline: 15px;
+  }
+}

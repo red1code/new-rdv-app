@@ -3,12 +3,12 @@ import { LANGUAGES } from "./languages";
 export interface User {
   order?: number;
   uid?: string;
-  email: string;
+  email?: string | null;
   imageURL: string;
   created_at: any;
-  firstName: string;
-  lastName: string;
-  phoneNumber: number;
+  firstName?: string;
+  lastName?: string;
+  phoneNumber?: number | null;
   role: ROLES;
   language?: LANGUAGES;
   darkTheme?: boolean;

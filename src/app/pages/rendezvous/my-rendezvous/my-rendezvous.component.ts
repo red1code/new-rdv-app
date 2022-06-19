@@ -35,11 +35,13 @@ export class MyRendezvousComponent implements OnInit {
     this.authService.getUser().subscribe(usr => {
       this.user = usr as User;
 
-      this.myApprovedRDVs = this.rdvService
-        .getRDVsByEmailAndState(this.user.email, RendezvousStates.APPROVED, 'rdvDate')
+      if (this.user.email) {
+        this.myApprovedRDVs = this.rdvService
+          .getRDVsByEmailAndState(this.user.email, RendezvousStates.APPROVED, 'rdvDate')
 
-      this.myPendingRDVs = this.rdvService
-        .getRDVsByEmailAndState(this.user.email, RendezvousStates.PENDING, 'createdAt')
+        this.myPendingRDVs = this.rdvService
+          .getRDVsByEmailAndState(this.user.email, RendezvousStates.PENDING, 'createdAt')
+      }
     })
   }
 
