@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { isFirebaseError } from 'src/app/utils/utilities';
 
@@ -11,14 +11,14 @@ import { isFirebaseError } from 'src/app/utils/utilities';
 })
 export class LoginComponent implements OnInit {
 
-  loginForm: FormGroup;
+  loginForm: UntypedFormGroup;
   errorMessage!: string;
 
   showPhoneTemplate = false;
 
   constructor(
     private router: Router,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private authService: AuthService,
   ) {
     this.loginForm = this.formBuilder.group({

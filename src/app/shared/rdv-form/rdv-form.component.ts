@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, Validators, UntypedFormBuilder } from '@angular/forms';
 import { Rendezvous } from 'src/app/models/rendezvous';
 
 @Component({
@@ -16,9 +16,9 @@ export class RdvFormComponent implements OnInit {
   @Output() deleteRDVid = new EventEmitter<string>();
 
   rdvID!: string;
-  rdvform!: FormGroup;
+  rdvform!: UntypedFormGroup;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: UntypedFormBuilder) { }
 
   ngOnInit(): void {
     this.rdvID = this.rdv?.rdvID as string;

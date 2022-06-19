@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { isFirebaseError } from 'src/app/utils/utilities';
 import { AuthService } from '../services/auth.service';
@@ -12,11 +12,11 @@ import { AuthService } from '../services/auth.service';
 export class SignupComponent implements OnInit {
 
   isFormSubmitted: boolean = false;
-  signupForm: FormGroup;
+  signupForm: UntypedFormGroup;
   errorMessage!: string;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private authService: AuthService,
     private router: Router
   ) {

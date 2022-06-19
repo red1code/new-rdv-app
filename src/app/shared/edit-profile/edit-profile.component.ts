@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { ROLES, User } from 'src/app/models/user';
 
@@ -13,11 +13,11 @@ export class EditProfileComponent implements OnInit {
   @Input() profileInfos!: User | null;
   @Input() currentUser!: User;
   roles: string[] = [];
-  editProfileForm!: FormGroup;
+  editProfileForm!: UntypedFormGroup;
   @Output() updatedValues = new EventEmitter();
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private authService: AuthService
   ) {
     Object.entries(ROLES).forEach(([key, value]) => this.roles.push(value))
