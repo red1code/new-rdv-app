@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
 import { AuthService } from '../services/auth.service';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, Validators, UntypedFormBuilder } from '@angular/forms';
 import { SearchCountryField, CountryISO, PhoneNumberFormat } from 'ngx-intl-tel-input';
 
 
@@ -17,7 +17,7 @@ export class PhoneAuthComponent implements OnInit {
   searchCountryField = SearchCountryField;
   countryISO = CountryISO;
   phoneNumberFormat = PhoneNumberFormat;
-  phoneForm: FormGroup;
+  phoneForm: UntypedFormGroup;
 
   reCaptchaVerifier!: firebase.auth.ApplicationVerifier;
   sendingCode = false;
@@ -29,7 +29,7 @@ export class PhoneAuthComponent implements OnInit {
   constructor(
     private router: Router,
     private afAuth: AngularFireAuth,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private authService: AuthService
   ) {
     this.phoneForm = this.formBuilder.group({
