@@ -1,0 +1,117 @@
+{
+  "configVersion": 1,
+  "timestamp": 1655977800169,
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/197.c0e4561aaa90c0ab.js",
+        "/284.06f189de501f0514.js",
+        "/36.0b2af48f611a2b9c.js",
+        "/469.9b8970333e7ad9a6.js",
+        "/552.9445d6a47ea2b9ac.js",
+        "/642.5bacad77981cd0f1.js",
+        "/698.a196ca2f3e10161b.js",
+        "/781.f3f51c530228233b.js",
+        "/865.0c5ee2805ad12526.js",
+        "/common.8526cc0c86c704ea.js",
+        "/favicon.ico",
+        "/index.html",
+        "/main.ee32473261f5b934.js",
+        "/manifest.webmanifest",
+        "/polyfills.4caae9b68dd9bdc3.js",
+        "/runtime.6378eda0406c4cc5.js",
+        "/scripts.db56eda1c5eb3dbb.js",
+        "/styles.c31d081eb3f2dfb8.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/assets/i18n/ar.json",
+        "/assets/i18n/en.json",
+        "/assets/i18n/fr.json",
+        "/assets/icons/icon-128x128.png",
+        "/assets/icons/icon-144x144.png",
+        "/assets/icons/icon-152x152.png",
+        "/assets/icons/icon-192x192.png",
+        "/assets/icons/icon-384x384.png",
+        "/assets/icons/icon-512x512.png",
+        "/assets/icons/icon-72x72.png",
+        "/assets/icons/icon-96x96.png",
+        "/assets/rendezvous-icon.svg",
+        "/assets/unknown-profile-picture.jpg",
+        "/flags.f73aa829a0084837.png",
+        "/flags@2x.2704c069d12ee746.png"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/197.c0e4561aaa90c0ab.js": "0572e2307ae74c3c2b7da895ed5411cabcbab49e",
+    "/284.06f189de501f0514.js": "f3002cfcbf682fc6fdd73700860c3cf27a7a802b",
+    "/36.0b2af48f611a2b9c.js": "5ae5662e2dfb5f4d934b8095355d590bef85b575",
+    "/469.9b8970333e7ad9a6.js": "185c16a523aceb80210c61df935c29b35967a58b",
+    "/552.9445d6a47ea2b9ac.js": "14018d1438d43c313d20fe11aed91627f66da14e",
+    "/642.5bacad77981cd0f1.js": "8f693bc4b76c506203f316642a5add4f228b62e6",
+    "/698.a196ca2f3e10161b.js": "99c3a08290b8d42632f3b87494a513a40a289e51",
+    "/781.f3f51c530228233b.js": "829bdbbd699963ffbe23b1aba9aa964ccc28de32",
+    "/865.0c5ee2805ad12526.js": "6543487e821eef44ef2ffc9856d56d25c7b6e970",
+    "/assets/i18n/ar.json": "df36cc5c21ac88f53d7e27c2acfc82052d974f1e",
+    "/assets/i18n/en.json": "cd82c6fac079578bcc4f10f8030ef6c95c8de174",
+    "/assets/i18n/fr.json": "f73136fca8e2bba91ac547d159834cf4be358494",
+    "/assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
+    "/assets/icons/icon-144x144.png": "b0bd89982e08f9bd2b642928f5391915b74799a7",
+    "/assets/icons/icon-152x152.png": "7479a9477815dfd9668d60f8b3b2fba709b91310",
+    "/assets/icons/icon-192x192.png": "1abd80d431a237a853ce38147d8c63752f10933b",
+    "/assets/icons/icon-384x384.png": "329749cd6393768d3131ed6304c136b1ca05f2fd",
+    "/assets/icons/icon-512x512.png": "559d9c4318b45a1f2b10596bbb4c960fe521dbcc",
+    "/assets/icons/icon-72x72.png": "c457e56089a36952cd67156f9996bc4ce54a5ed9",
+    "/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
+    "/assets/rendezvous-icon.svg": "98f99d18e06a0aa540b03c659ee65ca9e683f67b",
+    "/assets/unknown-profile-picture.jpg": "1c7abe3f7b2474275db66ba1e2ae70c504bcce37",
+    "/common.8526cc0c86c704ea.js": "e2f1c9b607567ac87876af41addef4dc5c17722d",
+    "/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
+    "/flags.f73aa829a0084837.png": "21572c9751e5a3dc20395befa0fcb349c32c4811",
+    "/flags@2x.2704c069d12ee746.png": "d6f843711c3cfe6d9a037e4c61d293f563e55802",
+    "/index.html": "f79ddb31f39c5edd77f7dc5aa5482af949fd6284",
+    "/main.ee32473261f5b934.js": "c28fbe8c69f333b0c78854d5156a8c0999c3cae9",
+    "/manifest.webmanifest": "6e92940ddd3929a35e9970d996b37d992b4f1050",
+    "/polyfills.4caae9b68dd9bdc3.js": "8897a161a924ba3c6e866699ac2ef3028d53bce1",
+    "/runtime.6378eda0406c4cc5.js": "5c098fbbb3eecded21ec3c0dad49d65ce5402aed",
+    "/scripts.db56eda1c5eb3dbb.js": "22589b1a08e79316c4d12c97775570a95bbae824",
+    "/styles.c31d081eb3f2dfb8.css": "a7ddf83db29aac81ad52673233432e3873aee565"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}
