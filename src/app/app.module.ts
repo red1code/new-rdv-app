@@ -32,7 +32,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     FooterComponent,
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'new-rdv-app' }),
     AppRoutingModule,
     AngularFireAuthModule,
     AngularFireModule.initializeApp(environment.firebase),

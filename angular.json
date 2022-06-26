@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/new-rdv-app",
+            "outputPath": "dist/new-rdv-app/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -60,7 +60,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "1.7mb",
-                  "maximumError": "1.7mb"
+                  "maximumError": "2mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -124,6 +124,64 @@
             ],
             "scripts": []
           }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/new-rdv-app/server",
+            "main": "server.ts",
+            "tsConfig": "tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
+            },
+            "development": {
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "configurations": {
+            "development": {
+              "browserTarget": "new-rdv-app:build:development",
+              "serverTarget": "new-rdv-app:server:development"
+            },
+            "production": {
+              "browserTarget": "new-rdv-app:build:production",
+              "serverTarget": "new-rdv-app:server:production"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "routes": [
+              "/"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "new-rdv-app:build:production",
+              "serverTarget": "new-rdv-app:server:production"
+            },
+            "development": {
+              "browserTarget": "new-rdv-app:build:development",
+              "serverTarget": "new-rdv-app:server:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     }
