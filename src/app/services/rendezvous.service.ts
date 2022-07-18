@@ -27,50 +27,51 @@ export class RendezvousService {
 
   // =============== DELETE ===============
 
-  async deleteRendezvous(id: string, rdv: Rendezvous, user: User): Promise<void> {
-    rdv.createdAt = new Date(rdv.createdAt);
-    (rdv.lastUpdate && rdv.lastUpdate !== 'Not Updated') ? rdv.lastUpdate = new Date(rdv.lastUpdate) : null;
-    rdv.rdvState = RendezvousStates.DELETED;
-    rdv.deletedAt = new Date();
-    rdv.deletedBy = user.email as string;
-    return await this.fireStore.collection<Rendezvous>('Rendezvous').doc(id).update(rdv)
+  async deleteRendezvous(id: string, user: User): Promise<void> {
+    const newData: Partial<Rendezvous> = {
+      rdvState: RendezvousStates.DELETED,
+      deletedAt: new Date(),
+      deletedBy: user.email as string
+    }
+    return await this.fireStore.collection<Rendezvous>('Rendezvous').doc(id).update(newData)
   }
 
   // =============== UPDATE ===============
 
-  async updateRendezvous(id: string, rdv: Rendezvous): Promise<void> {
-    rdv.lastUpdate = new Date();
-    return await this.fireStore.collection<Rendezvous>('Rendezvous').doc(id).update(rdv)
+  async updateRendezvous(id: string, data: Rendezvous): Promise<void> {
+    const newData: Partial<Rendezvous> = {
+      displayName: data.displayName,
+      phoneNumber: data.phoneNumber,
+      lastUpdate: new Date()
+    }
+    return await this.fireStore.collection<Rendezvous>('Rendezvous').doc(id).update(newData)
   }
 
-  async approveRendezvous(id: string, rdv: Rendezvous, user: User): Promise<void> {
-    rdv.createdAt = new Date(rdv.createdAt);
-    (rdv.lastUpdate && rdv.lastUpdate !== 'Not Updated') ? rdv.lastUpdate = new Date(rdv.lastUpdate) : null;
-    rdv.rdvState = RendezvousStates.APPROVED;
-    rdv.approvedAt = new Date();
-    rdv.approvedBy = user.email as string;
-    return await this.fireStore.collection<Rendezvous>('Rendezvous').doc(id).update(rdv)
+  async approveRendezvous(id: string, rdvDate: string, user: User): Promise<void> {
+    const newData: Partial<Rendezvous> = {
+      rdvDate: new Date(rdvDate),
+      rdvState: RendezvousStates.APPROVED,
+      approvedAt: new Date(),
+      approvedBy: user.email as string
+    }
+    return await this.fireStore.collection<Rendezvous>('Rendezvous').doc(id).update(newData)
   }
 
-  async finishRendezvous(id: string, rdv: Rendezvous): Promise<void> {
-    rdv.createdAt = new Date(rdv.createdAt);
-    (rdv.lastUpdate && rdv.lastUpdate !== 'Not Updated') ? rdv.lastUpdate = new Date(rdv.lastUpdate) : null;
-    rdv.approvedAt ? rdv.approvedAt = new Date(rdv.approvedAt) : null;
-    rdv.rdvDate ? rdv.rdvDate = new Date(rdv.rdvDate) : null;
-    rdv.rdvState = RendezvousStates.FINISHED;
-    rdv.finishedAt = new Date();
-    return await this.fireStore.collection<Rendezvous>('Rendezvous').doc(id).update(rdv)
+  async finishRendezvous(id: string): Promise<void> {
+    const newData: Partial<Rendezvous> = {
+      rdvState: RendezvousStates.FINISHED,
+      finishedAt: new Date(),
+    }
+    return await this.fireStore.collection<Rendezvous>('Rendezvous').doc(id).update(newData)
   }
 
-  async cancelRendezvous(id: string, rdv: Rendezvous, user: User): Promise<void> {
-    rdv.createdAt = new Date(rdv.createdAt);
-    (rdv.lastUpdate && rdv.lastUpdate !== 'Not Updated') ? rdv.lastUpdate = new Date(rdv.lastUpdate) : null;
-    rdv.approvedAt ? rdv.approvedAt = new Date(rdv.approvedAt) : null;
-    rdv.rdvDate ? rdv.rdvDate = new Date(rdv.rdvDate) : null;
-    rdv.rdvState = RendezvousStates.CANCELED;
-    rdv.canceledAt = new Date();
-    rdv.canceledBy = user.email as string;
-    return await this.fireStore.collection<Rendezvous>('Rendezvous').doc(id).update(rdv)
+  async cancelRendezvous(id: string, user: User): Promise<void> {
+    const newData: Partial<Rendezvous> = {
+      rdvState: RendezvousStates.CANCELED,
+      canceledAt: new Date(),
+      canceledBy: user.email as string
+    }
+    return await this.fireStore.collection<Rendezvous>('Rendezvous').doc(id).update(newData)
   }
 
   // =============== READ ===============

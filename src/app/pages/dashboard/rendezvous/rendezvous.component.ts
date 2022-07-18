@@ -91,10 +91,11 @@ export class RendezvousComponent implements OnInit {
 
   async approveRDV(data: Rendezvous | null, rdvDate: string) {
     if (!rdvDate) return this.errorMsg = 'Please enter a date';
+    if (new Date(rdvDate) <= new Date()) return this.errorMsg = 'Rendezvous date invalid';
     if (!data) return this.errorMsg = 'Rendezvous not found';
-    data.rdvDate = new Date(rdvDate);
+
     try {
-      await this.rdvService.approveRendezvous(data.rdvID as string, data, this.user);
+      await this.rdvService.approveRendezvous(data.rdvID as string, rdvDate, this.user);
       return this.hidePopup()
     }
     catch (error) {
@@ -118,7 +119,7 @@ export class RendezvousComponent implements OnInit {
     if (!this.rdv?.rdvID) return this.errorMsg = 'Rendezvous ID not found';
     if (confirm(this.translatingService.getDeleteConfirmMsg(this.rdv))) {
       try {
-        await this.rdvService.deleteRendezvous(this.rdv.rdvID, this.rdv, this.user);
+        await this.rdvService.deleteRendezvous(this.rdv.rdvID, this.user);
         return this.hidePopup()
       } catch (error) {
         this.errorMsg = error as string
@@ -130,7 +131,7 @@ export class RendezvousComponent implements OnInit {
     if (!this.rdv?.rdvID) return this.errorMsg = 'Rendezvous ID not found';
     if (confirm(this.translatingService.getCancelConfirmMsg(this.rdv))) {
       try {
-        await this.rdvService.cancelRendezvous(this.rdv.rdvID, this.rdv, this.user);
+        await this.rdvService.cancelRendezvous(this.rdv.rdvID, this.user);
         return this.hidePopup()
       } catch (error) {
         this.errorMsg = error as string

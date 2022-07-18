@@ -80,7 +80,7 @@ export class MyRendezvousComponent implements OnInit {
     if (!this.rdv?.rdvID) return this.errMsg = 'Rendezvous ID not found';
     if (confirm(this.translatingService.getDeleteConfirmMsg(this.rdv))) {
       try {
-        await this.rdvService.deleteRendezvous(this.rdv.rdvID, this.rdv, this.user);
+        await this.rdvService.deleteRendezvous(this.rdv.rdvID, this.user);
         return this.hidePopup()
       } catch (error) {
         this.errMsg = error as string
@@ -93,7 +93,7 @@ export class MyRendezvousComponent implements OnInit {
     if (confirm(this.translatingService.getCancelConfirmMsg(this.rdv))) {
       this.rdv.rdvState = RendezvousStates.CANCELED;
       try {
-        await this.rdvService.cancelRendezvous(this.rdv.rdvID, this.rdv, this.user);
+        await this.rdvService.cancelRendezvous(this.rdv.rdvID, this.user);
         return this.hidePopup()
       } catch (error) {
         this.errMsg = error as string
