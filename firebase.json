@@ -1,0 +1,23 @@
+{
+  "firestore": {
+    "rules": "security-rules.js",
+    "indexes": "firestore.indexes.json"
+  },
+  "hosting": {
+    "public": "dist/new-rdv-app",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  "storage": {
+    "rules": "storage.rules"
+  }
+}
