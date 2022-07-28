@@ -1,10 +1,10 @@
 .global-container {
   position: relative;
-  min-height: 90vh;
+  padding-top: 15px;
 }
 
 .profile-container {
-  margin: 15px auto;
+  margin-inline: auto;
   padding: 15px;
   width: max-content;
   min-width: max-content;

@@ -1,9 +1,11 @@
 footer {
+  height: var(--footer-ht);
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: var(--main-color);
   color: #ffffff;
-  text-align: center;
   font-size: 1em;
-  padding: 15px 0px;
 }
 
 .footer-text {

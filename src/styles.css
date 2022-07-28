@@ -13,6 +13,10 @@
   --body-bg-color: #ebebeb; /* #000000 */
   --mainToSide-color: #191970; /* #ecf39e */
   --overlay-color: #000000; /* #ffffff */
+
+  --header-ht: 55px;
+  --footer-ht: 45px;
+  --main-ht: calc(100vh - calc(var(--header-ht) + var(--footer-ht)));
 }
 
 * {
