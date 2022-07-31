@@ -1,5 +1,7 @@
 # NewRdvApp
 
+You can check out the application here: https://ngauth-d9be6.web.app/
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.1.
 
 ## Development server

@@ -1,0 +1,69 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "Rendezvous",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "createdBy",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "rdvState",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Rendezvous",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "createdBy",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "rdvState",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "rdvDate",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Rendezvous",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "rdvState",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Rendezvous",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "rdvState",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "rdvDate",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
